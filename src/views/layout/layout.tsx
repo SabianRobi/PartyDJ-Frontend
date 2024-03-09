@@ -19,7 +19,7 @@ export default function Layout() {
               <div className={"flex-1 m-2"}>
                 <Outlet />
               </div>
-              <div className={"flex-initial"}>Footer</div>
+              {/*<div className={"flex-initial"}>Footer</div>*/}
             </div>
           )}
         </div>
