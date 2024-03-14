@@ -32,7 +32,7 @@ const customTheme: CustomFlowbiteTheme = {
   },
 };
 
-export default function CustomNavbar() {
+const Navbar = () => {
   const [status] = useState<Status>(Status.LOGGED_OUT);
   const [username] = useState("username");
   const [partyName] = useState("partyName");
@@ -163,4 +163,6 @@ export default function CustomNavbar() {
       </nav>
     </>
   );
-}
+};
+
+export default Navbar;

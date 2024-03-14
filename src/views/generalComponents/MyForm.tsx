@@ -13,7 +13,7 @@ type MyFromProps = {
   handleSubmit: SubmitHandler<any>;
 };
 
-export default function MyForm(props: MyFromProps) {
+const MyForm = (props: MyFromProps) => {
   return (
     <form onSubmit={props.handleSubmit}>
       <div
@@ -35,4 +35,6 @@ export default function MyForm(props: MyFromProps) {
       </div>
     </form>
   );
-}
+};
+
+export default MyForm;

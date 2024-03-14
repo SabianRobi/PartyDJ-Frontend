@@ -16,7 +16,7 @@ type MyFromProps = {
   errors: FieldErrors<any>;
 };
 
-export default function Field(props: MyFromProps) {
+const Field = (props: MyFromProps) => {
   const [hidden, setHidden] = useState<boolean>(true);
 
   const handleToggleHidden = () => {
@@ -66,4 +66,6 @@ export default function Field(props: MyFromProps) {
       </div>
     </div>
   );
-}
+};
+
+export default Field;

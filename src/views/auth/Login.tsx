@@ -1,6 +1,6 @@
 import * as React from "react";
-import MyForm from "@/views/generalComponents/MyForm";
-import Field from "@/views/generalComponents/Field";
+import MyForm from "../../views/generalComponents/MyForm";
+import Field from "../../views/generalComponents/Field";
 import { Link } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -9,7 +9,7 @@ export interface ILoginFormInput {
   password: string;
 }
 
-export default function Login() {
+const Login = () => {
   const {
     register,
     handleSubmit,
@@ -78,4 +78,6 @@ export default function Login() {
       </>
     </MyForm>
   );
-}
+};
+
+export default Login;

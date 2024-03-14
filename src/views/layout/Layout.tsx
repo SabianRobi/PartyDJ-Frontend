@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { Outlet, useNavigation } from "react-router-dom";
-import Navbar from "@/views/layout/navbar/Navbar";
+import Navbar from "./navbar/Navbar";
 import classNames from "classnames";
 
 type CurrentPage =
@@ -15,7 +15,7 @@ type CurrentPage =
   | "partyQueue"
   | "userSettings";
 
-export default function Layout() {
+const Layout = () => {
   const navigation = useNavigation();
   const [currentPage] = useState<CurrentPage>("login");
 
@@ -51,4 +51,6 @@ export default function Layout() {
       </div>
     </>
   );
-}
+};
+
+export default Layout;

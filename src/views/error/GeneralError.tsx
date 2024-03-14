@@ -5,7 +5,7 @@ type ErrorMessage = {
   message: string;
 };
 
-function GeneralError() {
+const GeneralError = () => {
   const error = useRouteError();
   console.error(error);
 
@@ -28,6 +28,6 @@ function GeneralError() {
       </p>
     </>
   );
-}
+};
 
 export default GeneralError;
