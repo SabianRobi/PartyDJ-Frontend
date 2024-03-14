@@ -7,6 +7,8 @@ import Register from "./views/auth/Register";
 import GeneralError from "./views/error/GeneralError";
 import Layout from "./views/layout/Layout";
 import MainPage from "./views/mainPage/MainPage";
+import Join from "./views/party/Join";
+import Create from "./views/party/Create";
 
 const router = createBrowserRouter([
   {
@@ -58,11 +60,11 @@ const router = createBrowserRouter([
               },
               {
                 path: "create",
-                element: <>Create party</>,
+                element: <Create />,
               },
               {
                 path: "join",
-                element: <>Join party</>,
+                element: <Join />,
               },
               {
                 path: ":partyName",
