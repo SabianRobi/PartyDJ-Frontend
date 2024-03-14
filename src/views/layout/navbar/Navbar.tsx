@@ -1,7 +1,3 @@
-import * as React from "react";
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
-import NavbarLink from "./navbarLink";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,6 +6,9 @@ import {
   DropdownDivider,
   Flowbite,
 } from "flowbite-react";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import NavbarLink from "./NavbarLink";
 
 enum Status {
   LOGGED_OUT,
@@ -33,8 +32,8 @@ const customTheme: CustomFlowbiteTheme = {
   },
 };
 
-export default function CustomNavbar() {
-  const [status] = useState<Status>(Status.IN_PARTY);
+const Navbar = () => {
+  const [status] = useState<Status>(Status.LOGGED_OUT);
   const [username] = useState("username");
   const [partyName] = useState("partyName");
 
@@ -164,4 +163,6 @@ export default function CustomNavbar() {
       </nav>
     </>
   );
-}
+};
+
+export default Navbar;

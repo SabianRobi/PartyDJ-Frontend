@@ -7,7 +7,7 @@ type NavbarLinkProps = {
   onClick?: () => void;
 };
 
-function NavbarLink(props: NavbarLinkProps) {
+const NavbarLink = (props: NavbarLinkProps) => {
   return (
     <li className={"pl-1 sm:pl-5 my-auto"}>
       <NavLink
@@ -24,6 +24,6 @@ function NavbarLink(props: NavbarLinkProps) {
       </NavLink>
     </li>
   );
-}
+};
 
 export default NavbarLink;

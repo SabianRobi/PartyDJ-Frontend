@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "./views/layout/layout";
-import Login from "./views/login/login";
-import Register from "./views/register/register";
-import GeneralError from "./views/error/generalError";
-import MainPage from "./views/mainPage/mainPage";
+import "./index.css";
+import Login from "./views/auth/Login";
+import Register from "./views/auth/Register";
+import GeneralError from "./views/error/GeneralError";
+import Layout from "./views/layout/Layout";
+import MainPage from "./views/mainPage/MainPage";
 
 const router = createBrowserRouter([
   {
