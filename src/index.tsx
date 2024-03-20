@@ -9,6 +9,7 @@ import Layout from "./views/layout/Layout";
 import MainPage from "./views/mainPage/MainPage";
 import Join from "./views/party/Join";
 import Create from "./views/party/Create";
+import Settings from "./views/user/Settings";
 
 const router = createBrowserRouter([
   {
@@ -45,7 +46,7 @@ const router = createBrowserRouter([
             children: [
               {
                 path: ":username",
-                element: <p>User profile page</p>,
+                element: <Settings />,
               },
             ],
           },
