@@ -18,6 +18,9 @@ module.exports = {
         lightText: "#ffffff",
         darkText: "#000000",
       },
+      fontFamily: {
+        k2d: ["K2D", "sans-serif"],
+      },
     },
   },
   plugins: [require("flowbite/plugin")],

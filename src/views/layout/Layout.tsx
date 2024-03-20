@@ -1,27 +1,19 @@
 import * as React from "react";
-import { useState } from "react";
-import { Outlet, useNavigation } from "react-router-dom";
+import { Outlet, useLocation, useNavigation } from "react-router-dom";
 import Navbar from "./navbar/Navbar";
 import classNames from "classnames";
 
-type CurrentPage =
-  | "home"
-  | "login"
-  | "register"
-  | "createParty"
-  | "joinParty"
-  | "inParty"
-  | "partyHistory"
-  | "partyQueue"
-  | "userSettings";
-
 const Layout = () => {
   const navigation = useNavigation();
-  const [currentPage] = useState<CurrentPage>("login");
+  let { pathname: currentPath } = useLocation();
 
   return (
     <>
-      <div className={"bg-background text-lightText min-h-screen min-w-screen"}>
+      <div
+        className={
+          "bg-background text-lightText min-h-screen min-w-screen font-k2d"
+        }
+      >
         <div className={"flex flex-col container mx-auto min-h-full"}>
           {navigation.state === "loading" ? (
             <p>Page is loading...</p>
@@ -33,9 +25,12 @@ const Layout = () => {
               <div
                 className={classNames(
                   "flex-1 m-2",
-                  ["login", "register", "createParty", "joinParty"].includes(
-                    currentPage
-                  )
+                  [
+                    "/auth/login",
+                    "/auth/register",
+                    "/party/join",
+                    "/party/create",
+                  ].includes(currentPath)
                     ? "grid place-items-center"
                     : ""
                 )}
