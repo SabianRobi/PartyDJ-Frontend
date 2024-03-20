@@ -1,21 +1,21 @@
 import * as React from "react";
-import MyForm from "../../views/generalComponents/MyForm";
-import Field from "../../views/generalComponents/Field";
+import MyForm from "../generalComponents/form/MyForm";
+import Field from "../generalComponents/form/Field";
 import { Link } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-export interface ILoginFormInput {
+type LoginFormInput = {
   username: string;
   password: string;
-}
+};
 
 const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ILoginFormInput>();
-  const onSubmit: SubmitHandler<ILoginFormInput> = (data) => {
+  } = useForm<LoginFormInput>();
+  const onSubmit: SubmitHandler<LoginFormInput> = (data) => {
     console.log(data);
   };
 

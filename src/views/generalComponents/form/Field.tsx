@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 
-type MyFromProps = {
+type FieldProps = {
   type: string;
   name: string;
   label: string;
@@ -16,7 +16,7 @@ type MyFromProps = {
   errors: FieldErrors<any>;
 };
 
-const Field = (props: MyFromProps) => {
+const Field = (props: FieldProps) => {
   const [hidden, setHidden] = useState<boolean>(true);
 
   const handleToggleHidden = () => {

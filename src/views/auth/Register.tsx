@@ -1,6 +1,6 @@
 // @flow
-import Field from "../../views/generalComponents/Field";
-import MyForm from "../../views/generalComponents/MyForm";
+import Field from "../generalComponents/form/Field";
+import MyForm from "../generalComponents/form/MyForm";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
