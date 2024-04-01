@@ -1,18 +1,20 @@
 import React from "react";
+import classNames from "classnames";
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  title: string;
+  title?: string;
   children: React.ReactNode;
 }
 const Card = (props: CardProps) => {
   return (
     <div className={"flex flex-col items-center"}>
       <div>
-        <h3 className={"text-xl"}>{props.title}</h3>
+        {props.title && <h3 className={"text-xl pt-8"}>{props.title}</h3>}
         <div
-          className={
-            "bg-primary rounded-2xl rounded-tl-none min-w-[300px] max-w-[500px] p-3"
-          }
+          className={classNames(
+            "bg-primary rounded-2xl min-w-[300px] max-w-[500px] p-3",
+            props.title ? "rounded-tl-none" : ""
+          )}
         >
           {props.children}
         </div>

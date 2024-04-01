@@ -4,12 +4,12 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
+import classNames from "classnames";
 
 type FieldProps = {
   type: string;
   name: string;
   label: string;
-  helperText?: string;
   required?: boolean;
   register: UseFormRegister<any>;
   validation?: { [key: string]: any };
@@ -41,10 +41,12 @@ const Field = (props: FieldProps) => {
           }
           id={props.name}
           name={props.name}
-          // required={props.required ?? false}
-          className={`transition-all duration-150 bg-secondary w-full border-0 rounded-2xl rounded-tl-none h-full focus:border-tertiary focus:border-1 ${
-            props.errors[props.name] ? "rounded-br-none" : ""
-          }`}
+          className={classNames(
+            "transition-all duration-150 bg-secondary w-full border-0 rounded-2xl rounded-tl-none h-full focus:border-tertiary focus:border-1",
+            props.errors[props.name] ? "rounded-br-none" : "",
+            props.inputClassNames
+          )}
+          placeholder={props.inputPlaceholder}
         />
         {props.type === "password" && (
           <span
