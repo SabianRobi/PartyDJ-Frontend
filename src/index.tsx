@@ -10,6 +10,9 @@ import MainPage from "./views/mainPage/MainPage";
 import Join from "./views/party/Join";
 import Create from "./views/party/Create";
 import Settings from "./views/user/Settings";
+import Party from "./views/party/Party";
+import PartyHistory from "./views/party/PartyHistory";
+import PartyQueue from "./views/party/PartyQueue";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +23,7 @@ const router = createBrowserRouter([
       {
         errorElement: <GeneralError />,
         children: [
+          // Main page
           {
             index: true,
             element: <MainPage />,
@@ -29,10 +33,12 @@ const router = createBrowserRouter([
           {
             path: "auth",
             children: [
+              // Login
               {
                 path: "login",
                 element: <Login />,
               },
+              // Register
               {
                 path: "register",
                 element: <Register />,
@@ -55,29 +61,35 @@ const router = createBrowserRouter([
           {
             path: "party",
             children: [
-              {
-                path: "landing",
-                element: <>Party main page</>,
-              },
+              // Create
               {
                 path: "create",
                 element: <Create />,
               },
+
+              // Join
               {
                 path: "join",
                 element: <Join />,
               },
+
+              // InParty
               {
                 path: ":partyName",
-                element: <>In party: :partyName</>,
                 children: [
                   {
-                    path: "queue",
-                    element: <>Party queue</>,
+                    element: <Party />,
+                    index: true,
                   },
+                  // Queue
                   {
-                    path: "history",
-                    element: <>Party queue</>,
+                    path: "/party/:partyName/queue",
+                    element: <PartyQueue />,
+                  },
+                  // History
+                  {
+                    path: "/party/:partyName/history",
+                    element: <PartyHistory />,
                   },
                 ],
               },

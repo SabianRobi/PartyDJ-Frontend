@@ -33,7 +33,7 @@ const customTheme: CustomFlowbiteTheme = {
 };
 
 const Navbar = () => {
-  const [status] = useState<Status>(Status.LOGGED_OUT);
+  const [status] = useState<Status>(Status.IN_PARTY);
   const [username] = useState("username");
   const [partyName] = useState("partyName");
 
@@ -96,9 +96,12 @@ const Navbar = () => {
               <li className={"p-2 sm:pl-5 h-max bg-tertiary rounded"}>
                 <Flowbite theme={{ theme: customTheme }}>
                   <Dropdown arrowIcon={true} inline={true} label={<p>Party</p>}>
-                    <Dropdown.Header>
-                      <span className="text-sm">{partyName}</span>
-                    </Dropdown.Header>
+                    <Dropdown.Item as={NavLink} to={"/party/" + partyName}>
+                      <span className="text-sm text-center w-full">
+                        {partyName}
+                      </span>
+                    </Dropdown.Item>
+                    <DropdownDivider />
                     <Dropdown.Item
                       as={NavLink}
                       to={"/party/" + partyName + "/queue"}
