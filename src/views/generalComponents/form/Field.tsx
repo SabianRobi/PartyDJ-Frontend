@@ -14,6 +14,8 @@ type FieldProps = {
   register: UseFormRegister<any>;
   validation?: { [key: string]: any };
   errors: FieldErrors<any>;
+  inputClassNames?: string;
+  inputPlaceholder?: string;
 };
 
 const Field = (props: FieldProps) => {
