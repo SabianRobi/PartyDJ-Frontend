@@ -2,23 +2,30 @@
 import Field from "../generalComponents/form/Field";
 import MyForm from "../generalComponents/form/MyForm";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useRegisterMutation } from "../../store/auth/authApiSlice";
+import React from "react";
+import { errorToast, successToast } from "../generalComponents/Toasts";
+import { IGeneralErrorResponse, IUserResponse } from "../../store/types";
 
-type RegisterFormInput = {
+export interface RegisterData {
   email: string;
   username: string;
   password: string;
   confirmPassword: string;
-};
+}
 
 const Register = () => {
+  const [doRegister] = useRegisterMutation();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<RegisterFormInput>();
-  const onSubmit: SubmitHandler<RegisterFormInput> = (data) => {
+  } = useForm<RegisterData>();
+
+  const onSubmit: SubmitHandler<RegisterData> = async (data) => {
     if (data.password !== data.confirmPassword) {
       setError("confirmPassword", {
         type: "custom",
@@ -27,7 +34,31 @@ const Register = () => {
       return;
     }
 
-    console.log(data);
+    console.log("Sending register request... ");
+
+    doRegister(data)
+      .unwrap()
+      .then((userInfo: IUserResponse) => {
+        console.log("Successfully registered!");
+        successToast("Successfully registered!");
+        navigate("/auth/login");
+      })
+      .catch((error: IGeneralErrorResponse) => {
+        console.error("Failed to register: ", error);
+        errorToast("Register failed!");
+
+        if (error.data.errors) {
+          Object.entries(error.data.errors).forEach(
+            ([fieldName, errorMessage]) => {
+              // @ts-ignore
+              setError(fieldName, {
+                type: "custom",
+                message: errorMessage,
+              });
+            }
+          );
+        }
+      });
   };
 
   return (

@@ -33,7 +33,7 @@ const customTheme: CustomFlowbiteTheme = {
 };
 
 const Navbar = () => {
-  const [status] = useState<Status>(Status.IN_PARTY);
+  const [status] = useState<Status>(Status.LOGGED_OUT);
   const [username] = useState("username");
   const [partyName] = useState("partyName");
 

@@ -2,6 +2,7 @@ import * as React from "react";
 import { Outlet, useLocation, useNavigation } from "react-router-dom";
 import Navbar from "./navbar/Navbar";
 import classNames from "classnames";
+import Toasts from "../generalComponents/Toasts";
 
 const Layout = () => {
   const navigation = useNavigation();
@@ -9,6 +10,7 @@ const Layout = () => {
 
   return (
     <>
+      <Toasts />
       <div
         className={
           "bg-background text-lightText min-h-screen min-w-screen font-k2d"
