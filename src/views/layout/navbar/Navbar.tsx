@@ -6,9 +6,10 @@ import {
   DropdownDivider,
   Flowbite,
 } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import NavbarLink from "./NavbarLink";
+import { selectCurrentUser, useAppSelector } from "../../../store/hooks";
 
 enum Status {
   LOGGED_OUT,
@@ -33,9 +34,14 @@ const customTheme: CustomFlowbiteTheme = {
 };
 
 const Navbar = () => {
-  const [status] = useState<Status>(Status.LOGGED_OUT);
+  const [status, setStatus] = useState<Status>(Status.LOGGED_OUT);
   const [username] = useState("username");
   const [partyName] = useState("partyName");
+  const user = useAppSelector(selectCurrentUser);
+
+  useEffect(() => {
+    setStatus(user ? Status.LOGGED_IN : Status.LOGGED_OUT);
+  }, [user]);
 
   return (
     <>

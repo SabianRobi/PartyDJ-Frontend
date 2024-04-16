@@ -1,22 +1,63 @@
 import * as React from "react";
 import MyForm from "../generalComponents/form/MyForm";
 import Field from "../generalComponents/form/Field";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  useLazyGetUserByUsernameQuery,
+  useLoginMutation,
+} from "../../store/auth/authApiSlice";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { errorToast, successToast } from "../generalComponents/Toasts";
+import { setUser } from "../../store/auth/authSlice";
+import { useAppDispatch } from "../../store/hooks";
 
-type LoginFormInput = {
+export interface LoginData {
   username: string;
   password: string;
-};
+}
 
 const Login = () => {
+  const [doLogin] = useLoginMutation();
+  const [doGetUserByUsername] = useLazyGetUserByUsernameQuery();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
-  } = useForm<LoginFormInput>();
-  const onSubmit: SubmitHandler<LoginFormInput> = (data) => {
-    console.log(data);
+  } = useForm<LoginData>();
+  const dispatch = useAppDispatch();
+
+  const onSubmit: SubmitHandler<LoginData> = (data) => {
+    console.log("Sending login request...");
+
+    doLogin(data)
+      .unwrap()
+      .then(() => {
+        console.log("Successfully logged in!");
+        successToast("Successfully logged in!");
+
+        // Fetch user infos & save to store
+        doGetUserByUsername(data.username)
+          .unwrap()
+          .then((user) => {
+            dispatch(setUser(user));
+          })
+          .catch((error) => {
+            console.log("Failed to get user by username: ", error);
+          });
+
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Failed to log in: ", error);
+        errorToast("Login failed!");
+
+        setError("password", {
+          type: "custom",
+          message: "Incorrect username or password.",
+        });
+      });
   };
 
   return (
