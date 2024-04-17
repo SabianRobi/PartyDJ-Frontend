@@ -25,6 +25,8 @@ const Login = () => {
     handleSubmit,
     setError,
     formState: { errors },
+    clearErrors,
+    watch,
   } = useForm<LoginData>();
   const dispatch = useAppDispatch();
 
@@ -53,12 +55,25 @@ const Login = () => {
         console.error("Failed to log in: ", error);
         errorToast("Login failed!");
 
-        setError("password", {
-          type: "custom",
-          message: "Incorrect username or password.",
-        });
+        if (error.status === 401) {
+          setError("root", {
+            type: "custom",
+            message: "Incorrect username or password.",
+          });
+        } else {
+          setError("root", {
+            type: "custom",
+            message: "Something went wrong, please try again later.",
+          });
+        }
       });
   };
+
+  // Remove root error message on any input change
+  React.useEffect(() => {
+    const subscription = watch(() => clearErrors());
+    return () => subscription.unsubscribe();
+  }, [watch, clearErrors]);
 
   return (
     <MyForm
@@ -116,6 +131,9 @@ const Login = () => {
           }}
           errors={errors}
         />
+        {errors.root?.message && (
+          <p className={"text-error text-sm text-end"}>{errors.root.message}</p>
+        )}
       </>
     </MyForm>
   );
