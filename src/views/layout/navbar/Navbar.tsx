@@ -7,9 +7,16 @@ import {
   Flowbite,
 } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import NavbarLink from "./NavbarLink";
-import { selectCurrentUser, useAppSelector } from "../../../store/hooks";
+import {
+  selectCurrentUser,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../store/hooks";
+import { useLogoutMutation } from "../../../store/auth/authApiSlice";
+import { errorToast, successToast } from "../../generalComponents/Toasts";
+import { clearUser } from "../../../store/auth/authSlice";
 
 enum Status {
   LOGGED_OUT,
@@ -38,10 +45,29 @@ const Navbar = () => {
   const [username] = useState("username");
   const [partyName] = useState("partyName");
   const user = useAppSelector(selectCurrentUser);
+  const dispatch = useAppDispatch();
+  const [doLogout] = useLogoutMutation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setStatus(user ? Status.LOGGED_IN : Status.LOGGED_OUT);
   }, [user]);
+
+  const handleLogout = () => {
+    console.log("Sending logout request...");
+    doLogout(null)
+      .unwrap()
+      .then(() => {
+        console.log("Successfully logged out!");
+        successToast("Successfully logged out!");
+        dispatch(clearUser());
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Failed to log out: ", error);
+        errorToast("Failed to log out!");
+      });
+  };
 
   return (
     <>
@@ -89,7 +115,7 @@ const Navbar = () => {
                       className={
                         "hover:bg-error hover:text-lightText text-error"
                       }
-                      onClick={() => alert("Logout not implemented yet!")}
+                      onClick={handleLogout}
                     >
                       <p>Logout</p>
                     </Dropdown.Item>

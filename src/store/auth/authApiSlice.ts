@@ -30,6 +30,12 @@ export const authApi = createApi({
         };
       },
     }),
+    logout: builder.mutation<null, null>({
+      query: () => ({
+        url: "/logout",
+        method: "POST",
+      }),
+    }),
     getUserByUsername: builder.query<IUserResponse, string>({
       query: (username) => ({
         url: `/user/${username}`,
@@ -42,4 +48,5 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useLazyGetUserByUsernameQuery,
+  useLogoutMutation,
 } = authApi;
