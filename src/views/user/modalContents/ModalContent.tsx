@@ -5,6 +5,23 @@ import { EditUsernameInput } from "./EditUsernameModalContent";
 import { EditEmailInput } from "./EditEmailModalContent";
 import { EditPasswordInput } from "./EditPasswordModalContent";
 import { DeleteAccountInput } from "./DeleteAccountModalContent";
+import {
+  useUpdateUserDetailsMutation,
+  useUpdateUserPasswordMutation,
+} from "../../../store/auth/authApiSlice";
+import {
+  selectCurrentUser,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../store/hooks";
+import {
+  IGeneralErrorResponse,
+  IUpdateUserDetailsRequest,
+  IUpdateUserPasswordRequest,
+} from "../../../store/types";
+import { setUser } from "../../../store/auth/authSlice";
+import { errorToast, successToast } from "../../generalComponents/Toasts";
+import { useNavigate } from "react-router-dom";
 
 // TODO: make errors more visible
 
@@ -27,12 +44,40 @@ type FormInputTypes =
   | EditPasswordInput
   | DeleteAccountInput;
 
+interface IUpdateUserDetails {
+  currentUsername: string;
+  data: IUpdateUserDetailsRequest;
+}
+
+interface IUpdateUserPassword {
+  currentUsername: string;
+  data: IUpdateUserPasswordRequest;
+}
+
+// Used by RTK Query
+export type UpdateUserDetailsData = {
+  currentUsername: string;
+  data: EditUsernameInput | EditEmailInput;
+};
+
+// Used by RTK Query
+export type UpdateUserPasswordData = {
+  currentUsername: string;
+  data: EditPasswordInput;
+};
+
 const ModalContent = (props: ModalContentProps) => {
   const methods = useForm<FormInputTypes>();
+  const user = useAppSelector(selectCurrentUser);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [doUpdateUserDetails] = useUpdateUserDetailsMutation();
+  const [doUpdateUserPassword] = useUpdateUserPasswordMutation();
 
   const handleEditPasswordSubmit: SubmitHandler<EditPasswordInput> = (
     data: EditPasswordInput
   ) => {
+    // Custom validation
     if (data.password !== data.confirmPassword) {
       methods.setError("confirmPassword", {
         type: "custom",
@@ -41,22 +86,86 @@ const ModalContent = (props: ModalContentProps) => {
       return;
     }
 
-    console.log(data);
-    console.log("edited password");
+    const toSubmit: IUpdateUserPassword = {
+      currentUsername: user?.username ?? "",
+      data: data,
+    };
+
+    doUpdateUserPassword(toSubmit)
+      .unwrap()
+      .then((userData) => {
+        dispatch(setUser(userData));
+        props.handleCloseModal();
+        navigate(`/user/${userData.username}`);
+
+        console.log("Successfully edited password!");
+        successToast(`Successfully edited password!`);
+      })
+      .catch((error: IGeneralErrorResponse) => {
+        if (error.data.errors.general) {
+          methods.setError("currentPassword", {
+            type: "custom",
+            message: error.data.errors.general,
+          });
+        }
+
+        if (error.data.errors["updatePassword.updateUserPasswordRequest"]) {
+          methods.setError("confirmPassword", {
+            type: "custom",
+            message:
+              error.data.errors["updatePassword.updateUserPasswordRequest"],
+          });
+        }
+
+        console.log(`Editing password failed:`, error);
+        errorToast(`Failed to edit password!`);
+      });
   };
 
   const handleEditEmailSubmit: SubmitHandler<EditEmailInput> = (
     data: EditEmailInput
   ) => {
-    console.log(data);
-    console.log("edited email");
+    const toSubmit: IUpdateUserDetails = {
+      currentUsername: user?.username ?? "",
+      data: { email: data.email, username: user?.username ?? "" },
+    };
+    updateUserDetails("email", toSubmit);
   };
 
   const handleEditUsernameSubmit: SubmitHandler<EditUsernameInput> = (
     data: EditUsernameInput
   ) => {
-    console.log(data);
-    console.log("edited username");
+    const toSubmit: IUpdateUserDetails = {
+      currentUsername: user?.username ?? "",
+      data: { email: user?.email ?? "", username: data.username },
+    };
+    updateUserDetails("username", toSubmit);
+  };
+
+  const updateUserDetails = (
+    field: "username" | "email",
+    toSubmit: IUpdateUserDetails
+  ) => {
+    doUpdateUserDetails(toSubmit)
+      .unwrap()
+      .then((userData) => {
+        dispatch(setUser(userData));
+        props.handleCloseModal();
+        navigate(`/user/${userData.username}`);
+
+        console.log("Successfully edited " + field + "!");
+        successToast(`Successfully edited ${field}!`);
+      })
+      .catch((error) => {
+        if (error.status === 409) {
+          methods.setError(field, {
+            type: "custom",
+            message: error.data.errors[field],
+          });
+        }
+        console.log(`Editing ${field} failed:`, error);
+        errorToast(`Failed to edit ${field}!`);
+      });
   };
 
   const handleDeleteAccountSubmit: SubmitHandler<DeleteAccountInput> = (

@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import Card from "./card/Card";
 import CardRow from "./card/CardRow";
 import { faLink, faLinkSlash, faPen } from "@fortawesome/free-solid-svg-icons";
@@ -11,19 +10,22 @@ import EditPasswordModalContent from "./modalContents/EditPasswordModalContent";
 import EditUsernameModalContent from "./modalContents/EditUsernameModalContent";
 import { Button } from "flowbite-react";
 import DeleteAccountModalContent from "./modalContents/DeleteAccountModalContent";
+import { selectCurrentUser, useAppSelector } from "../../store/hooks";
 
 type TModalContent = {
   title: string;
   body: React.ReactNode;
 };
 
+// export type UpdateUserData = UpdateUsernameData | UpdateEmailData;
+
 const Settings = () => {
-  let { username } = useParams();
   const [showModal, setShowModal] = React.useState(false);
   const [modalContent, setModalContent] = React.useState<TModalContent>({
     title: "Initial title",
     body: <></>,
   });
+  const user = useAppSelector(selectCurrentUser);
 
   const handleOpenEditUsernameModal = () => {
     setModalContent({
@@ -104,13 +106,13 @@ const Settings = () => {
         <Card title={"Account"}>
           <CardRow
             name={"Username"}
-            value={<>{username}</>}
+            value={<>{user?.username}</>}
             icon={<FontAwesomeIcon icon={faPen} className={"text-orange"} />}
             onIconClick={handleOpenEditUsernameModal}
           />
           <CardRow
             name={"Email"}
-            value={<>user@ema.il</>}
+            value={<>{user?.email}</>}
             icon={<FontAwesomeIcon icon={faPen} className={"text-orange"} />}
             onIconClick={handleOpenEditEmailModal}
           />
@@ -124,14 +126,23 @@ const Settings = () => {
         <Card title={"Platforms"}>
           <CardRow
             name={"Spotify"}
-            value={<>disconnected</>}
-            icon={<FontAwesomeIcon icon={faLink} className={"text-success"} />}
-          />
-          <CardRow
-            name={"Google"}
-            value={<>connected</>}
+            value={
+              <>{user?.isSpotifyConnected ? "connected" : "disconnected"}</>
+            }
             icon={
-              <FontAwesomeIcon icon={faLinkSlash} className={"text-error"} />
+              user?.isSpotifyConnected ? (
+                <FontAwesomeIcon
+                  icon={faLinkSlash}
+                  className={"text-error"}
+                  title={"Disconnect"}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faLink}
+                  className={"text-success"}
+                  title={"Connect"}
+                />
+              )
             }
           />
         </Card>

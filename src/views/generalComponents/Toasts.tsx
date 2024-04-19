@@ -4,7 +4,7 @@ import { Bounce, toast, ToastContainer } from "react-toastify";
 export const successToast = (text: string) => {
   toast.success(text, {
     position: "bottom-right",
-    autoClose: 2500,
+    autoClose: 3000,
     draggable: true,
     progress: undefined,
     theme: "colored",
@@ -16,7 +16,7 @@ export const successToast = (text: string) => {
 export const errorToast = (text: string) => {
   toast.error(text, {
     position: "bottom-right",
-    autoClose: 2500,
+    autoClose: 3000,
     draggable: true,
     progress: undefined,
     theme: "colored",

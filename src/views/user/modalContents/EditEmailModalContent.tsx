@@ -1,6 +1,7 @@
 import React from "react";
 import Field from "../../generalComponents/form/Field";
 import { useFormContext } from "react-hook-form";
+import { selectCurrentUser, useAppSelector } from "../../../store/hooks";
 
 export type EditEmailInput = {
   email: string;
@@ -11,7 +12,7 @@ const EditEmailModalContent = () => {
     register,
     formState: { errors },
   } = useFormContext();
-  const currentEmail = "my@email.co"; // TODO use real data
+  const user = useAppSelector(selectCurrentUser);
 
   return (
     <Field
@@ -21,7 +22,7 @@ const EditEmailModalContent = () => {
       type={"email"}
       required
       register={register}
-      inputPlaceholder={currentEmail}
+      inputPlaceholder={user?.email}
       errors={errors}
       validation={{
         required: { value: true, message: "Should not be empty." },

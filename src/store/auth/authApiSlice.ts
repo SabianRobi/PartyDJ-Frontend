@@ -2,6 +2,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RegisterData } from "../../views/auth/Register";
 import { IUserResponse } from "../types";
 import { LoginData } from "../../views/auth/Login";
+import {
+  UpdateUserDetailsData,
+  UpdateUserPasswordData,
+} from "../../views/user/modalContents/ModalContent";
 
 export const authApi = createApi({
   reducerPath: "authApi",
@@ -41,6 +45,26 @@ export const authApi = createApi({
         url: `/user/${username}`,
       }),
     }),
+    updateUserDetails: builder.mutation<IUserResponse, UpdateUserDetailsData>({
+      query: ({ currentUsername, data }) => {
+        return {
+          url: `/user/${currentUsername}`,
+          method: "PATCH",
+          body: data,
+        };
+      },
+    }),
+    updateUserPassword: builder.mutation<IUserResponse, UpdateUserPasswordData>(
+      {
+        query: ({ currentUsername, data }) => {
+          return {
+            url: `/user/${currentUsername}/password`,
+            method: "PATCH",
+            body: data,
+          };
+        },
+      }
+    ),
   }),
 });
 
@@ -49,4 +73,6 @@ export const {
   useLoginMutation,
   useLazyGetUserByUsernameQuery,
   useLogoutMutation,
+  useUpdateUserDetailsMutation,
+  useUpdateUserPasswordMutation,
 } = authApi;

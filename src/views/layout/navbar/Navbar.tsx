@@ -42,7 +42,6 @@ const customTheme: CustomFlowbiteTheme = {
 
 const Navbar = () => {
   const [status, setStatus] = useState<Status>(Status.LOGGED_OUT);
-  const [username] = useState("username");
   const [partyName] = useState("partyName");
   const user = useAppSelector(selectCurrentUser);
   const dispatch = useAppDispatch();
@@ -106,9 +105,9 @@ const Navbar = () => {
                     }
                   >
                     <Dropdown.Header>
-                      <span className="text-sm">{username}</span>
+                      <span className="text-sm">{user?.username}</span>
                     </Dropdown.Header>
-                    <Dropdown.Item as={NavLink} to={"/user/" + username}>
+                    <Dropdown.Item as={NavLink} to={"/user/" + user?.username}>
                       Settings
                     </Dropdown.Item>
                     <Dropdown.Item
@@ -147,7 +146,7 @@ const Navbar = () => {
                       Watch history
                     </Dropdown.Item>
                     <DropdownDivider />
-                    <Dropdown.Item as={NavLink} to={"/user/" + username}>
+                    <Dropdown.Item as={NavLink} to={"/user/" + user?.username}>
                       Manage platforms
                     </Dropdown.Item>
                     <Dropdown.Item
@@ -176,10 +175,10 @@ const Navbar = () => {
                     }
                   >
                     <Dropdown.Header>
-                      <span className="text-sm">{username}</span>
+                      <span className="text-sm">{user?.username}</span>
                     </Dropdown.Header>
                     <Dropdown.Item>
-                      <NavLink to={"/user/" + username}>Settings</NavLink>
+                      <NavLink to={"/user/" + user?.username}>Settings</NavLink>
                     </Dropdown.Item>
                     <Dropdown.Item
                       className={

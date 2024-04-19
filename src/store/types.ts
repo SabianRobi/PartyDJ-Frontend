@@ -11,6 +11,19 @@ export interface IUserState {
   user: IUser | null;
 }
 
+// Requests
+
+export interface IUpdateUserDetailsRequest {
+  email: string;
+  username: string;
+}
+
+export interface IUpdateUserPasswordRequest {
+  currentPassword: string;
+  password: string;
+  confirmPassword: string;
+}
+
 // Backend responses
 
 export interface IUserResponse extends IUser {}

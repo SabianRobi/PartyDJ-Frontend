@@ -34,7 +34,7 @@ const EditPasswordModalContent = () => {
       />
       <Field
         inputClassNames={"!bg-primary text-lightText"}
-        label={"Password"}
+        label={"New password"}
         name={"password"}
         type={"password"}
         required
@@ -50,7 +50,7 @@ const EditPasswordModalContent = () => {
       />
       <Field
         inputClassNames={"!bg-primary text-lightText"}
-        label={"Confirm password"}
+        label={"Confirm new password"}
         name={"confirmPassword"}
         type={"password"}
         required
