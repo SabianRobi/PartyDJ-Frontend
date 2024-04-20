@@ -18,6 +18,7 @@ import Settings from "./views/user/Settings";
 import Party from "./views/party/Party";
 import PartyHistory from "./views/party/PartyHistory";
 import PartyQueue from "./views/party/PartyQueue";
+import SpotifyCallback from "./views/auth/SpotifyCallback";
 
 // Redux
 import { store } from "./store/store";
@@ -48,7 +49,16 @@ const router = createBrowserRouter([
               // Login
               {
                 path: "login",
-                element: <Login />,
+                children: [
+                  {
+                    index: true,
+                    element: <Login />,
+                  },
+                  {
+                    path: "spotify/callback",
+                    element: <SpotifyCallback />,
+                  },
+                ],
               },
               // Register
               {

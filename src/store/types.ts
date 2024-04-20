@@ -11,6 +11,15 @@ export interface IUserState {
   user: IUser | null;
 }
 
+export interface ISpotify {
+  token: string;
+  refreshToken: string;
+}
+
+export interface ISpotifyState {
+  spotify: ISpotify | null;
+}
+
 // Requests
 
 export interface IUpdateUserDetailsRequest {
@@ -27,6 +36,14 @@ export interface IUpdateUserPasswordRequest {
 // Backend responses
 
 export interface IUserResponse extends IUser {}
+
+export interface ISpotifyLoginUriResponse {
+  uri: string;
+}
+
+export interface ISpotifyTokenResponse {
+  token: string;
+}
 
 export interface IGeneralErrorResponse {
   status: number;

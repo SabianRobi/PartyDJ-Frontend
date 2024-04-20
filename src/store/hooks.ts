@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "./store";
 
 export const selectCurrentUser = (state: RootState) => state.auth.user;
+export const selectSpotifyTokens = (state: RootState) => state.spotify;
 
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
 export const useAppSelector = useSelector.withTypes<RootState>();

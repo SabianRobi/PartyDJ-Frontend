@@ -11,6 +11,7 @@ import EditUsernameModalContent from "./modalContents/EditUsernameModalContent";
 import { Button } from "flowbite-react";
 import DeleteAccountModalContent from "./modalContents/DeleteAccountModalContent";
 import { selectCurrentUser, useAppSelector } from "../../store/hooks";
+import { useLazyGetSpotifyAuthUrlQuery } from "../../store/spotify/spotifyApiSlice";
 
 type TModalContent = {
   title: string;
@@ -26,6 +27,7 @@ const Settings = () => {
     body: <></>,
   });
   const user = useAppSelector(selectCurrentUser);
+  const [doGetSpotifyAuthUrl] = useLazyGetSpotifyAuthUrlQuery();
 
   const handleOpenEditUsernameModal = () => {
     setModalContent({
@@ -91,6 +93,20 @@ const Settings = () => {
     setShowModal(false);
   };
 
+  const handleGetSpotifyAuthUrl = () => {
+    console.log("Requesting login url...");
+    doGetSpotifyAuthUrl(null)
+      .unwrap()
+      .then((data) => {
+        console.log("Received login url: ", data);
+        console.log("Redirect to Spotify login page...");
+        window.location.href = data.uri;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div className={"flex flex-col gap-6 justify-between h-full"}>
       <Modal
@@ -137,11 +153,13 @@ const Settings = () => {
                   title={"Disconnect"}
                 />
               ) : (
-                <FontAwesomeIcon
-                  icon={faLink}
-                  className={"text-success"}
-                  title={"Connect"}
-                />
+                <button onClick={handleGetSpotifyAuthUrl}>
+                  <FontAwesomeIcon
+                    icon={faLink}
+                    className={"text-success"}
+                    title={"Connect"}
+                  />
+                </button>
               )
             }
           />
