@@ -47,23 +47,19 @@ export const authApi = createApi({
       }),
     }),
     updateUserDetails: builder.mutation<IUserResponse, UpdateUserDetailsData>({
-      query: ({ currentUsername, data }) => {
-        return {
-          url: `/user/${currentUsername}`,
-          method: "PATCH",
-          body: data,
-        };
-      },
+      query: ({ currentUsername, data }) => ({
+        url: `/user/${currentUsername}`,
+        method: "PATCH",
+        body: data,
+      }),
     }),
     updateUserPassword: builder.mutation<IUserResponse, UpdateUserPasswordData>(
       {
-        query: ({ currentUsername, data }) => {
-          return {
-            url: `/user/${currentUsername}/password`,
-            method: "PATCH",
-            body: data,
-          };
-        },
+        query: ({ currentUsername, data }) => ({
+          url: `/user/${currentUsername}/password`,
+          method: "PATCH",
+          body: data,
+        }),
       }
     ),
     deleteUser: builder.mutation<IUserResponse, IDeleteUserData>({

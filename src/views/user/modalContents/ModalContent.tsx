@@ -99,6 +99,8 @@ const ModalContent = (props: ModalContentProps) => {
       data: data,
     };
 
+    console.log("Editing password...");
+
     doUpdateUserPassword(toSubmit)
       .unwrap()
       .then((userData) => {
@@ -154,6 +156,8 @@ const ModalContent = (props: ModalContentProps) => {
     field: "username" | "email",
     toSubmit: IUpdateUserDetails
   ) => {
+    console.log(`Editing ${field}...`);
+
     doUpdateUserDetails(toSubmit)
       .unwrap()
       .then((userData) => {
@@ -183,6 +187,8 @@ const ModalContent = (props: ModalContentProps) => {
       username: user?.username ?? "",
       data: data,
     };
+
+    console.log("Deleting account...");
 
     doDeleteUser(toSubmit)
       .unwrap()

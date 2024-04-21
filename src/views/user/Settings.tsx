@@ -12,6 +12,7 @@ import { Button } from "flowbite-react";
 import DeleteAccountModalContent from "./modalContents/DeleteAccountModalContent";
 import { selectCurrentUser, useAppSelector } from "../../store/hooks";
 import { useLazyGetSpotifyAuthUrlQuery } from "../../store/spotify/spotifyApiSlice";
+import { errorToast } from "../generalComponents/Toasts";
 
 type TModalContent = {
   title: string;
@@ -94,16 +95,18 @@ const Settings = () => {
   };
 
   const handleGetSpotifyAuthUrl = () => {
-    console.log("Requesting login url...");
+    console.log("Requesting Spotify login url...");
+
     doGetSpotifyAuthUrl(null)
       .unwrap()
       .then((data) => {
-        console.log("Received login url: ", data);
-        console.log("Redirect to Spotify login page...");
+        console.log("Successfully got the Spotify login url!");
+        console.log("Redirecting to Spotify login page...");
         window.location.href = data.uri;
       })
       .catch((error) => {
-        console.log(error);
+        console.log("Failed to get Spotify login url: ", error);
+        errorToast("Failed to get Spotify login url!");
       });
   };
 
