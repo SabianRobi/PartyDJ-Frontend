@@ -3,6 +3,7 @@ import { RegisterData } from "../../views/auth/Register";
 import { IUserResponse } from "../types";
 import { LoginData } from "../../views/auth/Login";
 import {
+  IDeleteUserData,
   UpdateUserDetailsData,
   UpdateUserPasswordData,
 } from "../../views/user/modalContents/ModalContent";
@@ -65,6 +66,13 @@ export const authApi = createApi({
         },
       }
     ),
+    deleteUser: builder.mutation<IUserResponse, IDeleteUserData>({
+      query: ({ username, data }) => ({
+        url: `/user/${username}`,
+        method: "DELETE",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -75,4 +83,5 @@ export const {
   useLogoutMutation,
   useUpdateUserDetailsMutation,
   useUpdateUserPasswordMutation,
+  useDeleteUserMutation,
 } = authApi;

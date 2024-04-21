@@ -6,6 +6,7 @@ import { EditEmailInput } from "./EditEmailModalContent";
 import { EditPasswordInput } from "./EditPasswordModalContent";
 import { DeleteAccountInput } from "./DeleteAccountModalContent";
 import {
+  useDeleteUserMutation,
   useUpdateUserDetailsMutation,
   useUpdateUserPasswordMutation,
 } from "../../../store/auth/authApiSlice";
@@ -19,9 +20,9 @@ import {
   IUpdateUserDetailsRequest,
   IUpdateUserPasswordRequest,
 } from "../../../store/types";
-import { setUser } from "../../../store/auth/authSlice";
+import { clearUser, setUser } from "../../../store/auth/authSlice";
 import { errorToast, successToast } from "../../generalComponents/Toasts";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // TODO: make errors more visible
 
 // TODO: make errors more visible
 
@@ -66,6 +67,12 @@ export type UpdateUserPasswordData = {
   data: EditPasswordInput;
 };
 
+// Used by RTK Query
+export type IDeleteUserData = {
+  username: string;
+  data: DeleteAccountInput;
+};
+
 const ModalContent = (props: ModalContentProps) => {
   const methods = useForm<FormInputTypes>();
   const user = useAppSelector(selectCurrentUser);
@@ -73,6 +80,7 @@ const ModalContent = (props: ModalContentProps) => {
   const navigate = useNavigate();
   const [doUpdateUserDetails] = useUpdateUserDetailsMutation();
   const [doUpdateUserPassword] = useUpdateUserPasswordMutation();
+  const [doDeleteUser] = useDeleteUserMutation();
 
   const handleEditPasswordSubmit: SubmitHandler<EditPasswordInput> = (
     data: EditPasswordInput
@@ -171,8 +179,42 @@ const ModalContent = (props: ModalContentProps) => {
   const handleDeleteAccountSubmit: SubmitHandler<DeleteAccountInput> = (
     data: DeleteAccountInput
   ) => {
-    console.log(data);
-    console.log("deleted user");
+    const toSubmit: IDeleteUserData = {
+      username: user?.username ?? "",
+      data: data,
+    };
+
+    doDeleteUser(toSubmit)
+      .unwrap()
+      .then(() => {
+        dispatch(clearUser());
+        props.handleCloseModal();
+        navigate("/");
+
+        console.log("Successfully deleted account!");
+        successToast(`Successfully deleted account!`);
+      })
+      .catch((error) => {
+        if (error.data.detail === "Validation failure") {
+          methods.setError("confirmChoice", {
+            type: "custom",
+            message: "Should agree.",
+          });
+        } else if (error.status === 400) {
+          methods.setError("password", {
+            type: "custom",
+            message: "Incorrect password.",
+          });
+        } else {
+          methods.setError("password", {
+            type: "custom",
+            message: "Something went wrong.",
+          });
+        }
+
+        console.log(`Failed to delete account:`, error);
+        errorToast(`Failed to delete account!`);
+      });
   };
 
   const getSubmitHandler = (data: FormInputTypes) => {
