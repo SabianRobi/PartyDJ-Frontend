@@ -12,6 +12,7 @@ import NavbarLink from "./NavbarLink";
 import {
   selectCurrentUser,
   selectParticipatingParty,
+  selectPartyRole,
   useAppDispatch,
   useAppSelector,
 } from "../../../store/hooks";
@@ -20,6 +21,10 @@ import { errorToast, successToast } from "../../generalComponents/Toasts";
 import { clearUser } from "../../../store/auth/authSlice";
 import { clearParty } from "../../../store/party/partySlice";
 import { clearSpotifyTokens } from "../../../store/spotify/spotifySlice";
+import {
+  useDeletePartyMutation,
+  useLeavePartyMutation,
+} from "../../../store/party/partyApiSlice";
 
 enum Status {
   LOGGED_OUT,
@@ -45,11 +50,13 @@ const customTheme: CustomFlowbiteTheme = {
 
 const Navbar = () => {
   const [status, setStatus] = useState<Status>(Status.LOGGED_OUT);
-  const [partyName] = useState("partyName");
   const user = useAppSelector(selectCurrentUser);
   const party = useAppSelector(selectParticipatingParty);
+  const partyRole = useAppSelector(selectPartyRole);
   const dispatch = useAppDispatch();
   const [doLogout] = useLogoutMutation();
+  const [doDeleteParty] = useDeletePartyMutation();
+  const [doLeaveParty] = useLeavePartyMutation();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -74,6 +81,36 @@ const Navbar = () => {
         console.error("Failed to log out: ", error);
         errorToast("Failed to log out!");
       });
+  };
+
+  const handleLeaveDeleteParty = async () => {
+    if (partyRole === "CREATOR") {
+      // TODO: Add a confirm modal when the party has other users in it
+      console.log("Deleting party...");
+
+      await doDeleteParty(party!.name)
+        .then(() => {
+          console.log("Successfully deleted the party!");
+          successToast("Successfully deleted the party!");
+        })
+        .catch((error) => {
+          console.error("Failed to delete the party: ", error);
+          errorToast("Failed to delete the party!");
+        });
+    } else {
+      console.log("Leaving party...");
+      await doLeaveParty(party!.name)
+        .then(() => {
+          console.log("Successfully left the party!");
+          successToast("Successfully left the party!");
+        })
+        .catch((error) => {
+          console.error("Failed to leave the party: ", error);
+          errorToast("Failed to leave the party!");
+        });
+    }
+
+    navigate("/");
   };
 
   return (
@@ -135,21 +172,21 @@ const Navbar = () => {
               <li className={"p-2 sm:pl-5 h-max bg-tertiary rounded"}>
                 <Flowbite theme={{ theme: customTheme }}>
                   <Dropdown arrowIcon={true} inline={true} label={<p>Party</p>}>
-                    <Dropdown.Item as={NavLink} to={"/party/" + partyName}>
+                    <Dropdown.Item as={NavLink} to={"/party/" + party?.name}>
                       <span className="text-sm text-center w-full">
-                        {partyName}
+                        {party?.name}
                       </span>
                     </Dropdown.Item>
                     <DropdownDivider />
                     <Dropdown.Item
                       as={NavLink}
-                      to={"/party/" + partyName + "/queue"}
+                      to={"/party/" + party?.name + "/queue"}
                     >
                       Watch queue
                     </Dropdown.Item>
                     <Dropdown.Item
                       as={NavLink}
-                      to={"/party/" + partyName + "/history"}
+                      to={"/party/" + party?.name + "/history"}
                     >
                       Watch history
                     </Dropdown.Item>
@@ -161,11 +198,11 @@ const Navbar = () => {
                       className={
                         "hover:bg-error hover:text-lightText text-error"
                       }
-                      onClick={() =>
-                        alert("Leaving party not implemented yet!")
-                      }
+                      onClick={handleLeaveDeleteParty}
                     >
-                      <p>Leave party</p>
+                      <p>
+                        {partyRole === "CREATOR" ? "Delete" : "Leave"} party
+                      </p>
                     </Dropdown.Item>
                   </Dropdown>
                 </Flowbite>

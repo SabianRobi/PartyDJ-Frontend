@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { GetPartyRequest, IPartyResponse } from "../types";
 import { ICreatePartyFormInput } from "../../views/party/Create";
 import { IJoinPartyFormInput } from "../../views/party/Join";
-import { setParty } from "./partySlice";
+import { clearParty, setParty } from "./partySlice";
 
 export const partyApi = createApi({
   reducerPath: "partyApi",
@@ -20,7 +20,7 @@ export const partyApi = createApi({
     }),
     joinParty: builder.mutation<IPartyResponse, IJoinPartyFormInput>({
       query: (data) => ({
-        url: `/${data.name}`,
+        url: `/${data.name}/join`,
         method: "POST",
         body: data,
       }),
@@ -37,6 +37,28 @@ export const partyApi = createApi({
         });
       },
     }),
+    leaveParty: builder.mutation<IPartyResponse, string>({
+      query: (partyName) => ({
+        url: `/${partyName}/leave`,
+        method: "POST",
+      }),
+      onQueryStarted(_, { dispatch, queryFulfilled }) {
+        queryFulfilled.then(() => {
+          dispatch(clearParty());
+        });
+      },
+    }),
+    deleteParty: builder.mutation<IPartyResponse, string>({
+      query: (partyName) => ({
+        url: `/${partyName}`,
+        method: "DELETE",
+      }),
+      onQueryStarted(_, { dispatch, queryFulfilled }) {
+        queryFulfilled.then(() => {
+          dispatch(clearParty());
+        });
+      },
+    }),
   }),
 });
 
@@ -44,4 +66,6 @@ export const {
   useCreatePartyMutation,
   useJoinPartyMutation,
   useLazyGetPartyByNameQuery,
+  useLeavePartyMutation,
+  useDeletePartyMutation,
 } = partyApi;
