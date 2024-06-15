@@ -1,7 +1,7 @@
 import React from "react";
-import { ITrack } from "./Party";
 import TrackCard from "./components/TrackCard";
 import prettyMilliseconds from "pretty-ms";
+import { ITrack } from "../../store/party/types";
 
 interface UserInPartyTrackInQueue {
   username: string;
@@ -25,7 +25,7 @@ const PartyQueue = () => {
         return (
           <TrackCard
             title={track.title}
-            artists={track.artists}
+            artists={track.artists.map((artist) => artist.name)}
             duration={track.duration}
             coverUri={track.coverUri}
             platformType={track.platformType}

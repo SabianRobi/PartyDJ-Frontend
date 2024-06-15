@@ -2,30 +2,15 @@ import React from "react";
 import SearchBar from "./components/SearchBar";
 import { useForm } from "react-hook-form";
 import TrackCard, { EPlatformType } from "./components/TrackCard";
+import { ITrackSearchResultResponse } from "../../store/party/types";
 
-interface IArtistResponse {
-  name: string;
-}
-
-export interface ITrack {
-  title: string;
-  coverUri: string;
-  artists: string[];
-  duration: number;
-  platformType: EPlatformType;
-}
-
-interface ITrackSearchResult extends ITrack {
-  uri: string;
-}
-
-export interface ISearchFormInput {
+interface ISearchFormInput {
   query: string;
 }
 
 // TODO: add feedback for empty search results, popups for successful track addition
 const Party = () => {
-  const searchResults: ITrackSearchResult[] = [];
+  const searchResults: ITrackSearchResultResponse[] = [];
 
   const {
     register,
