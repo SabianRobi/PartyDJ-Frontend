@@ -1,10 +1,19 @@
 import * as React from "react";
 import MyForm from "../generalComponents/form/MyForm";
 import Field from "../generalComponents/form/Field";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { IPartyResponse } from "../../store/types";
+import { errorToast, successToast } from "../generalComponents/Toasts";
+import { setParty } from "../../store/party/partySlice";
+import { useJoinPartyMutation } from "../../store/party/partyApiSlice";
+import {
+  selectCurrentUser,
+  useAppDispatch,
+  useAppSelector,
+} from "../../store/hooks";
 
-export interface IJoinFormInput {
+export interface IJoinPartyFormInput {
   name: string;
   password: string;
   confirmPassword: string;
@@ -15,9 +24,39 @@ const Join = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IJoinFormInput>();
-  const onSubmit: SubmitHandler<IJoinFormInput> = (data) => {
-    console.log(data);
+  } = useForm<IJoinPartyFormInput>();
+  const [doJoinParty] = useJoinPartyMutation();
+  const currentUser = useAppSelector(selectCurrentUser);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<IJoinPartyFormInput> = (data) => {
+    doJoinParty(data)
+      .unwrap()
+      .then((data: IPartyResponse) => {
+        console.log("Successfully joined party!");
+        successToast("Successfully joined party!");
+
+        if (currentUser) {
+          dispatch(setParty({ party: data, currentUser }));
+        }
+
+        navigate(`/party/${data.name}`);
+      })
+      .catch((error) => {
+        console.error("Failed to join party: ", error);
+        errorToast("Failed to join party!");
+
+        // TODO: handle error messages
+        // if (error.status === 409) {
+        //   setError("name", {});
+        // } else {
+        //   setError("root", {
+        //     type: "custom",
+        //     message: "Something went wrong, please try again later.",
+        //   });
+        // }
+      });
   };
 
   return (

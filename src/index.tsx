@@ -26,6 +26,7 @@ import { store } from "./store/store";
 // Styles
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
+import Auth from "./views/auth/Auth";
 
 const router = createBrowserRouter([
   {
@@ -126,7 +127,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <Auth>
+        <RouterProvider router={router} />
+      </Auth>
     </Provider>
   </React.StrictMode>
 );

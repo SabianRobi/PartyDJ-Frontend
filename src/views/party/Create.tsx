@@ -1,10 +1,19 @@
 import * as React from "react";
 import MyForm from "../generalComponents/form/MyForm";
 import Field from "../generalComponents/form/Field";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useCreatePartyMutation } from "../../store/party/partyApiSlice";
+import { errorToast, successToast } from "../generalComponents/Toasts";
+import { IPartyResponse } from "../../store/types";
+import {
+  selectCurrentUser,
+  useAppDispatch,
+  useAppSelector,
+} from "../../store/hooks";
+import { setParty } from "../../store/party/partySlice";
 
-export interface ICreateFormInput {
+export interface ICreatePartyFormInput {
   name: string;
   password: string;
   confirmPassword: string;
@@ -16,8 +25,13 @@ const Create = () => {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<ICreateFormInput>();
-  const onSubmit: SubmitHandler<ICreateFormInput> = (data) => {
+  } = useForm<ICreatePartyFormInput>();
+  const [doCreateParty] = useCreatePartyMutation();
+  const currentUser = useAppSelector(selectCurrentUser);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const onSubmit: SubmitHandler<ICreatePartyFormInput> = (data) => {
     if (data.password !== data.confirmPassword) {
       setError("confirmPassword", {
         type: "custom",
@@ -26,7 +40,32 @@ const Create = () => {
       return;
     }
 
-    console.log(data);
+    doCreateParty(data)
+      .unwrap()
+      .then((data: IPartyResponse) => {
+        console.log("Successfully created party!");
+        successToast("Successfully created party!");
+
+        if (currentUser) {
+          dispatch(setParty({ party: data, currentUser }));
+        }
+
+        navigate(`/party/${data.name}`);
+      })
+      .catch((error) => {
+        console.error("Failed to create party: ", error);
+        errorToast("Failed to crete party!");
+
+        // TODO: handle error messages
+        // if (error.status === 409) {
+        //   setError("name", {});
+        // } else {
+        //   setError("root", {
+        //     type: "custom",
+        //     message: "Something went wrong, please try again later.",
+        //   });
+        // }
+      });
   };
 
   return (

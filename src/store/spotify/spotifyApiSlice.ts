@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ISpotifyLoginUriResponse, ISpotifyTokenResponse } from "../types";
+import { setSpotifyToken } from "./spotifySlice";
 
 export const spotifyApi = createApi({
   reducerPath: "spotifyApi",
@@ -14,6 +15,23 @@ export const spotifyApi = createApi({
       }),
     }),
 
+    getToken: builder.query<ISpotifyTokenResponse, void>({
+      query: () => ({
+        url: `/token`,
+      }),
+      onQueryStarted(_, { dispatch, queryFulfilled }) {
+        queryFulfilled.then((response) => {
+          if (response.data) {
+            dispatch(
+              setSpotifyToken({
+                token: response.data.token,
+              })
+            );
+          }
+        });
+      },
+    }),
+
     // TODO: Make it a POST request in backend
     setSpotifyTokens: builder.query<
       ISpotifyTokenResponse,
@@ -26,5 +44,8 @@ export const spotifyApi = createApi({
   }),
 });
 
-export const { useLazyGetSpotifyAuthUrlQuery, useSetSpotifyTokensQuery } =
-  spotifyApi;
+export const {
+  useLazyGetSpotifyAuthUrlQuery,
+  useSetSpotifyTokensQuery,
+  useLazyGetTokenQuery,
+} = spotifyApi;

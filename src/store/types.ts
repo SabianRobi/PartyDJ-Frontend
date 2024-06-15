@@ -4,7 +4,8 @@ export interface IUser {
   id: number;
   email: string;
   username: string;
-  isSpotifyConnected: boolean;
+  spotifyConnected: boolean;
+  partyName: string;
 }
 
 export interface IUserState {
@@ -13,12 +14,18 @@ export interface IUserState {
 
 export interface ISpotify {
   token: string;
-  refreshToken: string;
 }
 
 export interface ISpotifyState {
   spotify: ISpotify | null;
 }
+
+export interface IPartyState {
+  party: IPartyResponse | null;
+  role: PartyRole | null;
+}
+
+export type PartyRole = "CREATOR" | "PARTICIPANT";
 
 // Requests
 
@@ -33,6 +40,15 @@ export interface IUpdateUserPasswordRequest {
   confirmPassword: string;
 }
 
+export interface IPartyState {
+  party: IPartyResponse | null;
+}
+
+export interface GetPartyRequest {
+  name: string;
+  currentUser: IUser;
+}
+
 // Backend responses
 
 export interface IUserResponse extends IUser {}
@@ -43,6 +59,37 @@ export interface ISpotifyLoginUriResponse {
 
 export interface ISpotifyTokenResponse {
   token: string;
+}
+
+export interface IPartyResponse {
+  id: number;
+  name: string;
+  tracksInQueue: ITrackInQueueResponse[];
+  participants: IUserInPartyResponse[];
+}
+
+interface ITrackInQueueResponse {
+  id: number;
+  title: string;
+  artists: IArtistResponse[];
+  coverUri: string;
+  length: number;
+  platformType: "SPOTIFY";
+  addedBy: IUserInPartyTrackInQueueResponse;
+}
+
+interface IArtistResponse {
+  name: string;
+}
+
+interface IUserInPartyTrackInQueueResponse {
+  username: string;
+}
+
+interface IUserInPartyResponse {
+  id: number;
+  username: string;
+  partyRole: PartyRole;
 }
 
 export interface IGeneralErrorResponse {

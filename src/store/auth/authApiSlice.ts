@@ -7,6 +7,7 @@ import {
   UpdateUserDetailsData,
   UpdateUserPasswordData,
 } from "../../views/user/modalContents/ModalContent";
+import { setUser } from "./authSlice";
 
 export const authApi = createApi({
   reducerPath: "authApi",
@@ -22,7 +23,7 @@ export const authApi = createApi({
         body: data,
       }),
     }),
-    login: builder.mutation<null, LoginData>({
+    login: builder.mutation<IUserResponse, LoginData>({
       query: (data) => {
         const bodyFormData = new FormData();
         bodyFormData.append("username", data.username);
@@ -33,6 +34,12 @@ export const authApi = createApi({
           method: "POST",
           body: bodyFormData,
         };
+      },
+      onQueryStarted(_arg, { queryFulfilled, dispatch }) {
+        // Save to redux store
+        queryFulfilled.then((response) => {
+          dispatch(setUser(response.data));
+        });
       },
     }),
     logout: builder.mutation<null, null>({
@@ -52,6 +59,12 @@ export const authApi = createApi({
         method: "PATCH",
         body: data,
       }),
+      onQueryStarted(_arg, { queryFulfilled, dispatch }) {
+        // Save to redux store
+        queryFulfilled.then((response) => {
+          dispatch(setUser(response.data));
+        });
+      },
     }),
     updateUserPassword: builder.mutation<IUserResponse, UpdateUserPasswordData>(
       {
@@ -60,6 +73,12 @@ export const authApi = createApi({
           method: "PATCH",
           body: data,
         }),
+        onQueryStarted(_arg, { queryFulfilled, dispatch }) {
+          // Save to redux store
+          queryFulfilled.then((response) => {
+            dispatch(setUser(response.data));
+          });
+        },
       }
     ),
     deleteUser: builder.mutation<IUserResponse, IDeleteUserData>({
@@ -75,7 +94,6 @@ export const authApi = createApi({
 export const {
   useRegisterMutation,
   useLoginMutation,
-  useLazyGetUserByUsernameQuery,
   useLogoutMutation,
   useUpdateUserDetailsMutation,
   useUpdateUserPasswordMutation,

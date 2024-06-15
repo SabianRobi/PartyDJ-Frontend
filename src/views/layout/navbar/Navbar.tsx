@@ -11,12 +11,15 @@ import { NavLink, useNavigate } from "react-router-dom";
 import NavbarLink from "./NavbarLink";
 import {
   selectCurrentUser,
+  selectParticipatingParty,
   useAppDispatch,
   useAppSelector,
 } from "../../../store/hooks";
 import { useLogoutMutation } from "../../../store/auth/authApiSlice";
 import { errorToast, successToast } from "../../generalComponents/Toasts";
 import { clearUser } from "../../../store/auth/authSlice";
+import { clearParty } from "../../../store/party/partySlice";
+import { clearSpotifyTokens } from "../../../store/spotify/spotifySlice";
 
 enum Status {
   LOGGED_OUT,
@@ -44,13 +47,16 @@ const Navbar = () => {
   const [status, setStatus] = useState<Status>(Status.LOGGED_OUT);
   const [partyName] = useState("partyName");
   const user = useAppSelector(selectCurrentUser);
+  const party = useAppSelector(selectParticipatingParty);
   const dispatch = useAppDispatch();
   const [doLogout] = useLogoutMutation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    setStatus(user ? Status.LOGGED_IN : Status.LOGGED_OUT);
-  }, [user]);
+    setStatus(
+      party ? Status.IN_PARTY : user ? Status.LOGGED_IN : Status.LOGGED_OUT
+    );
+  }, [user, party]);
 
   const handleLogout = () => {
     console.log("Sending logout request...");
@@ -60,6 +66,8 @@ const Navbar = () => {
         console.log("Successfully logged out!");
         successToast("Successfully logged out!");
         dispatch(clearUser());
+        dispatch(clearParty());
+        dispatch(clearSpotifyTokens());
         navigate("/");
       })
       .catch((error) => {
@@ -184,7 +192,7 @@ const Navbar = () => {
                       className={
                         "hover:bg-error hover:text-lightText text-error"
                       }
-                      onClick={() => alert("Not implemented yet!")}
+                      onClick={handleLogout}
                     >
                       <p>Logout</p>
                     </Dropdown.Item>

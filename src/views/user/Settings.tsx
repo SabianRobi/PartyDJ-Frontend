@@ -145,11 +145,9 @@ const Settings = () => {
         <Card title={"Platforms"}>
           <CardRow
             name={"Spotify"}
-            value={
-              <>{user?.isSpotifyConnected ? "connected" : "disconnected"}</>
-            }
+            value={<>{user?.spotifyConnected ? "connected" : "disconnected"}</>}
             icon={
-              user?.isSpotifyConnected ? (
+              user?.spotifyConnected ? (
                 <FontAwesomeIcon
                   icon={faLinkSlash}
                   className={"text-error"}

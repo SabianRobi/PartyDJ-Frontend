@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useAppDispatch } from "../../store/hooks";
 import { useSetSpotifyTokensQuery } from "../../store/spotify/spotifyApiSlice";
 import { useLocation, useNavigate } from "react-router-dom";
-import { setSpotifyTokens } from "../../store/spotify/spotifySlice";
+import { setSpotifyToken } from "../../store/spotify/spotifySlice";
 import { errorToast, successToast } from "../generalComponents/Toasts";
 
 const SpotifyCallback = () => {
@@ -28,7 +28,7 @@ const SpotifyCallback = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(setSpotifyTokens(data));
+      dispatch(setSpotifyToken({ token: data.token }));
       successToast("Successfully connected Spotify!");
       // TODO: Redirect works, but the token does not stay because of the navigate(-1) -> goes to "another page" -> redux context is lost
       // TODO: To solve this, implement auto-login when page loads (multiple tabs), then if the user's isSpotifyConnected flag is true, fetch the token also.
