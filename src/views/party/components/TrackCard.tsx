@@ -14,7 +14,7 @@ type SearchResultCardProps = {
   title: string;
   artists: string[];
   duration: number;
-  coverUri: string;
+  coverUri?: string;
   platformType: EPlatformType;
   altText?: string;
 };
@@ -22,6 +22,21 @@ type SearchResultCardProps = {
 const TrackCard = (props: SearchResultCardProps) => {
   const shouldTitleMarqueePlay = props.title.length > 33;
   const shouldArtistsMarqueePlay = props.artists.join(", ").length > 45;
+
+  // Converting the duration to human-readable format
+  const readableDate = new Date(props.duration);
+  const seconds =
+    readableDate.getSeconds() < 10
+      ? "0" + readableDate.getSeconds()
+      : readableDate.getSeconds();
+  const minutes =
+    readableDate.getMinutes() < 10 && readableDate.getHours() > 1
+      ? "0" + readableDate.getMinutes()
+      : readableDate.getMinutes();
+  const hours =
+    readableDate.getHours() > 1
+      ? (readableDate.getHours() - 1).toString() + ":"
+      : "";
 
   const [isTitleMarqueePlaying, setTitleMarqueePlaying] = useState(
     shouldTitleMarqueePlay
@@ -92,9 +107,17 @@ const TrackCard = (props: SearchResultCardProps) => {
       )}
     >
       {/* Cover */}
-      <div className={"flex items-center p-2"}>
-        <FontAwesomeIcon icon={faCompactDisc} className={"h-full"} />
-      </div>
+      {props.coverUri ? (
+        <img
+          src={props.coverUri}
+          alt={"Cover art for " + props.title}
+          className={"h-full w-24 rounded-l-xl object-cover"}
+        />
+      ) : (
+        <div className={"flex items-center p-2"}>
+          <FontAwesomeIcon icon={faCompactDisc} className={"h-full"} />
+        </div>
+      )}
 
       {/* Infos */}
       <div className={"flex flex-col w-full p-1"}>
@@ -141,9 +164,7 @@ const TrackCard = (props: SearchResultCardProps) => {
             </Marquee>
           </div>
           <div className={"text-end absolute bottom-0 right-0 text-xs"}>
-            <p>
-              {Math.floor(props.duration / 60)}:{props.duration % 60}
-            </p>
+            <p>{(hours ? hours : "") + minutes + ":" + seconds}</p>
 
             {props.altText && (
               <p className={"text-secondary italic"}>{props.altText}</p>

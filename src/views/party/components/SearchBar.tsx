@@ -18,13 +18,14 @@ type SearchBarProps = {
 };
 
 const SearchBar = (props: SearchBarProps) => {
-  const inputRef = React.useRef<HTMLInputElement>(
-    document.querySelector(`#${props.name}`)
-  );
+  // const { setValue, setFocus, resetField, reset } = useForm<ISearchFormInput>();
+
   const handleClearInput = () => {
-    if (!inputRef.current) return;
-    inputRef.current.value = "";
-    inputRef.current.focus();
+    // TODO: this not works
+    // resetField("query");
+    // setValue("query", "");
+    // reset({ query: "query" });
+    // setFocus("query");
   };
 
   return (
@@ -57,27 +58,32 @@ const SearchBar = (props: SearchBarProps) => {
             {...props.register(props.name, props.validation)}
             type={"text"}
             id={props.name}
-            name={props.name}
             className={classNames(
               "transition-all duration-150 w-full h-min-max border-0 bg-secondary focus:border-tertiary focus:border-1 placeholder-lightText/40",
               props.errors[props.name] ? "rounded-br-none" : ""
             )}
             placeholder={props.inputPlaceholder}
-            ref={inputRef}
           />
 
           {/* Reset button */}
           <div
             className={"absolute top-0 right-0 mr-4 h-full flex items-center"}
           >
-            <button className={"flex items-center"} onClick={handleClearInput}>
+            <button
+              className={"flex items-center"}
+              onClick={handleClearInput}
+              // type={"reset"}
+            >
               <FontAwesomeIcon icon={faXmark} className={"p-2"} />
             </button>
           </div>
         </div>
 
         {/* Search logo */}
-        <button className={"mx-auto p-2 bg-tertiary rounded-e-2xl w-[40px]"}>
+        <button
+          className={"mx-auto p-2 bg-tertiary rounded-e-2xl w-[40px]"}
+          type={"submit"}
+        >
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
             className={"h-4 w-4 mx-auto"}

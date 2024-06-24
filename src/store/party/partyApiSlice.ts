@@ -3,6 +3,12 @@ import { GetPartyRequest, IPartyResponse } from "../types";
 import { ICreatePartyFormInput } from "../../views/party/Create";
 import { IJoinPartyFormInput } from "../../views/party/Join";
 import { clearParty, setParty } from "./partySlice";
+import {
+  ITrackSearchResultPreResponse,
+  ITrackSearchResultResponse,
+  SearchTrackRequest,
+} from "./types";
+import { EPlatformType } from "../../views/party/components/TrackCard";
 
 export const partyApi = createApi({
   reducerPath: "partyApi",
@@ -59,6 +65,27 @@ export const partyApi = createApi({
         });
       },
     }),
+    searchTracks: builder.query<
+      ITrackSearchResultResponse[],
+      SearchTrackRequest
+    >({
+      query: ({ partyName, query, platforms }) => ({
+        url: `/${partyName}/search`,
+        params: {
+          query: query,
+          platforms: platforms,
+        },
+      }),
+      transformResponse(response: ITrackSearchResultPreResponse[]) {
+        return response.map((track) => ({
+          ...track,
+          platformType:
+            track.platformType === "SPOTIFY"
+              ? EPlatformType.SPOTIFY
+              : EPlatformType.YOUTUBE,
+        }));
+      },
+    }),
   }),
 });
 
@@ -68,4 +95,5 @@ export const {
   useLazyGetPartyByNameQuery,
   useLeavePartyMutation,
   useDeletePartyMutation,
+  useLazySearchTracksQuery,
 } = partyApi;

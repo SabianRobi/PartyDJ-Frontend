@@ -4,7 +4,7 @@ export interface ITrack {
   title: string;
   coverUri: string;
   artists: IArtistResponse[];
-  duration: number;
+  length: number;
   platformType: EPlatformType;
 }
 
@@ -22,6 +22,11 @@ export interface ITrackSearchResultResponse extends ITrack {
   uri: string;
 }
 
-export interface IArtistResponse {
-  name: string;
-}
+export type ITrackSearchResultPreResponse = Omit<
+  ITrackSearchResultResponse,
+  "platformType"
+> & {
+  platformType: string;
+};
+
+export type IArtistResponse = string;

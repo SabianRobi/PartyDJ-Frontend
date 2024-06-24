@@ -1,35 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import SearchBar from "./components/SearchBar";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import TrackCard, { EPlatformType } from "./components/TrackCard";
 import { ITrackSearchResultResponse } from "../../store/party/types";
+import { useLazySearchTracksQuery } from "../../store/party/partyApiSlice";
+import { selectParty, useAppSelector } from "../../store/hooks";
+import { errorToast } from "../generalComponents/Toasts";
 
-interface ISearchFormInput {
+export interface ISearchFormInput {
   query: string;
 }
 
 // TODO: add feedback for empty search results, popups for successful track addition
 const Party = () => {
-  const searchResults: ITrackSearchResultResponse[] = [];
+  const [searchResults, setSearchResults] = useState<
+    ITrackSearchResultResponse[]
+  >([]);
+  const [doSearchTracks] = useLazySearchTracksQuery();
+  const party = useAppSelector(selectParty);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ISearchFormInput>();
+  } = useForm<ISearchFormInput>({ defaultValues: { query: "" } });
 
-  const onSubmit = (data: ISearchFormInput) => {
+  const onSubmit: SubmitHandler<ISearchFormInput> = (data) => {
     console.log(data);
+    doSearchTracks({
+      query: data.query,
+      partyName: party!.name,
+      platforms: [EPlatformType.SPOTIFY],
+    })
+      .unwrap()
+      .then((response) => {
+        setSearchResults(response);
+      })
+      .catch((error) => {
+        errorToast("Search failed!");
+        console.error("Search failed", error);
+      });
   };
 
   return (
     <>
       <p className={"text-center text-xl pb-4"}>Party</p>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className={"mt-2"}>
         <SearchBar
-          name={"query"}
           label={"Search"}
+          name={"query"}
           inputPlaceholder={"Monday left me broken"}
           errors={errors}
           register={register}
@@ -43,38 +63,24 @@ const Party = () => {
         />
       </form>
 
-      <div className={"flex flex-col"}>
-        <p>Results</p>
-        <div className={"grid grid-cols-1 gap-2"}>
-          <TrackCard
-            title={"Hello darkness"}
-            artists={["1 3 5 7 9 13 16 19 22 25 28 31 34 37 40 43 4748"]}
-            duration={4 * 60 + 20}
-            coverUri={"https://placehold.co/100x100"}
-            platformType={EPlatformType.SPOTIFY}
-          />
-          <TrackCard
-            title={"1 3 5 7 9 12 15 18 21 24 27 30 33 35"}
-            artists={["Darkest Soul", "Darkness"]}
-            duration={4 * 60 + 20}
-            coverUri={"https://placehold.co/100x100"}
-            platformType={EPlatformType.SPOTIFY}
-          />
-          <TrackCard
-            title={"Hello darkness"}
-            artists={["Darkest Soul", "Darkness"]}
-            duration={4 * 60 + 20}
-            coverUri={"https://placehold.co/100x100"}
-            platformType={EPlatformType.YOUTUBE}
-          />
-          <TrackCard
-            title={"Hello darkness"}
-            artists={["Darkest Soul", "Darkness"]}
-            duration={4 * 60 + 20}
-            coverUri={"https://placehold.co/100x100"}
-            platformType={EPlatformType.YOUTUBE}
-          />
-        </div>
+      <div className={"flex flex-col mt-8"}>
+        {searchResults.length > 0 && (
+          <>
+            <p>Results</p>
+            <div className={"grid grid-cols-1 gap-2"}>
+              {searchResults.map((track) => (
+                <TrackCard
+                  key={track.uri}
+                  title={track.title}
+                  artists={track.artists}
+                  duration={track.length}
+                  coverUri={track.coverUri}
+                  platformType={track.platformType}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </>
   );
