@@ -17,6 +17,7 @@ type SearchResultCardProps = {
   coverUri?: string;
   platformType: EPlatformType;
   altText?: string;
+  onClick?: () => void;
 };
 
 const TrackCard = (props: SearchResultCardProps) => {
@@ -39,10 +40,10 @@ const TrackCard = (props: SearchResultCardProps) => {
       : "";
 
   const [isTitleMarqueePlaying, setTitleMarqueePlaying] = useState(
-    shouldTitleMarqueePlay
+    shouldTitleMarqueePlay,
   );
   const [isArtistsMarqueePlaying, setArtistsMarqueePlaying] = useState(
-    shouldArtistsMarqueePlay
+    shouldArtistsMarqueePlay,
   );
 
   const handleTitleCycleComplete = async () => {
@@ -99,12 +100,14 @@ const TrackCard = (props: SearchResultCardProps) => {
   };
 
   return (
-    <div
+    <button
       className={classNames(
         "bg-primary min-w-[300px] w-full max-w-[500px] rounded-xl flex flex-row",
         getPlatformDropShadow(props.platformType),
-        props.altText ? "h-[117px]" : "h-[80px]"
+        props.altText ? "h-[117px]" : "h-[80px]",
       )}
+      onClick={props.onClick}
+      disabled={!props.onClick}
     >
       {/* Cover */}
       {props.coverUri ? (
@@ -143,7 +146,7 @@ const TrackCard = (props: SearchResultCardProps) => {
               icon={getPlatformLogo(props.platformType)}
               className={classNames(
                 "text-[28px] pl-1.5 pb-1.5 p-1",
-                getPlatformLogoColor(props.platformType)
+                getPlatformLogoColor(props.platformType),
               )}
             />
           )}
@@ -172,7 +175,7 @@ const TrackCard = (props: SearchResultCardProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </button>
   );
 };
 

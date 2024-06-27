@@ -4,6 +4,7 @@ import { ICreatePartyFormInput } from "../../views/party/Create";
 import { IJoinPartyFormInput } from "../../views/party/Join";
 import { clearParty, setParty } from "./partySlice";
 import {
+  IAddTrackToQueueRequest,
   ITrackSearchResultPreResponse,
   ITrackSearchResultResponse,
   SearchTrackRequest,
@@ -37,7 +38,7 @@ export const partyApi = createApi({
         queryFulfilled.then((response) => {
           if (response.data) {
             dispatch(
-              setParty({ party: response.data, currentUser: currentUser })
+              setParty({ party: response.data, currentUser: currentUser }),
             );
           }
         });
@@ -86,6 +87,26 @@ export const partyApi = createApi({
         }));
       },
     }),
+    addTrackToQueue: builder.mutation<IPartyResponse, IAddTrackToQueueRequest>({
+      query: (request) => {
+        const data = {
+          uri: request.track.uri,
+          platformType:
+            request.track.platformType === EPlatformType.SPOTIFY
+              ? "SPOTIFY"
+              : "YOUTUBE",
+        };
+
+        return {
+          url: `/${request.partyName}/tracks`,
+          method: "POST",
+          body: data,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+      },
+    }),
   }),
 });
 
@@ -96,4 +117,5 @@ export const {
   useLeavePartyMutation,
   useDeletePartyMutation,
   useLazySearchTracksQuery,
+  useAddTrackToQueueMutation,
 } = partyApi;

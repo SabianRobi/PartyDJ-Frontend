@@ -16,6 +16,14 @@ export interface SearchTrackRequest {
   platforms: EPlatformType[];
 }
 
+export interface IAddTrackToQueueRequest {
+  partyName: string;
+  track: {
+    uri: string;
+    platformType: EPlatformType;
+  };
+}
+
 /* --- --- --- Responses --- --- --- */
 
 export interface ITrackSearchResultResponse extends ITrack {

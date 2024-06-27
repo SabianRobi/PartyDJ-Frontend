@@ -3,9 +3,12 @@ import SearchBar from "./components/SearchBar";
 import { SubmitHandler, useForm } from "react-hook-form";
 import TrackCard, { EPlatformType } from "./components/TrackCard";
 import { ITrackSearchResultResponse } from "../../store/party/types";
-import { useLazySearchTracksQuery } from "../../store/party/partyApiSlice";
+import {
+  useAddTrackToQueueMutation,
+  useLazySearchTracksQuery,
+} from "../../store/party/partyApiSlice";
 import { selectParty, useAppSelector } from "../../store/hooks";
-import { errorToast } from "../generalComponents/Toasts";
+import { errorToast, successToast } from "../generalComponents/Toasts";
 
 export interface ISearchFormInput {
   query: string;
@@ -17,6 +20,7 @@ const Party = () => {
     ITrackSearchResultResponse[]
   >([]);
   const [doSearchTracks] = useLazySearchTracksQuery();
+  const [doAddTrackToQueue] = useAddTrackToQueueMutation();
   const party = useAppSelector(selectParty);
 
   const {
@@ -39,6 +43,22 @@ const Party = () => {
       .catch((error) => {
         errorToast("Search failed!");
         console.error("Search failed", error);
+      });
+  };
+
+  const handleAddTrackToQueue = (searchResult: ITrackSearchResultResponse) => {
+    doAddTrackToQueue({
+      partyName: party!.name,
+      track: { uri: searchResult.uri, platformType: searchResult.platformType },
+    })
+      .unwrap()
+      .then((response) => {
+        console.log("Successfully added track to queue!", response);
+        successToast("Successfully added track to queue!");
+      })
+      .catch((error) => {
+        errorToast("Failed to add track to queue!");
+        console.error("Failed to add track to queue: ", error);
       });
   };
 
@@ -76,6 +96,7 @@ const Party = () => {
                   duration={track.length}
                   coverUri={track.coverUri}
                   platformType={track.platformType}
+                  onClick={() => handleAddTrackToQueue(track)}
                 />
               ))}
             </div>
