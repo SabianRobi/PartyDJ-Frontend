@@ -8,6 +8,13 @@ export interface ITrack {
   platformType: EPlatformType;
 }
 
+export interface ITrackInQueue extends ITrack {
+  id: number;
+  addedBy: {
+    username: string;
+  };
+}
+
 /* --- --- --- Requests --- --- --- */
 
 export interface SearchTrackRequest {
@@ -37,4 +44,11 @@ export type ITrackSearchResultPreResponse = Omit<
   platformType: string;
 };
 
-export type IArtistResponse = string;
+export type IArtistResponse = {
+  name: string;
+};
+
+export interface ITrackInQueueResponse
+  extends Omit<ITrackInQueue, "platformType"> {
+  platformType: string;
+}

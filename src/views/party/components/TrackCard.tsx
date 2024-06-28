@@ -4,6 +4,7 @@ import { faCompactDisc } from "@fortawesome/free-solid-svg-icons";
 import { faSpotify, faYoutube } from "@fortawesome/free-brands-svg-icons";
 import classNames from "classnames";
 import Marquee from "react-fast-marquee";
+import prettyMilliseconds from "pretty-ms";
 
 export enum EPlatformType {
   SPOTIFY = "Spotify",
@@ -23,21 +24,6 @@ type SearchResultCardProps = {
 const TrackCard = (props: SearchResultCardProps) => {
   const shouldTitleMarqueePlay = props.title.length > 33;
   const shouldArtistsMarqueePlay = props.artists.join(", ").length > 45;
-
-  // Converting the duration to human-readable format
-  const readableDate = new Date(props.duration);
-  const seconds =
-    readableDate.getSeconds() < 10
-      ? "0" + readableDate.getSeconds()
-      : readableDate.getSeconds();
-  const minutes =
-    readableDate.getMinutes() < 10 && readableDate.getHours() > 1
-      ? "0" + readableDate.getMinutes()
-      : readableDate.getMinutes();
-  const hours =
-    readableDate.getHours() > 1
-      ? (readableDate.getHours() - 1).toString() + ":"
-      : "";
 
   const [isTitleMarqueePlaying, setTitleMarqueePlaying] = useState(
     shouldTitleMarqueePlay,
@@ -102,9 +88,8 @@ const TrackCard = (props: SearchResultCardProps) => {
   return (
     <button
       className={classNames(
-        "bg-primary min-w-[300px] w-full max-w-[500px] rounded-xl flex flex-row",
+        "bg-primary min-w-[300px] w-full max-w-[500px] h-[80px] rounded-xl flex flex-row relative",
         getPlatformDropShadow(props.platformType),
-        props.altText ? "h-[117px]" : "h-[80px]",
       )}
       onClick={props.onClick}
       disabled={!props.onClick}
@@ -153,7 +138,7 @@ const TrackCard = (props: SearchResultCardProps) => {
         </div>
 
         {/* Bottom row: artist, duration */}
-        <div className={"h-full w-full relative"}>
+        <div className={"h-full w-full"}>
           <div
             onMouseEnter={() => handleArtistsHover(true)}
             onMouseLeave={() => handleArtistsHover(false)}
@@ -166,8 +151,13 @@ const TrackCard = (props: SearchResultCardProps) => {
               <p className={"text-sm"}>{props.artists.join(", ")}</p>
             </Marquee>
           </div>
-          <div className={"text-end absolute bottom-0 right-0 text-xs"}>
-            <p>{(hours ? hours : "") + minutes + ":" + seconds}</p>
+          <div className={"text-end absolute bottom-1.5 right-1.5 text-xs"}>
+            <p>
+              {prettyMilliseconds(props.duration, {
+                secondsDecimalDigits: 0,
+                colonNotation: true,
+              })}
+            </p>
 
             {props.altText && (
               <p className={"text-secondary italic"}>{props.altText}</p>

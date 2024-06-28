@@ -18,7 +18,7 @@ const PartyHistory = () => {
       {previousTracks.map((track) => (
         <TrackCard
           title={track.title}
-          artists={track.artists}
+          artists={track.artists.map((artist) => artist.name)}
           duration={track.length}
           coverUri={track.coverUri}
           platformType={track.platformType}

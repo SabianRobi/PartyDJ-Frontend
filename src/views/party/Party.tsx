@@ -87,12 +87,12 @@ const Party = () => {
         {searchResults.length > 0 && (
           <>
             <p>Results</p>
-            <div className={"grid grid-cols-1 gap-2"}>
+            <div className={"grid grid-cols-1 gap-3"}>
               {searchResults.map((track) => (
                 <TrackCard
                   key={track.uri}
                   title={track.title}
-                  artists={track.artists}
+                  artists={track.artists.map((artist) => artist.name)}
                   duration={track.length}
                   coverUri={track.coverUri}
                   platformType={track.platformType}

@@ -5,6 +5,8 @@ import { IJoinPartyFormInput } from "../../views/party/Join";
 import { clearParty, setParty } from "./partySlice";
 import {
   IAddTrackToQueueRequest,
+  ITrackInQueue,
+  ITrackInQueueResponse,
   ITrackSearchResultPreResponse,
   ITrackSearchResultResponse,
   SearchTrackRequest,
@@ -107,6 +109,18 @@ export const partyApi = createApi({
         };
       },
     }),
+    getTracksInQueue: builder.query<ITrackInQueue[], string>({
+      query: (partyName) => `/${partyName}/tracks`,
+      transformResponse(response: ITrackInQueueResponse[]) {
+        return response.map((track) => ({
+          ...track,
+          platformType:
+            track.platformType === "SPOTIFY"
+              ? EPlatformType.SPOTIFY
+              : EPlatformType.YOUTUBE,
+        }));
+      },
+    }),
   }),
 });
 
@@ -118,4 +132,5 @@ export const {
   useDeletePartyMutation,
   useLazySearchTracksQuery,
   useAddTrackToQueueMutation,
+  useGetTracksInQueueQuery,
 } = partyApi;
