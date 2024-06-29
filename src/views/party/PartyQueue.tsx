@@ -17,8 +17,6 @@ const PartyQueue = () => {
     pollingInterval: 60000,
   });
 
-  console.log(tracksInQueue);
-
   if (isLoading) {
     return <p className="text-center text-xl mt-2"></p>;
   }
@@ -38,6 +36,7 @@ const PartyQueue = () => {
             if (index > 0) willBePlayedIn += tracks[index - 1].length;
             return (
               <TrackCard
+                key={index}
                 title={track.title}
                 artists={track.artists.map((artist) => artist.name)}
                 duration={track.length}

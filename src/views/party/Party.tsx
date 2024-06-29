@@ -14,12 +14,13 @@ export interface ISearchFormInput {
   query: string;
 }
 
-// TODO: add feedback for empty search results, popups for successful track addition
+// TODO: add feedback for empty search results
 const Party = () => {
   const [searchResults, setSearchResults] = useState<
     ITrackSearchResultResponse[]
   >([]);
-  const [doSearchTracks] = useLazySearchTracksQuery();
+  const [doSearchTracks, { isLoading, isFetching }] =
+    useLazySearchTracksQuery();
   const [doAddTrackToQueue] = useAddTrackToQueueMutation();
   const party = useAppSelector(selectParty);
 
@@ -66,6 +67,7 @@ const Party = () => {
     <>
       <p className={"text-center text-xl pb-4"}>Party</p>
 
+      {/* Searchbar */}
       <form onSubmit={handleSubmit(onSubmit)} className={"mt-2"}>
         <SearchBar
           label={"Search"}
@@ -83,8 +85,13 @@ const Party = () => {
         />
       </form>
 
+      {/* Search results */}
       <div className={"flex flex-col mt-8"}>
-        {searchResults.length > 0 && (
+        {searchResults.length === 0 ? (
+          isLoading && !isFetching ? (
+            <p>No tracks found :( </p>
+          ) : null
+        ) : (
           <>
             <p>Results</p>
             <div className={"grid grid-cols-1 gap-3"}>

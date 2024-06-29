@@ -70,7 +70,6 @@ const SpotifyPlayerOverlay = () => {
         initialVolume={0.5}
         hideAttribution={true}
         callback={handlePlayerChange}
-        // TODO: Use this component all over the application to play music anywhere
         styles={{
           bgColor: "#012340", // primary
           color: "#fff",
