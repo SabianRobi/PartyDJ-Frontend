@@ -3,17 +3,20 @@ import { Outlet, useLocation, useNavigation } from "react-router-dom";
 import Navbar from "./navbar/Navbar";
 import classNames from "classnames";
 import Toasts from "../generalComponents/Toasts";
+import SpotifyPlayerOverlay from "../party/components/SpotifyPlayerOverlay";
+import { selectPartyRole, useAppSelector } from "../../store/hooks";
 
 const Layout = () => {
   const navigation = useNavigation();
   let { pathname: currentPath } = useLocation();
+  const partyRole = useAppSelector(selectPartyRole);
 
   return (
     <>
       <Toasts />
       <div
         className={
-          "bg-background text-lightText min-h-screen min-w-screen font-k2d"
+          "bg-background text-lightText min-h-screen min-w-screen font-k2d relative"
         }
       >
         <div className={"flex flex-col container mx-auto min-h-full"}>
@@ -34,7 +37,7 @@ const Layout = () => {
                     "/party/create",
                   ].includes(currentPath)
                     ? "grid place-items-center"
-                    : ""
+                    : "",
                 )}
               >
                 <Outlet />
@@ -45,6 +48,9 @@ const Layout = () => {
             </div>
           )}
         </div>
+
+        {/* Spotify player */}
+        {partyRole === "CREATOR" && <SpotifyPlayerOverlay />}
       </div>
     </>
   );

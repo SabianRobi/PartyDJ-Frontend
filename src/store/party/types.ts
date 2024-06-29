@@ -31,6 +31,13 @@ export interface IAddTrackToQueueRequest {
   };
 }
 
+export type GetTracksInQueueRequest = string;
+export type PlayNextTrackRequest = string;
+export type SetPlaybackDeviceIdRequest = {
+  partyName: string;
+  deviceId: string;
+};
+
 /* --- --- --- Responses --- --- --- */
 
 export interface ITrackSearchResultResponse extends ITrack {

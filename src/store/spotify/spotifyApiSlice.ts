@@ -25,7 +25,7 @@ export const spotifyApi = createApi({
             dispatch(
               setSpotifyToken({
                 token: response.data.token,
-              })
+              }),
             );
           }
         });
@@ -41,6 +41,23 @@ export const spotifyApi = createApi({
         url: `/callback?code=${code}&state=${state}`,
       }),
     }),
+    refreshToken: builder.mutation<ISpotifyTokenResponse, void>({
+      query: () => ({
+        url: `/token`,
+        method: "PATCH",
+      }),
+      onQueryStarted(_, { dispatch, queryFulfilled }) {
+        queryFulfilled.then((response) => {
+          if (response.data) {
+            dispatch(
+              setSpotifyToken({
+                token: response.data.token,
+              }),
+            );
+          }
+        });
+      },
+    }),
   }),
 });
 
@@ -48,4 +65,5 @@ export const {
   useLazyGetSpotifyAuthUrlQuery,
   useSetSpotifyTokensQuery,
   useLazyGetTokenQuery,
+  useRefreshTokenMutation,
 } = spotifyApi;

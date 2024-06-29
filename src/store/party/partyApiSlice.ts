@@ -1,24 +1,37 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
 import { GetPartyRequest, IPartyResponse } from "../types";
 import { ICreatePartyFormInput } from "../../views/party/Create";
 import { IJoinPartyFormInput } from "../../views/party/Join";
 import { clearParty, setParty } from "./partySlice";
 import {
+  GetTracksInQueueRequest,
   IAddTrackToQueueRequest,
   ITrackInQueue,
   ITrackInQueueResponse,
   ITrackSearchResultPreResponse,
   ITrackSearchResultResponse,
+  PlayNextTrackRequest,
   SearchTrackRequest,
+  SetPlaybackDeviceIdRequest,
 } from "./types";
 import { EPlatformType } from "../../views/party/components/TrackCard";
 
 export const partyApi = createApi({
   reducerPath: "partyApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/api/v1/party",
-    credentials: "include",
-  }),
+  baseQuery: retry(
+    fetchBaseQuery({
+      baseUrl: "http://localhost:8080/api/v1/party",
+      credentials: "include",
+    }),
+    {
+      maxRetries: 60, // Retry for 10 minutes (60 * 10 seconds)
+      backoff: () => {
+        return new Promise((resolve) => {
+          setTimeout(resolve, 10000); // Retry every 10 seconds
+        });
+      },
+    },
+  ),
   endpoints: (builder) => ({
     createParty: builder.mutation<IPartyResponse, ICreatePartyFormInput>({
       query: (data) => ({
@@ -26,6 +39,7 @@ export const partyApi = createApi({
         method: "POST",
         body: data,
       }),
+      extraOptions: { maxRetries: 0 },
     }),
     joinParty: builder.mutation<IPartyResponse, IJoinPartyFormInput>({
       query: (data) => ({
@@ -33,6 +47,7 @@ export const partyApi = createApi({
         method: "POST",
         body: data,
       }),
+      extraOptions: { maxRetries: 0 },
     }),
     getPartyByName: builder.query<IPartyResponse, GetPartyRequest>({
       query: (data) => `/${data.name}`,
@@ -45,6 +60,7 @@ export const partyApi = createApi({
           }
         });
       },
+      extraOptions: { maxRetries: 0 },
     }),
     leaveParty: builder.mutation<IPartyResponse, string>({
       query: (partyName) => ({
@@ -56,6 +72,7 @@ export const partyApi = createApi({
           dispatch(clearParty());
         });
       },
+      extraOptions: { maxRetries: 0 },
     }),
     deleteParty: builder.mutation<IPartyResponse, string>({
       query: (partyName) => ({
@@ -67,6 +84,7 @@ export const partyApi = createApi({
           dispatch(clearParty());
         });
       },
+      extraOptions: { maxRetries: 0 },
     }),
     searchTracks: builder.query<
       ITrackSearchResultResponse[],
@@ -88,6 +106,7 @@ export const partyApi = createApi({
               : EPlatformType.YOUTUBE,
         }));
       },
+      extraOptions: { maxRetries: 0 },
     }),
     addTrackToQueue: builder.mutation<IPartyResponse, IAddTrackToQueueRequest>({
       query: (request) => {
@@ -108,8 +127,9 @@ export const partyApi = createApi({
           },
         };
       },
+      extraOptions: { maxRetries: 0 },
     }),
-    getTracksInQueue: builder.query<ITrackInQueue[], string>({
+    getTracksInQueue: builder.query<ITrackInQueue[], GetTracksInQueueRequest>({
       query: (partyName) => `/${partyName}/tracks`,
       transformResponse(response: ITrackInQueueResponse[]) {
         return response.map((track) => ({
@@ -120,6 +140,31 @@ export const partyApi = createApi({
               : EPlatformType.YOUTUBE,
         }));
       },
+      extraOptions: { maxRetries: 0 },
+    }),
+    setPlaybackDevice: builder.mutation<
+      IPartyResponse,
+      SetPlaybackDeviceIdRequest
+    >({
+      query: ({ partyName, deviceId }) => {
+        const data = {
+          deviceId,
+        };
+
+        return {
+          url: `/${partyName}/spotifyDeviceId`,
+          method: "POST",
+          body: data,
+        };
+      },
+      extraOptions: { maxRetries: 0 },
+    }),
+
+    skipTrack: builder.mutation<IPartyResponse, PlayNextTrackRequest>({
+      query: (partyName) => ({
+        url: `/${partyName}/tracks/playNext`,
+        method: "POST",
+      }),
     }),
   }),
 });
@@ -133,4 +178,6 @@ export const {
   useLazySearchTracksQuery,
   useAddTrackToQueueMutation,
   useGetTracksInQueueQuery,
+  useSetPlaybackDeviceMutation,
+  useSkipTrackMutation,
 } = partyApi;
