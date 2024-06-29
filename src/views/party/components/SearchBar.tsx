@@ -1,5 +1,4 @@
 import React from "react";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,31 +6,25 @@ import {
   faSliders,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { useFormContext } from "react-hook-form";
 
-type SearchBarProps = {
-  register: UseFormRegister<any>;
-  validation?: { [key: string]: any };
-  errors: FieldErrors<any>;
-  label: string;
-  name: string;
-  inputPlaceholder?: string;
-};
-
-const SearchBar = (props: SearchBarProps) => {
-  // const { setValue, setFocus, resetField, reset } = useForm<ISearchFormInput>();
+const SearchBar = () => {
+  const {
+    register,
+    formState: { errors },
+    resetField,
+    setFocus,
+  } = useFormContext(); // retrieve all hook methods
 
   const handleClearInput = () => {
-    // TODO: this not works
-    // resetField("query");
-    // setValue("query", "");
-    // reset({ query: "query" });
-    // setFocus("query");
+    resetField("query");
+    setFocus("query");
   };
 
   return (
     <div className={"pb-2"}>
       {/* Label */}
-      <label htmlFor={props.name}>{props.label}</label>
+      <label htmlFor={"query"}>Search</label>
 
       <div
         className={
@@ -44,6 +37,7 @@ const SearchBar = (props: SearchBarProps) => {
           className={
             "flex items-center p-2 bg-tertiary rounded-bl-2xl w-[40px]"
           }
+          type={"button"}
         >
           <FontAwesomeIcon
             icon={faSliders}
@@ -55,14 +49,19 @@ const SearchBar = (props: SearchBarProps) => {
         <div className={"w-full relative"}>
           {/* Input field */}
           <input
-            {...props.register(props.name, props.validation)}
+            {...register("query", {
+              required: { value: true, message: "Should not be empty." },
+              minLength: {
+                value: 3,
+                message: "Should be at least 3 characters long.",
+              },
+            })}
             type={"text"}
-            id={props.name}
             className={classNames(
               "transition-all duration-150 w-full h-min-max border-0 bg-secondary focus:border-tertiary focus:border-1 placeholder-lightText/40",
-              props.errors[props.name] ? "rounded-br-none" : ""
+              errors["query"] ? "rounded-br-none" : "",
             )}
-            placeholder={props.inputPlaceholder}
+            placeholder={"Monday left me broken"}
           />
 
           {/* Reset button */}
@@ -72,7 +71,7 @@ const SearchBar = (props: SearchBarProps) => {
             <button
               className={"flex items-center"}
               onClick={handleClearInput}
-              // type={"reset"}
+              type={"reset"}
             >
               <FontAwesomeIcon icon={faXmark} className={"p-2"} />
             </button>

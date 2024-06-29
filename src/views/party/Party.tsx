@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SearchBar from "./components/SearchBar";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import TrackCard, { EPlatformType } from "./components/TrackCard";
 import { ITrackSearchResultResponse } from "../../store/party/types";
 import {
@@ -14,7 +14,6 @@ export interface ISearchFormInput {
   query: string;
 }
 
-// TODO: add feedback for empty search results
 const Party = () => {
   const [searchResults, setSearchResults] = useState<
     ITrackSearchResultResponse[]
@@ -24,11 +23,7 @@ const Party = () => {
   const [doAddTrackToQueue] = useAddTrackToQueueMutation();
   const party = useAppSelector(selectParty);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ISearchFormInput>({ defaultValues: { query: "" } });
+  const methods = useForm<ISearchFormInput>({ defaultValues: { query: "" } });
 
   const onSubmit: SubmitHandler<ISearchFormInput> = (data) => {
     console.log(data);
@@ -68,22 +63,11 @@ const Party = () => {
       <p className={"text-center text-xl pb-4"}>Party</p>
 
       {/* Searchbar */}
-      <form onSubmit={handleSubmit(onSubmit)} className={"mt-2"}>
-        <SearchBar
-          label={"Search"}
-          name={"query"}
-          inputPlaceholder={"Monday left me broken"}
-          errors={errors}
-          register={register}
-          validation={{
-            required: { value: true, message: "Should not be empty." },
-            minLength: {
-              value: 3,
-              message: "Should be at least 3 characters long.",
-            },
-          }}
-        />
-      </form>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)} className={"mt-2"}>
+          <SearchBar />
+        </form>
+      </FormProvider>
 
       {/* Search results */}
       <div className={"flex flex-col mt-8"}>
