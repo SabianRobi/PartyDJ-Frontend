@@ -60,7 +60,7 @@ const Party = () => {
 
   return (
     <>
-      <p className={"text-center text-xl pb-4"}>Party</p>
+      <p className="text-center font-bold text-xl mt-2 mb-8">Party</p>
 
       {/* Searchbar */}
       <FormProvider {...methods}>

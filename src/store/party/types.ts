@@ -15,6 +15,13 @@ export interface ITrackInQueue extends ITrack {
   };
 }
 
+export interface IPlayedTrack extends ITrack {
+  endedAt: string; // "2024-06-29 12:16:49"
+  addedBy: {
+    username: string;
+  };
+}
+
 /* --- --- --- Requests --- --- --- */
 
 export interface SearchTrackRequest {
@@ -37,6 +44,7 @@ export type SetPlaybackDeviceIdRequest = {
   partyName: string;
   deviceId: string;
 };
+export type GetPlayedTracksRequest = string;
 
 /* --- --- --- Responses --- --- --- */
 
@@ -59,3 +67,7 @@ export interface ITrackInQueueResponse
   extends Omit<ITrackInQueue, "platformType"> {
   platformType: string;
 }
+
+export type IPlayedTrackPreResponse = Omit<IPlayedTrack, "platformType"> & {
+  platformType: string;
+};

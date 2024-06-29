@@ -160,7 +160,7 @@ const TrackCard = (props: SearchResultCardProps) => {
             </p>
 
             {props.altText && (
-              <p className={"text-secondary italic"}>{props.altText}</p>
+              <p className={"text-tertiary italic"}>{props.altText}</p>
             )}
           </div>
         </div>

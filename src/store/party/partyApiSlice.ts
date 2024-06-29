@@ -4,8 +4,11 @@ import { ICreatePartyFormInput } from "../../views/party/Create";
 import { IJoinPartyFormInput } from "../../views/party/Join";
 import { clearParty, setParty } from "./partySlice";
 import {
+  GetPlayedTracksRequest,
   GetTracksInQueueRequest,
   IAddTrackToQueueRequest,
+  IPlayedTrack,
+  IPlayedTrackPreResponse,
   ITrackInQueue,
   ITrackInQueueResponse,
   ITrackSearchResultPreResponse,
@@ -142,6 +145,19 @@ export const partyApi = createApi({
       },
       extraOptions: { maxRetries: 0 },
     }),
+    getPlayedTracks: builder.query<IPlayedTrack[], GetPlayedTracksRequest>({
+      query: (partyName) => `/${partyName}/tracks/previous`,
+      transformResponse(response: IPlayedTrackPreResponse[]) {
+        return response.map((track) => ({
+          ...track,
+          platformType:
+            track.platformType === "SPOTIFY"
+              ? EPlatformType.SPOTIFY
+              : EPlatformType.YOUTUBE,
+        }));
+      },
+      extraOptions: { maxRetries: 0 },
+    }),
     setPlaybackDevice: builder.mutation<
       IPartyResponse,
       SetPlaybackDeviceIdRequest
@@ -178,6 +194,7 @@ export const {
   useLazySearchTracksQuery,
   useAddTrackToQueueMutation,
   useGetTracksInQueueQuery,
+  useGetPlayedTracksQuery,
   useSetPlaybackDeviceMutation,
   useSkipTrackMutation,
 } = partyApi;
