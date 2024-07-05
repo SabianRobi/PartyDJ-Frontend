@@ -16,7 +16,7 @@ export interface ITrackInQueue extends ITrack {
 }
 
 export interface IPlayedTrack extends ITrack {
-  endedAt: string; // "2024-06-29 12:16:49"
+  endedAt: number;
   addedBy: {
     username: string;
   };
@@ -68,6 +68,10 @@ export interface ITrackInQueueResponse
   platformType: string;
 }
 
-export type IPlayedTrackPreResponse = Omit<IPlayedTrack, "platformType"> & {
-  platformType: string;
+export type IPlayedTrackPreResponse = Omit<
+  IPlayedTrack,
+  "platformType" | "endedAt"
+> & {
+  platformType: string; // "SPOTIFY" | "YOUTUBE"
+  endedAt: string; // "2024-06-29 12:16:49"
 };

@@ -38,7 +38,7 @@ const PartyHistory = () => {
                 platformType={track.platformType}
                 altText={
                   "Ended " +
-                  prettyMilliseconds(Date.now() - Date.parse(track.endedAt), {
+                  prettyMilliseconds(track.endedAt, {
                     secondsDecimalDigits: 0,
                   }) +
                   " ago"

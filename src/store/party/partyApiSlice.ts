@@ -33,7 +33,7 @@ export const partyApi = createApi({
           setTimeout(resolve, 10000); // Retry every 10 seconds
         });
       },
-    },
+    }
   ),
   endpoints: (builder) => ({
     createParty: builder.mutation<IPartyResponse, ICreatePartyFormInput>({
@@ -58,7 +58,7 @@ export const partyApi = createApi({
         queryFulfilled.then((response) => {
           if (response.data) {
             dispatch(
-              setParty({ party: response.data, currentUser: currentUser }),
+              setParty({ party: response.data, currentUser: currentUser })
             );
           }
         });
@@ -148,13 +148,19 @@ export const partyApi = createApi({
     getPlayedTracks: builder.query<IPlayedTrack[], GetPlayedTracksRequest>({
       query: (partyName) => `/${partyName}/tracks/previous`,
       transformResponse(response: IPlayedTrackPreResponse[]) {
-        return response.map((track) => ({
-          ...track,
-          platformType:
-            track.platformType === "SPOTIFY"
-              ? EPlatformType.SPOTIFY
-              : EPlatformType.YOUTUBE,
-        }));
+        return response
+          .map((track) => ({
+            ...track,
+            platformType:
+              track.platformType === "SPOTIFY"
+                ? EPlatformType.SPOTIFY
+                : EPlatformType.YOUTUBE,
+            endedAt: Date.now() - Date.parse(track.endedAt),
+          }))
+          .sort(
+            (prevTrack, currentTrack) =>
+              prevTrack.endedAt - currentTrack.endedAt
+          );
       },
       extraOptions: { maxRetries: 0 },
     }),
