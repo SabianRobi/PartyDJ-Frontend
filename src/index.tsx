@@ -14,7 +14,7 @@ import Layout from "./views/layout/Layout";
 import MainPage from "./views/mainPage/MainPage";
 import Join from "./views/party/Join";
 import Create from "./views/party/Create";
-import Settings from "./views/user/Settings";
+import UserSettings from "./views/user/UserSettings";
 import Party from "./views/party/Party";
 import PartyHistory from "./views/party/PartyHistory";
 import PartyQueue from "./views/party/PartyQueue";
@@ -75,7 +75,7 @@ const router = createBrowserRouter([
             children: [
               {
                 path: ":username",
-                element: <Settings />,
+                element: <UserSettings />,
               },
             ],
           },

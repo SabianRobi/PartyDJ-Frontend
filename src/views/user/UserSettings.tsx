@@ -21,7 +21,7 @@ type TModalContent = {
 
 // export type UpdateUserData = UpdateUsernameData | UpdateEmailData;
 
-const Settings = () => {
+const UserSettings = () => {
   const [showModal, setShowModal] = React.useState(false);
   const [modalContent, setModalContent] = React.useState<TModalContent>({
     title: "Initial title",
@@ -122,7 +122,7 @@ const Settings = () => {
 
       <div>
         <h3 className={"text-center text-2xl"}>Settings</h3>
-        <Card title={"Account"}>
+        <Card title={"Account"} className="pt-8">
           <CardRow
             name={"Username"}
             value={<>{user?.username}</>}
@@ -142,7 +142,7 @@ const Settings = () => {
           />
         </Card>
 
-        <Card title={"Platforms"}>
+        <Card title={"Platforms"} className="pt-8">
           <CardRow
             name={"Spotify"}
             value={<>{user?.spotifyConnected ? "connected" : "disconnected"}</>}
@@ -178,4 +178,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default UserSettings;
