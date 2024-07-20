@@ -100,6 +100,7 @@ const TrackCard = (props: SearchResultCardProps) => {
           src={props.coverUri}
           alt={"Cover art for " + props.title}
           className={"h-full w-24 rounded-l-xl object-cover"}
+          loading="lazy"
         />
       ) : (
         <div className={"flex items-center p-2"}>

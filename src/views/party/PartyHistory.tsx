@@ -9,28 +9,28 @@ const PartyHistory = () => {
 
   const {
     data: playedTracks,
-    isLoading,
+    isFetching,
     error,
   } = useGetPlayedTracksQuery(party?.name ?? "", {
     refetchOnMountOrArgChange: true,
     pollingInterval: 60000,
   });
 
-  // TODO: sort the tracks by endedAt (either at db level, backed or here)
   return (
     <>
       <p className="text-center font-bold text-xl mt-2 mb-8">Party history</p>
-      {isLoading ? (
+      {isFetching ? (
         <p>Loading...</p>
       ) : error ? (
         <p>An error occurred, please try again.</p>
       ) : playedTracks?.length === 0 || !playedTracks ? (
-        <p>Queue is empty</p>
+        <p>History is empty</p>
       ) : (
         <div className={"grid grid-cols-1 gap-3"}>
-          {playedTracks.map((track) => {
+          {playedTracks.map((track, index) => {
             return (
               <TrackCard
+                key={"track-" + index}
                 title={track.title}
                 artists={track.artists.map((artist) => artist.name)}
                 duration={track.length}

@@ -10,21 +10,17 @@ const PartyQueue = () => {
 
   const {
     data: tracksInQueue,
-    isLoading,
+    isFetching,
     error,
   } = useGetTracksInQueueQuery(party?.name ?? "", {
     refetchOnMountOrArgChange: true,
     pollingInterval: 60000,
   });
 
-  if (isLoading) {
-    return <p className="text-center text-xl mt-2"></p>;
-  }
-
   return (
     <>
       <p className="text-center font-bold text-xl mt-2 mb-8">Party queue</p>
-      {isLoading ? (
+      {isFetching ? (
         <p>Loading...</p>
       ) : error ? (
         <p>An error occurred, please try again.</p>
