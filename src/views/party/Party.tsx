@@ -9,15 +9,28 @@ import {
 } from "../../store/party/partyApiSlice";
 import { selectParty, useAppSelector } from "../../store/hooks";
 import { errorToast, successToast } from "../generalComponents/Toasts";
+import Modal from "../generalComponents/modal/Modal";
+import SearchSettingsModalContent from "./modalContents/SearchSettingsModalContent";
 
 export interface ISearchFormInput {
   query: string;
+  settings: {
+    spotify: {
+      enabled: boolean;
+      limit: number;
+    };
+    youTube: {
+      enabled: boolean;
+      limit: number;
+    };
+  };
 }
 
 const Party = () => {
   const [searchResults, setSearchResults] = useState<
     ITrackSearchResultResponse[]
   >([]);
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [doSearchTracks, { isLoading, isFetching }] =
     useLazySearchTracksQuery();
   const [doAddTrackToQueue] = useAddTrackToQueueMutation();
@@ -27,10 +40,19 @@ const Party = () => {
 
   const onSubmit: SubmitHandler<ISearchFormInput> = (data) => {
     console.log(data);
+
+    let platforms = [];
+    if (data.settings.spotify.enabled) {
+      platforms.push(EPlatformType.SPOTIFY);
+    }
+    if (data.settings.youTube.enabled) {
+      platforms.push(EPlatformType.YOUTUBE);
+    }
+
     doSearchTracks({
       query: data.query,
       partyName: party!.name,
-      platforms: [EPlatformType.SPOTIFY],
+      platforms: platforms,
     })
       .unwrap()
       .then((response) => {
@@ -62,10 +84,19 @@ const Party = () => {
     <>
       <p className="text-center font-bold text-xl mt-2 mb-8">Party</p>
 
-      {/* Searchbar */}
       <FormProvider {...methods}>
+        {/* Searchbar */}
         <form onSubmit={methods.handleSubmit(onSubmit)} className={"mt-2"}>
-          <SearchBar />
+          <SearchBar setIsSettingsModalOpen={setIsSettingsModalOpen} />
+
+          {/* Settings modal */}
+          <Modal
+            title="Search settings"
+            showModal={isSettingsModalOpen}
+            setShowModal={setIsSettingsModalOpen}
+          >
+            <SearchSettingsModalContent />
+          </Modal>
         </form>
       </FormProvider>
 

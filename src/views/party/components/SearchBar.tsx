@@ -8,7 +8,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useFormContext } from "react-hook-form";
 
-const SearchBar = () => {
+type SearchBarProps = {
+  setIsSettingsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const SearchBar = ({ setIsSettingsModalOpen }: SearchBarProps) => {
   const {
     register,
     formState: { errors },
@@ -31,13 +35,13 @@ const SearchBar = () => {
           "flex flex-row w-full bg-secondary rounded-2xl rounded-tl-none"
         }
       >
-        {/* TODO: Add settings modal */}
         {/* Settings */}
         <button
           className={
             "flex items-center p-2 bg-tertiary rounded-bl-2xl w-[40px]"
           }
           type={"button"}
+          onClick={() => setIsSettingsModalOpen(true)}
         >
           <FontAwesomeIcon
             icon={faSliders}
@@ -59,7 +63,7 @@ const SearchBar = () => {
             type={"text"}
             className={classNames(
               "transition-all duration-150 w-full h-min-max border-0 bg-secondary focus:border-tertiary focus:border-1 placeholder-lightText/40",
-              errors["query"] ? "rounded-br-none" : "",
+              errors["query"] ? "rounded-br-none" : ""
             )}
             placeholder={"Monday left me broken"}
           />

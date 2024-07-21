@@ -5,18 +5,18 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string;
   children: React.ReactNode;
 }
-const Card = (props: CardProps) => {
+const Card = ({ title, children, ...rest }: CardProps) => {
   return (
-    <div className={"flex flex-col items-center"}>
+    <div className={"flex flex-col items-center"} {...rest}>
       <div>
-        {props.title && <h3 className={"text-xl pt-8"}>{props.title}</h3>}
+        {title && <h3 className={"text-xl"}>{title}</h3>}
         <div
           className={classNames(
             "bg-primary rounded-2xl min-w-[300px] max-w-[500px] p-3",
-            props.title ? "rounded-tl-none" : ""
+            title ? "rounded-tl-none" : ""
           )}
         >
-          {props.children}
+          {children}
         </div>
       </div>
     </div>
