@@ -1,27 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { apiSlice } from "./apiSlice";
 import authReducer from "./auth/authSlice";
-import spotifyReducer from "./spotify/spotifySlice";
 import partyReducer from "./party/partySlice";
-import { authApi } from "./auth/authApiSlice";
-import { spotifyApi } from "./spotify/spotifyApiSlice";
-import { partyApi } from "./party/partyApiSlice";
+import spotifyReducer from "./spotify/spotifySlice";
 
 export const store = configureStore({
   reducer: {
+    [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authReducer,
-    spotify: spotifyReducer,
     party: partyReducer,
-    [authApi.reducerPath]: authApi.reducer,
-    [spotifyApi.reducerPath]: spotifyApi.reducer,
-    [partyApi.reducerPath]: partyApi.reducer,
+    spotify: spotifyReducer
   },
-
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
-      authApi.middleware,
-      spotifyApi.middleware,
-      partyApi.middleware
-    ),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
+  devTools: process.env.NODE_ENV !== "production",
 });
 
 export type RootState = ReturnType<typeof store.getState>;

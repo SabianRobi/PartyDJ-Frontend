@@ -1,23 +1,18 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ISpotifyLoginUriResponse, ISpotifyTokenResponse } from "#/redux/types";
 import { setSpotifyToken } from "./spotifySlice";
+import { apiSlice } from "../apiSlice";
 
-export const spotifyApi = createApi({
-  reducerPath: "spotifyApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/api/v1/platforms/spotify",
-    credentials: "include",
-  }),
+export const spotifyApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getSpotifyAuthUrl: builder.query<ISpotifyLoginUriResponse, null>({
       query: () => ({
-        url: "/login",
+        url: "/platforms/spotify/login",
       }),
     }),
 
     getToken: builder.query<ISpotifyTokenResponse, void>({
       query: () => ({
-        url: `/token`,
+        url: `/platforms/spotify/token`,
       }),
       onQueryStarted(_, { dispatch, queryFulfilled }) {
         queryFulfilled.then((response) => {
@@ -38,12 +33,12 @@ export const spotifyApi = createApi({
       { code: string; state: string }
     >({
       query: ({ code, state }) => ({
-        url: `/callback?code=${code}&state=${state}`,
+        url: `/platforms/spotify/callback?code=${code}&state=${state}`,
       }),
     }),
     refreshToken: builder.mutation<ISpotifyTokenResponse, void>({
       query: () => ({
-        url: `/token`,
+        url: `/platforms/spotify/token`,
         method: "PATCH",
       }),
       onQueryStarted(_, { dispatch, queryFulfilled }) {

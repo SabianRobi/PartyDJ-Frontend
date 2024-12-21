@@ -1,4 +1,3 @@
-import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
 import { GetPartyRequest, IPartyResponse } from "#/redux/types";
 import { ICreatePartyFormInput } from "#/pages/party/Create";
 import { IJoinPartyFormInput } from "#/pages/party/Join";
@@ -18,27 +17,13 @@ import {
   SetPlaybackDeviceIdRequest,
 } from "./types";
 import { EPlatformType } from "#/pages/party/components/TrackCard";
+import { apiSlice } from "../apiSlice";
 
-export const partyApi = createApi({
-  reducerPath: "partyApi",
-  baseQuery: retry(
-    fetchBaseQuery({
-      baseUrl: "http://localhost:8080/api/v1/party",
-      credentials: "include",
-    }),
-    {
-      maxRetries: 60, // Retry for 10 minutes (60 * 10 seconds)
-      backoff: () => {
-        return new Promise((resolve) => {
-          setTimeout(resolve, 10000); // Retry every 10 seconds
-        });
-      },
-    }
-  ),
+export const partyApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createParty: builder.mutation<IPartyResponse, ICreatePartyFormInput>({
       query: (data) => ({
-        url: "",
+        url: "/party",
         method: "POST",
         body: data,
       }),
@@ -46,14 +31,14 @@ export const partyApi = createApi({
     }),
     joinParty: builder.mutation<IPartyResponse, IJoinPartyFormInput>({
       query: (data) => ({
-        url: `/${data.name}/join`,
+        url: `/party/${data.name}/join`,
         method: "POST",
         body: data,
       }),
       extraOptions: { maxRetries: 0 },
     }),
     getPartyByName: builder.query<IPartyResponse, GetPartyRequest>({
-      query: (data) => `/${data.name}`,
+      query: (data) => `/party/${data.name}`,
       onQueryStarted({ currentUser }, { dispatch, queryFulfilled }) {
         queryFulfilled.then((response) => {
           if (response.data) {
@@ -67,7 +52,7 @@ export const partyApi = createApi({
     }),
     leaveParty: builder.mutation<IPartyResponse, string>({
       query: (partyName) => ({
-        url: `/${partyName}/leave`,
+        url: `/party/${partyName}/leave`,
         method: "POST",
       }),
       onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -79,7 +64,7 @@ export const partyApi = createApi({
     }),
     deleteParty: builder.mutation<IPartyResponse, string>({
       query: (partyName) => ({
-        url: `/${partyName}`,
+        url: `/party/${partyName}`,
         method: "DELETE",
       }),
       onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -94,7 +79,7 @@ export const partyApi = createApi({
       SearchTrackRequest
     >({
       query: ({ partyName, query, platforms }) => ({
-        url: `/${partyName}/search`,
+        url: `/party/${partyName}/search`,
         params: {
           query: query,
           platforms: platforms,
@@ -122,7 +107,7 @@ export const partyApi = createApi({
         };
 
         return {
-          url: `/${request.partyName}/tracks`,
+          url: `/party/${request.partyName}/tracks`,
           method: "POST",
           body: data,
           headers: {
@@ -133,7 +118,7 @@ export const partyApi = createApi({
       extraOptions: { maxRetries: 0 },
     }),
     getTracksInQueue: builder.query<ITrackInQueue[], GetTracksInQueueRequest>({
-      query: (partyName) => `/${partyName}/tracks`,
+      query: (partyName) => `/party/${partyName}/tracks`,
       transformResponse(response: ITrackInQueueResponse[]) {
         return response.map((track) => ({
           ...track,
@@ -146,7 +131,7 @@ export const partyApi = createApi({
       extraOptions: { maxRetries: 0 },
     }),
     getPlayedTracks: builder.query<IPlayedTrack[], GetPlayedTracksRequest>({
-      query: (partyName) => `/${partyName}/tracks/previous`,
+      query: (partyName) => `/party/${partyName}/tracks/previous`,
       transformResponse(response: IPlayedTrackPreResponse[]) {
         return response
           .map((track) => ({
@@ -174,7 +159,7 @@ export const partyApi = createApi({
         };
 
         return {
-          url: `/${partyName}/spotifyDeviceId`,
+          url: `/party/${partyName}/spotifyDeviceId`,
           method: "POST",
           body: data,
         };
@@ -184,7 +169,7 @@ export const partyApi = createApi({
 
     skipTrack: builder.mutation<IPartyResponse, PlayNextTrackRequest>({
       query: (partyName) => ({
-        url: `/${partyName}/tracks/playNext`,
+        url: `/party/${partyName}/tracks/playNext`,
         method: "POST",
       }),
     }),

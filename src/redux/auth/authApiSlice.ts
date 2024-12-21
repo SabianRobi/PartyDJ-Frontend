@@ -1,4 +1,3 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RegisterData } from "#/pages/auth/Register";
 import { IUserResponse } from "#/redux/types";
 import { LoginData } from "#/pages/auth/Login";
@@ -7,14 +6,10 @@ import {
   UpdateUserDetailsData,
   UpdateUserPasswordData,
 } from "#/pages/user/modalContents/ModalContent";
+import { apiSlice } from "#/redux/apiSlice";
 import { setUser } from "./authSlice";
 
-export const authApi = createApi({
-  reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/api/v1",
-    credentials: "include",
-  }),
+export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     register: builder.mutation<IUserResponse, RegisterData>({
       query: (data) => ({
