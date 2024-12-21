@@ -8,7 +8,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 // import { setUser, clearUser } from "#/redux/auth/authSlice";
 // import type { RootState } from "#/redux/store";
-// import { IUser } from "./types";
+// import { User } from "./types";
 
 // const mutex = new Mutex();
 
@@ -43,7 +43,7 @@ const baseQuery = fetchBaseQuery({
 //         // Set credentials & try again the request
 //         if (refreshResult?.data) {
 //           const user = (api.getState() as RootState).auth.user;
-//           api.dispatch(setUser(user as IUser));
+//           api.dispatch(setUser(user as User));
 
 //           // Retry the original query with new access token
 //           result = await baseQuery(args, api, extraOptions);

@@ -2,7 +2,7 @@ import MyForm from "#/components/form/MyForm";
 import Field from "#/components/form/Field";
 import { Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IPartyResponse } from "#/redux/types";
+import { PartyResponse } from "#/redux/types";
 import { errorToast, successToast } from "#/components/Toasts";
 import { setParty } from "#/redux/party/partySlice";
 import { useJoinPartyMutation } from "#/redux/party/partyApiSlice";
@@ -32,7 +32,7 @@ const Join = () => {
   const onSubmit: SubmitHandler<IJoinPartyFormInput> = (data) => {
     doJoinParty(data)
       .unwrap()
-      .then((data: IPartyResponse) => {
+      .then((data: PartyResponse) => {
         console.log("Successfully joined party!");
         successToast("Successfully joined party!");
 

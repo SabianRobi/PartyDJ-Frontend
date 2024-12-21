@@ -1,36 +1,42 @@
 import { EPlatformType } from "#/pages/party/components/TrackCard";
 
-export interface ITrack {
+// ##################
+// ----- MODELS -----
+// ##################
+
+export type Track = {
   title: string;
   coverUri: string;
-  artists: IArtistResponse[];
+  artists: ArtistResponse[];
   length: number;
   platformType: EPlatformType;
 }
 
-export interface ITrackInQueue extends ITrack {
+export type TrackInQueue = Track & {
   id: number;
   addedBy: {
     username: string;
   };
 }
 
-export interface IPlayedTrack extends ITrack {
+export type PlayedTrack = Track & {
   endedAt: number;
   addedBy: {
     username: string;
   };
 }
 
-/* --- --- --- Requests --- --- --- */
+// ####################
+// ----- REQUESTS -----
+// ####################
 
-export interface SearchTrackRequest {
+export type SearchTrackRequest = {
   partyName: string;
   query: string;
   platforms: EPlatformType[];
 }
 
-export interface IAddTrackToQueueRequest {
+export type AddTrackToQueueRequest = {
   partyName: string;
   track: {
     uri: string;
@@ -46,30 +52,31 @@ export type SetPlaybackDeviceIdRequest = {
 };
 export type GetPlayedTracksRequest = string;
 
-/* --- --- --- Responses --- --- --- */
+// #####################
+// ----- RESPONSES -----
+// #####################
 
-export interface ITrackSearchResultResponse extends ITrack {
+export type TrackSearchResultResponse = Track & {
   uri: string;
 }
 
-export type ITrackSearchResultPreResponse = Omit<
-  ITrackSearchResultResponse,
+export type TrackSearchResultPreResponse = Omit<
+  TrackSearchResultResponse,
   "platformType"
 > & {
   platformType: string;
 };
 
-export type IArtistResponse = {
+export type ArtistResponse = {
   name: string;
 };
 
-export interface ITrackInQueueResponse
-  extends Omit<ITrackInQueue, "platformType"> {
+export type TrackInQueueResponse = Omit<TrackInQueue, "platformType"> & {
   platformType: string;
 }
 
-export type IPlayedTrackPreResponse = Omit<
-  IPlayedTrack,
+export type PlayedTrackPreResponse = Omit<
+  PlayedTrack,
   "platformType" | "endedAt"
 > & {
   platformType: string; // "SPOTIFY" | "YOUTUBE"

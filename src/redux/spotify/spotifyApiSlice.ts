@@ -1,16 +1,16 @@
-import { ISpotifyLoginUriResponse, ISpotifyTokenResponse } from "#/redux/types";
+import { SpotifyLoginUriResponse, SpotifyTokenResponse } from "#/redux/types";
 import { setSpotifyToken } from "./spotifySlice";
 import { apiSlice } from "../apiSlice";
 
 export const spotifyApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getSpotifyAuthUrl: builder.query<ISpotifyLoginUriResponse, null>({
+    getSpotifyAuthUrl: builder.query<SpotifyLoginUriResponse, null>({
       query: () => ({
         url: "/platforms/spotify/login",
       }),
     }),
 
-    getToken: builder.query<ISpotifyTokenResponse, void>({
+    getToken: builder.query<SpotifyTokenResponse, void>({
       query: () => ({
         url: `/platforms/spotify/token`,
       }),
@@ -29,14 +29,14 @@ export const spotifyApi = apiSlice.injectEndpoints({
 
     // TODO: Make it a POST request in backend
     setSpotifyTokens: builder.query<
-      ISpotifyTokenResponse,
+      SpotifyTokenResponse,
       { code: string; state: string }
     >({
       query: ({ code, state }) => ({
         url: `/platforms/spotify/callback?code=${code}&state=${state}`,
       }),
     }),
-    refreshToken: builder.mutation<ISpotifyTokenResponse, void>({
+    refreshToken: builder.mutation<SpotifyTokenResponse, void>({
       query: () => ({
         url: `/platforms/spotify/token`,
         method: "PATCH",

@@ -1,17 +1,17 @@
-import { GetPartyRequest, IPartyResponse } from "#/redux/types";
+import { GetPartyRequest, PartyResponse } from "#/redux/types";
 import { ICreatePartyFormInput } from "#/pages/party/Create";
 import { IJoinPartyFormInput } from "#/pages/party/Join";
 import { clearParty, setParty } from "./partySlice";
 import {
   GetPlayedTracksRequest,
   GetTracksInQueueRequest,
-  IAddTrackToQueueRequest,
-  IPlayedTrack,
-  IPlayedTrackPreResponse,
-  ITrackInQueue,
-  ITrackInQueueResponse,
-  ITrackSearchResultPreResponse,
-  ITrackSearchResultResponse,
+  AddTrackToQueueRequest,
+  PlayedTrack,
+  PlayedTrackPreResponse,
+  TrackInQueue,
+  TrackInQueueResponse,
+  TrackSearchResultPreResponse,
+  TrackSearchResultResponse,
   PlayNextTrackRequest,
   SearchTrackRequest,
   SetPlaybackDeviceIdRequest,
@@ -21,7 +21,7 @@ import { apiSlice } from "../apiSlice";
 
 export const partyApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    createParty: builder.mutation<IPartyResponse, ICreatePartyFormInput>({
+    createParty: builder.mutation<PartyResponse, ICreatePartyFormInput>({
       query: (data) => ({
         url: "/party",
         method: "POST",
@@ -29,7 +29,7 @@ export const partyApi = apiSlice.injectEndpoints({
       }),
       extraOptions: { maxRetries: 0 },
     }),
-    joinParty: builder.mutation<IPartyResponse, IJoinPartyFormInput>({
+    joinParty: builder.mutation<PartyResponse, IJoinPartyFormInput>({
       query: (data) => ({
         url: `/party/${data.name}/join`,
         method: "POST",
@@ -37,7 +37,7 @@ export const partyApi = apiSlice.injectEndpoints({
       }),
       extraOptions: { maxRetries: 0 },
     }),
-    getPartyByName: builder.query<IPartyResponse, GetPartyRequest>({
+    getPartyByName: builder.query<PartyResponse, GetPartyRequest>({
       query: (data) => `/party/${data.name}`,
       onQueryStarted({ currentUser }, { dispatch, queryFulfilled }) {
         queryFulfilled.then((response) => {
@@ -50,7 +50,7 @@ export const partyApi = apiSlice.injectEndpoints({
       },
       extraOptions: { maxRetries: 0 },
     }),
-    leaveParty: builder.mutation<IPartyResponse, string>({
+    leaveParty: builder.mutation<PartyResponse, string>({
       query: (partyName) => ({
         url: `/party/${partyName}/leave`,
         method: "POST",
@@ -62,7 +62,7 @@ export const partyApi = apiSlice.injectEndpoints({
       },
       extraOptions: { maxRetries: 0 },
     }),
-    deleteParty: builder.mutation<IPartyResponse, string>({
+    deleteParty: builder.mutation<PartyResponse, string>({
       query: (partyName) => ({
         url: `/party/${partyName}`,
         method: "DELETE",
@@ -75,7 +75,7 @@ export const partyApi = apiSlice.injectEndpoints({
       extraOptions: { maxRetries: 0 },
     }),
     searchTracks: builder.query<
-      ITrackSearchResultResponse[],
+      TrackSearchResultResponse[],
       SearchTrackRequest
     >({
       query: ({ partyName, query, platforms }) => ({
@@ -85,7 +85,7 @@ export const partyApi = apiSlice.injectEndpoints({
           platforms: platforms,
         },
       }),
-      transformResponse(response: ITrackSearchResultPreResponse[]) {
+      transformResponse(response: TrackSearchResultPreResponse[]) {
         return response.map((track) => ({
           ...track,
           platformType:
@@ -96,7 +96,7 @@ export const partyApi = apiSlice.injectEndpoints({
       },
       extraOptions: { maxRetries: 0 },
     }),
-    addTrackToQueue: builder.mutation<IPartyResponse, IAddTrackToQueueRequest>({
+    addTrackToQueue: builder.mutation<PartyResponse, AddTrackToQueueRequest>({
       query: (request) => {
         const data = {
           uri: request.track.uri,
@@ -117,9 +117,9 @@ export const partyApi = apiSlice.injectEndpoints({
       },
       extraOptions: { maxRetries: 0 },
     }),
-    getTracksInQueue: builder.query<ITrackInQueue[], GetTracksInQueueRequest>({
+    getTracksInQueue: builder.query<TrackInQueue[], GetTracksInQueueRequest>({
       query: (partyName) => `/party/${partyName}/tracks`,
-      transformResponse(response: ITrackInQueueResponse[]) {
+      transformResponse(response: TrackInQueueResponse[]) {
         return response.map((track) => ({
           ...track,
           platformType:
@@ -130,9 +130,9 @@ export const partyApi = apiSlice.injectEndpoints({
       },
       extraOptions: { maxRetries: 0 },
     }),
-    getPlayedTracks: builder.query<IPlayedTrack[], GetPlayedTracksRequest>({
+    getPlayedTracks: builder.query<PlayedTrack[], GetPlayedTracksRequest>({
       query: (partyName) => `/party/${partyName}/tracks/previous`,
-      transformResponse(response: IPlayedTrackPreResponse[]) {
+      transformResponse(response: PlayedTrackPreResponse[]) {
         return response
           .map((track) => ({
             ...track,
@@ -150,7 +150,7 @@ export const partyApi = apiSlice.injectEndpoints({
       extraOptions: { maxRetries: 0 },
     }),
     setPlaybackDevice: builder.mutation<
-      IPartyResponse,
+      PartyResponse,
       SetPlaybackDeviceIdRequest
     >({
       query: ({ partyName, deviceId }) => {
@@ -167,7 +167,7 @@ export const partyApi = apiSlice.injectEndpoints({
       extraOptions: { maxRetries: 0 },
     }),
 
-    skipTrack: builder.mutation<IPartyResponse, PlayNextTrackRequest>({
+    skipTrack: builder.mutation<PartyResponse, PlayNextTrackRequest>({
       query: (partyName) => ({
         url: `/party/${partyName}/tracks/playNext`,
         method: "POST",

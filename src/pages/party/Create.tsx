@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useCreatePartyMutation } from "#/redux/party/partyApiSlice";
 import { errorToast, successToast } from "#/components/Toasts";
-import { IPartyResponse } from "#/redux/types";
+import { PartyResponse } from "#/redux/types";
 import {
   selectCurrentUser,
   useAppDispatch,
@@ -41,7 +41,7 @@ const Create = () => {
 
     doCreateParty(data)
       .unwrap()
-      .then((data: IPartyResponse) => {
+      .then((data: PartyResponse) => {
         console.log("Successfully created party!");
         successToast("Successfully created party!");
 

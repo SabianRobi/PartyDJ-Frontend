@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "#/redux/auth/authApiSlice";
 import { errorToast, successToast } from "#/components/Toasts";
-import { IGeneralErrorResponse, IUserResponse } from "#/redux/types";
+import { GeneralErrorResponse, UserResponse } from "#/redux/types";
 
 export interface RegisterData {
   email: string;
@@ -37,12 +37,12 @@ const Register = () => {
 
     doRegister(data)
       .unwrap()
-      .then((userInfo: IUserResponse) => {
+      .then((userInfo: UserResponse) => {
         console.log("Successfully registered!");
         successToast("Successfully registered!");
         navigate("/auth/login");
       })
-      .catch((error: IGeneralErrorResponse) => {
+      .catch((error: GeneralErrorResponse) => {
         console.error("Failed to register: ", error);
         errorToast("Register failed!");
 

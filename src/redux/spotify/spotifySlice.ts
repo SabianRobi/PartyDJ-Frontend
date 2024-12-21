@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ISpotify, ISpotifyState } from "#/redux/types";
+import { Spotify, SpotifyState } from "#/redux/types";
 
-const initialState: ISpotifyState = {
+const initialState: SpotifyState = {
   spotify: null,
 };
 
@@ -9,7 +9,7 @@ export const spotifySlice = createSlice({
   name: "spotify",
   initialState,
   reducers: {
-    setSpotifyToken: (state, action: PayloadAction<ISpotify>) => {
+    setSpotifyToken: (state, action: PayloadAction<Spotify>) => {
       state.spotify = action.payload;
     },
     clearSpotifyTokens: (state) => {

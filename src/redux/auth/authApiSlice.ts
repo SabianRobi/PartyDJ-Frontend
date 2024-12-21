@@ -1,8 +1,8 @@
 import { RegisterData } from "#/pages/auth/Register";
-import { IUserResponse } from "#/redux/types";
+import { UserResponse } from "#/redux/types";
 import { LoginData } from "#/pages/auth/Login";
 import {
-  IDeleteUserData,
+  DeleteUserData,
   UpdateUserDetailsData,
   UpdateUserPasswordData,
 } from "#/pages/user/modalContents/ModalContent";
@@ -11,14 +11,14 @@ import { setUser } from "./authSlice";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    register: builder.mutation<IUserResponse, RegisterData>({
+    register: builder.mutation<UserResponse, RegisterData>({
       query: (data) => ({
         url: "/user",
         method: "POST",
         body: data,
       }),
     }),
-    login: builder.mutation<IUserResponse, LoginData>({
+    login: builder.mutation<UserResponse, LoginData>({
       query: (data) => {
         const bodyFormData = new FormData();
         bodyFormData.append("username", data.username);
@@ -43,12 +43,12 @@ export const authApi = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
-    getUserByUsername: builder.query<IUserResponse, string>({
+    getUserByUsername: builder.query<UserResponse, string>({
       query: (username) => ({
         url: `/user/${username}`,
       }),
     }),
-    updateUserDetails: builder.mutation<IUserResponse, UpdateUserDetailsData>({
+    updateUserDetails: builder.mutation<UserResponse, UpdateUserDetailsData>({
       query: ({ currentUsername, data }) => ({
         url: `/user/${currentUsername}`,
         method: "PATCH",
@@ -61,7 +61,7 @@ export const authApi = apiSlice.injectEndpoints({
         });
       },
     }),
-    updateUserPassword: builder.mutation<IUserResponse, UpdateUserPasswordData>(
+    updateUserPassword: builder.mutation<UserResponse, UpdateUserPasswordData>(
       {
         query: ({ currentUsername, data }) => ({
           url: `/user/${currentUsername}/password`,
@@ -76,7 +76,7 @@ export const authApi = apiSlice.injectEndpoints({
         },
       }
     ),
-    deleteUser: builder.mutation<IUserResponse, IDeleteUserData>({
+    deleteUser: builder.mutation<UserResponse, DeleteUserData>({
       query: ({ username, data }) => ({
         url: `/user/${username}`,
         method: "DELETE",

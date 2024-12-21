@@ -1,6 +1,6 @@
 // for Redux
 
-export interface IUser {
+export type User = {
   id: number;
   email: string;
   username: string;
@@ -8,20 +8,20 @@ export interface IUser {
   partyName: string;
 }
 
-export interface IUserState {
-  user: IUser | null;
+export type UserState = {
+  user: User | null;
 }
 
-export interface ISpotify {
+export type Spotify = {
   token: string;
 }
 
-export interface ISpotifyState {
-  spotify: ISpotify | null;
+export type SpotifyState = {
+  spotify: Spotify | null;
 }
 
-export interface IPartyState {
-  party: IPartyResponse | null;
+export type PartyState = {
+  party: PartyResponse | null;
   role: PartyRole | null;
 }
 
@@ -29,70 +29,66 @@ export type PartyRole = "CREATOR" | "PARTICIPANT";
 
 // Requests
 
-export interface IUpdateUserDetailsRequest {
+export type UpdateUserDetailsRequest = {
   email: string;
   username: string;
 }
 
-export interface IUpdateUserPasswordRequest {
+export type UpdateUserPasswordRequest = {
   currentPassword: string;
   password: string;
   confirmPassword: string;
 }
 
-export interface IPartyState {
-  party: IPartyResponse | null;
-}
-
-export interface GetPartyRequest {
+export type GetPartyRequest = {
   name: string;
-  currentUser: IUser;
+  currentUser: User;
 }
 
 // Backend responses
 
-export interface IUserResponse extends IUser {}
+export type UserResponse = User;
 
-export interface ISpotifyLoginUriResponse {
+export type SpotifyLoginUriResponse = {
   uri: string;
 }
 
-export interface ISpotifyTokenResponse {
+export type SpotifyTokenResponse = {
   token: string;
 }
 
-export interface IPartyResponse {
+export type PartyResponse = {
   id: number;
   name: string;
-  tracksInQueue: ITrackInQueueResponse[];
-  participants: IUserInPartyResponse[];
+  tracksInQueue: TrackInQueueResponse[];
+  participants: UserInPartyResponse[];
 }
 
-interface ITrackInQueueResponse {
+type TrackInQueueResponse = {
   id: number;
   title: string;
-  artists: IArtistResponse[];
+  artists: ArtistResponse[];
   coverUri: string;
   length: number;
   platformType: "SPOTIFY";
-  addedBy: IUserInPartyTrackInQueueResponse;
+  addedBy: UserInPartyTrackInQueueResponse;
 }
 
-interface IArtistResponse {
+type ArtistResponse = {
   name: string;
 }
 
-interface IUserInPartyTrackInQueueResponse {
+type UserInPartyTrackInQueueResponse = {
   username: string;
 }
 
-interface IUserInPartyResponse {
+type UserInPartyResponse = {
   id: number;
   username: string;
   partyRole: PartyRole;
 }
 
-export interface IGeneralErrorResponse {
+export type GeneralErrorResponse = {
   status: number;
   data: {
     timestamp: string;

@@ -2,7 +2,7 @@ import { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import TrackCard, { EPlatformType } from "./components/TrackCard";
-import { ITrackSearchResultResponse } from "#/redux/party/types";
+import { TrackSearchResultResponse } from "#/redux/party/types";
 import {
   useAddTrackToQueueMutation,
   useLazySearchTracksQuery,
@@ -28,7 +28,7 @@ export interface ISearchFormInput {
 
 const Party = () => {
   const [searchResults, setSearchResults] = useState<
-    ITrackSearchResultResponse[]
+    TrackSearchResultResponse[]
   >([]);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [doSearchTracks, { isLoading, isFetching }] =
@@ -64,7 +64,7 @@ const Party = () => {
       });
   };
 
-  const handleAddTrackToQueue = (searchResult: ITrackSearchResultResponse) => {
+  const handleAddTrackToQueue = (searchResult: TrackSearchResultResponse) => {
     doAddTrackToQueue({
       partyName: party!.name,
       track: { uri: searchResult.uri, platformType: searchResult.platformType },

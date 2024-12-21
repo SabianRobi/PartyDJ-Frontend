@@ -15,9 +15,9 @@ import {
   useAppSelector,
 } from "#/redux/hooks";
 import {
-  IGeneralErrorResponse,
-  IUpdateUserDetailsRequest,
-  IUpdateUserPasswordRequest,
+  GeneralErrorResponse,
+  UpdateUserDetailsRequest,
+  UpdateUserPasswordRequest,
 } from "#/redux/types";
 import { clearUser, setUser } from "#/redux/auth/authSlice";
 import { errorToast, successToast } from "#/components/Toasts";
@@ -47,12 +47,12 @@ type FormInputTypes =
 
 interface IUpdateUserDetails {
   currentUsername: string;
-  data: IUpdateUserDetailsRequest;
+  data: UpdateUserDetailsRequest;
 }
 
 interface IUpdateUserPassword {
   currentUsername: string;
-  data: IUpdateUserPasswordRequest;
+  data: UpdateUserPasswordRequest;
 }
 
 // Used by RTK Query
@@ -68,7 +68,7 @@ export type UpdateUserPasswordData = {
 };
 
 // Used by RTK Query
-export type IDeleteUserData = {
+export type DeleteUserData = {
   username: string;
   data: DeleteAccountInput;
 };
@@ -111,7 +111,7 @@ const ModalContent = (props: ModalContentProps) => {
         console.log("Successfully edited password!");
         successToast(`Successfully edited password!`);
       })
-      .catch((error: IGeneralErrorResponse) => {
+      .catch((error: GeneralErrorResponse) => {
         if (error.data.errors.general) {
           methods.setError("currentPassword", {
             type: "custom",
@@ -183,7 +183,7 @@ const ModalContent = (props: ModalContentProps) => {
   const handleDeleteAccountSubmit: SubmitHandler<DeleteAccountInput> = (
     data: DeleteAccountInput
   ) => {
-    const toSubmit: IDeleteUserData = {
+    const toSubmit: DeleteUserData = {
       username: user?.username ?? "",
       data: data,
     };

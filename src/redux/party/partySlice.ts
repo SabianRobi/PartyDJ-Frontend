@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IPartyResponse, IPartyState, IUser } from "#/redux/types";
+import { PartyResponse, PartyState, User } from "#/redux/types";
 
-const initialState: IPartyState = {
+const initialState: PartyState = {
   party: null,
   role: null,
 };
@@ -12,7 +12,7 @@ export const partySlice = createSlice({
   reducers: {
     setParty: (
       state,
-      action: PayloadAction<{ party: IPartyResponse; currentUser: IUser }>
+      action: PayloadAction<{ party: PartyResponse; currentUser: User }>
     ) => {
       state.party = action.payload.party;
 
