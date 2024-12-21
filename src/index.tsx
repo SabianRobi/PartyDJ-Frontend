@@ -7,26 +7,26 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 
 // Pages
-import Login from "./views/auth/Login";
-import Register from "./views/auth/Register";
-import GeneralError from "./views/error/GeneralError";
-import Layout from "./views/layout/Layout";
-import MainPage from "./views/mainPage/MainPage";
-import Join from "./views/party/Join";
-import Create from "./views/party/Create";
-import UserSettings from "./views/user/UserSettings";
-import Party from "./views/party/Party";
-import PartyHistory from "./views/party/PartyHistory";
-import PartyQueue from "./views/party/PartyQueue";
-import SpotifyCallback from "./views/auth/SpotifyCallback";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import GeneralError from "./pages/error/GeneralError";
+import Layout from "./pages/layout/Layout";
+import MainPage from "./pages/mainPage/MainPage";
+import Join from "./pages/party/Join";
+import Create from "./pages/party/Create";
+import UserSettings from "./pages/user/UserSettings";
+import Party from "./pages/party/Party";
+import PartyHistory from "./pages/party/PartyHistory";
+import PartyQueue from "./pages/party/PartyQueue";
+import SpotifyCallback from "./pages/auth/SpotifyCallback";
 
 // Redux
-import { store } from "./store/store";
+import { store } from "./redux/store";
 
 // Styles
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
-import Auth from "./views/auth/Auth";
+import Auth from "./pages/auth/Auth";
 
 const router = createBrowserRouter([
   {
