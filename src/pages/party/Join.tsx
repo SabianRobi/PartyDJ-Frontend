@@ -1,17 +1,16 @@
-import * as React from "react";
-import MyForm from "../generalComponents/form/MyForm";
-import Field from "../generalComponents/form/Field";
+import MyForm from "#/components/form/MyForm";
+import Field from "#/components/form/Field";
 import { Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IPartyResponse } from "../../redux/types";
-import { errorToast, successToast } from "../generalComponents/Toasts";
-import { setParty } from "../../redux/party/partySlice";
-import { useJoinPartyMutation } from "../../redux/party/partyApiSlice";
+import { IPartyResponse } from "#/redux/types";
+import { errorToast, successToast } from "#/components/Toasts";
+import { setParty } from "#/redux/party/partySlice";
+import { useJoinPartyMutation } from "#/redux/party/partyApiSlice";
 import {
   selectCurrentUser,
   useAppDispatch,
   useAppSelector,
-} from "../../redux/hooks";
+} from "#/redux/hooks";
 
 export interface IJoinPartyFormInput {
   name: string;

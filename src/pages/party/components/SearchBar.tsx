@@ -1,4 +1,3 @@
-import React from "react";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,9 +6,10 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { useFormContext } from "react-hook-form";
+import { Dispatch, SetStateAction } from "react";
 
 type SearchBarProps = {
-  setIsSettingsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsSettingsModalOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 const SearchBar = ({ setIsSettingsModalOpen }: SearchBarProps) => {

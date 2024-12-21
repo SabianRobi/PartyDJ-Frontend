@@ -1,8 +1,8 @@
-import CardRow from "../../user/card/CardRow";
-import Card from "../../user/card/Card";
-import ToggleSwitch from "../../generalComponents/form/ToggleSwitch";
+import CardRow from "#/pages/user/card/CardRow";
+import Card from "#/pages/user/card/Card";
+import ToggleSwitch from "#/components/form/ToggleSwitch";
 import { useFormContext } from "react-hook-form";
-import { selectCurrentUser, useAppSelector } from "../../../redux/hooks";
+import { selectCurrentUser, useAppSelector } from "#/redux/hooks";
 
 const SearchSettingsModalContent = () => {
   const { register, setValue, getValues, watch } = useFormContext(); // retrieve all hook methods

@@ -1,9 +1,9 @@
-import React from "react";
+import { ReactNode } from "react";
 
 type CardRowProps = {
   name: string;
-  value?: React.ReactNode;
-  icon?: React.ReactNode;
+  value?: ReactNode;
+  icon?: ReactNode;
   onIconClick?: () => void;
 };
 const CardRow = (props: CardRowProps) => {

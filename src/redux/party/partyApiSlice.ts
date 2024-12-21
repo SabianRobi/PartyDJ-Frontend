@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
-import { GetPartyRequest, IPartyResponse } from "../types";
-import { ICreatePartyFormInput } from "../../pages/party/Create";
-import { IJoinPartyFormInput } from "../../pages/party/Join";
+import { GetPartyRequest, IPartyResponse } from "#/redux/types";
+import { ICreatePartyFormInput } from "#/pages/party/Create";
+import { IJoinPartyFormInput } from "#/pages/party/Join";
 import { clearParty, setParty } from "./partySlice";
 import {
   GetPlayedTracksRequest,
@@ -17,7 +17,7 @@ import {
   SearchTrackRequest,
   SetPlaybackDeviceIdRequest,
 } from "./types";
-import { EPlatformType } from "../../pages/party/components/TrackCard";
+import { EPlatformType } from "#/pages/party/components/TrackCard";
 
 export const partyApi = createApi({
   reducerPath: "partyApi",

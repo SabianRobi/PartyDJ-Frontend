@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ISpotify, ISpotifyState } from "../types";
+import { ISpotify, ISpotifyState } from "#/redux/types";
 
 const initialState: ISpotifyState = {
   spotify: null,

@@ -1,29 +1,29 @@
-import React from "react";
 import Card from "./card/Card";
 import CardRow from "./card/CardRow";
 import { faLink, faLinkSlash, faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Modal from "../generalComponents/modal/Modal";
+import Modal from "#/components/modal/Modal";
 import EditEmailModalContent from "./modalContents/EditEmailModalContent";
 import ModalContent, { FormInputEnum } from "./modalContents/ModalContent";
 import EditPasswordModalContent from "./modalContents/EditPasswordModalContent";
 import EditUsernameModalContent from "./modalContents/EditUsernameModalContent";
 import { Button } from "flowbite-react";
 import DeleteAccountModalContent from "./modalContents/DeleteAccountModalContent";
-import { selectCurrentUser, useAppSelector } from "../../redux/hooks";
-import { useLazyGetSpotifyAuthUrlQuery } from "../../redux/spotify/spotifyApiSlice";
-import { errorToast } from "../generalComponents/Toasts";
+import { selectCurrentUser, useAppSelector } from "#/redux/hooks";
+import { useLazyGetSpotifyAuthUrlQuery } from "#/redux/spotify/spotifyApiSlice";
+import { errorToast } from "#/components/Toasts";
+import { ReactNode, useState } from "react";
 
 type TModalContent = {
   title: string;
-  body: React.ReactNode;
+  body: ReactNode;
 };
 
 // export type UpdateUserData = UpdateUsernameData | UpdateEmailData;
 
 const UserSettings = () => {
-  const [showModal, setShowModal] = React.useState(false);
-  const [modalContent, setModalContent] = React.useState<TModalContent>({
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState<TModalContent>({
     title: "Initial title",
     body: <></>,
   });

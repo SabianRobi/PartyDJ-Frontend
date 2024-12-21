@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { selectCurrentUser, useAppSelector } from "../../redux/hooks";
-import { useLazyGetPartyByNameQuery } from "../../redux/party/partyApiSlice";
-import { useLazyGetTokenQuery } from "../../redux/spotify/spotifyApiSlice";
+import { ReactNode, useEffect } from "react";
+import { selectCurrentUser, useAppSelector } from "#/redux/hooks";
+import { useLazyGetPartyByNameQuery } from "#/redux/party/partyApiSlice";
+import { useLazyGetTokenQuery } from "#/redux/spotify/spotifyApiSlice";
 
 type AuthProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 const Auth = ({ children }: AuthProps) => {
   const user = useAppSelector(selectCurrentUser);

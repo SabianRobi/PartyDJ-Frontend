@@ -1,10 +1,9 @@
-import * as React from "react";
 import { Outlet, useLocation, useNavigation } from "react-router-dom";
 import Navbar from "./navbar/Navbar";
 import classNames from "classnames";
-import Toasts from "../generalComponents/Toasts";
-import SpotifyPlayerOverlay from "../party/components/SpotifyPlayerOverlay";
-import { selectPartyRole, useAppSelector } from "../../redux/hooks";
+import Toasts from "#/components/Toasts";
+import SpotifyPlayerOverlay from "#/pages/party/components/SpotifyPlayerOverlay";
+import { selectPartyRole, useAppSelector } from "#/redux/hooks";
 
 const Layout = () => {
   const navigation = useNavigation();

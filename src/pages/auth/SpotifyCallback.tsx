@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { useAppDispatch } from "../../redux/hooks";
-import { useSetSpotifyTokensQuery } from "../../redux/spotify/spotifyApiSlice";
+import { useEffect } from "react";
+import { useAppDispatch } from "#/redux/hooks";
+import { useSetSpotifyTokensQuery } from "#/redux/spotify/spotifyApiSlice";
 import { useLocation, useNavigate } from "react-router-dom";
-import { setSpotifyToken } from "../../redux/spotify/spotifySlice";
-import { errorToast, successToast } from "../generalComponents/Toasts";
+import { setSpotifyToken } from "#/redux/spotify/spotifySlice";
+import { errorToast, successToast } from "#/components/Toasts";
 
 const SpotifyCallback = () => {
   const location = useLocation();

@@ -1,6 +1,5 @@
-import React from "react";
 import { useFormContext } from "react-hook-form";
-import Field from "../../generalComponents/form/Field";
+import Field from "#/components/form/Field";
 
 export type EditPasswordInput = {
   currentPassword: string;

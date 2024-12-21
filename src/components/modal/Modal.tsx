@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import { Dispatch, ReactNode, RefObject, SetStateAction } from "react";
 import {
   CustomFlowbiteTheme,
   Flowbite,
@@ -9,8 +9,8 @@ type EditModalProps = {
   title: string;
   showModal: boolean;
   setShowModal: Dispatch<SetStateAction<boolean>>;
-  children: React.ReactNode;
-  initialFocus?: React.RefObject<HTMLInputElement>;
+  children: ReactNode;
+  initialFocus?: RefObject<HTMLInputElement>;
 };
 
 export const customTheme: CustomFlowbiteTheme = {

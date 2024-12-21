@@ -1,12 +1,11 @@
 // @flow
-import Field from "../generalComponents/form/Field";
-import MyForm from "../generalComponents/form/MyForm";
+import Field from "#/components/form/Field";
+import MyForm from "#/components/form/MyForm";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useRegisterMutation } from "../../redux/auth/authApiSlice";
-import React from "react";
-import { errorToast, successToast } from "../generalComponents/Toasts";
-import { IGeneralErrorResponse, IUserResponse } from "../../redux/types";
+import { useRegisterMutation } from "#/redux/auth/authApiSlice";
+import { errorToast, successToast } from "#/components/Toasts";
+import { IGeneralErrorResponse, IUserResponse } from "#/redux/types";
 
 export interface RegisterData {
   email: string;

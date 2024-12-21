@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { RegisterData } from "../../pages/auth/Register";
-import { IUserResponse } from "../types";
-import { LoginData } from "../../pages/auth/Login";
+import { RegisterData } from "#/pages/auth/Register";
+import { IUserResponse } from "#/redux/types";
+import { LoginData } from "#/pages/auth/Login";
 import {
   IDeleteUserData,
   UpdateUserDetailsData,
   UpdateUserPasswordData,
-} from "../../pages/user/modalContents/ModalContent";
+} from "#/pages/user/modalContents/ModalContent";
 import { setUser } from "./authSlice";
 
 export const authApi = createApi({

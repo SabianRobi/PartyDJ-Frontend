@@ -1,5 +1,4 @@
 // React
-import React from "react";
 import ReactDOM from "react-dom/client";
 
 // Router
@@ -10,8 +9,8 @@ import { Provider } from "react-redux";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import GeneralError from "./pages/error/GeneralError";
-import Layout from "./pages/layout/Layout";
-import MainPage from "./pages/mainPage/MainPage";
+import Layout from "./layout/Layout";
+import MainPage from "./pages/MainPage";
 import Join from "./pages/party/Join";
 import Create from "./pages/party/Create";
 import UserSettings from "./pages/user/UserSettings";
@@ -27,6 +26,7 @@ import { store } from "./redux/store";
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
 import Auth from "./pages/auth/Auth";
+import { StrictMode } from "react";
 
 const router = createBrowserRouter([
   {
@@ -125,11 +125,11 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+  <StrictMode>
     <Provider store={store}>
       <Auth>
         <RouterProvider router={router} />
       </Auth>
     </Provider>
-  </React.StrictMode>
+  </StrictMode>
 );

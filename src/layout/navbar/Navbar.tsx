@@ -15,16 +15,16 @@ import {
   selectPartyRole,
   useAppDispatch,
   useAppSelector,
-} from "../../../redux/hooks";
-import { useLogoutMutation } from "../../../redux/auth/authApiSlice";
-import { errorToast, successToast } from "../../generalComponents/Toasts";
-import { clearUser } from "../../../redux/auth/authSlice";
-import { clearParty } from "../../../redux/party/partySlice";
-import { clearSpotifyTokens } from "../../../redux/spotify/spotifySlice";
+} from "#/redux/hooks";
+import { useLogoutMutation } from "#/redux/auth/authApiSlice";
+import { errorToast, successToast } from "#/components/Toasts";
+import { clearUser } from "#/redux/auth/authSlice";
+import { clearParty } from "#/redux/party/partySlice";
+import { clearSpotifyTokens } from "#/redux/spotify/spotifySlice";
 import {
   useDeletePartyMutation,
   useLeavePartyMutation,
-} from "../../../redux/party/partyApiSlice";
+} from "#/redux/party/partyApiSlice";
 
 enum Status {
   LOGGED_OUT,

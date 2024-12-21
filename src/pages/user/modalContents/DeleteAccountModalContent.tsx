@@ -1,7 +1,6 @@
-import React from "react";
-import Field from "../../generalComponents/form/Field";
+import Field from "#/components/form/Field";
 import { useFormContext } from "react-hook-form";
-import Checkbox from "../../generalComponents/form/Checkbox";
+import Checkbox from "#/components/form/Checkbox";
 
 export type DeleteAccountInput = {
   confirmChoice: boolean;

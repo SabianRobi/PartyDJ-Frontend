@@ -1,7 +1,6 @@
-import React from "react";
 import TrackCard from "./components/TrackCard";
-import { useGetTracksInQueueQuery } from "../../redux/party/partyApiSlice";
-import { selectParty, useAppSelector } from "../../redux/hooks";
+import { useGetTracksInQueueQuery } from "#/redux/party/partyApiSlice";
+import { selectParty, useAppSelector } from "#/redux/hooks";
 import prettyMilliseconds from "pretty-ms";
 
 const PartyQueue = () => {

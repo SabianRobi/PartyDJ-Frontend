@@ -1,10 +1,10 @@
-import * as React from "react";
-import MyForm from "../generalComponents/form/MyForm";
-import Field from "../generalComponents/form/Field";
+import MyForm from "#/components/form/MyForm";
+import Field from "#/components/form/Field";
 import { Link, useNavigate } from "react-router-dom";
-import { useLoginMutation } from "../../redux/auth/authApiSlice";
+import { useLoginMutation } from "#/redux/auth/authApiSlice";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { errorToast, successToast } from "../generalComponents/Toasts";
+import { errorToast, successToast } from "#/components/Toasts";
+import { useEffect } from "react";
 
 export interface LoginData {
   username: string;
@@ -53,7 +53,7 @@ const Login = () => {
   };
 
   // Remove root error message on any input change
-  React.useEffect(() => {
+  useEffect(() => {
     const subscription = watch(() => clearErrors());
     return () => subscription.unsubscribe();
   }, [watch, clearErrors]);

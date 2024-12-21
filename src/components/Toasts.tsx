@@ -1,4 +1,3 @@
-import React from "react";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 
 export const successToast = (text: string) => {

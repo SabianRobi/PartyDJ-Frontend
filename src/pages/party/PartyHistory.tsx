@@ -1,7 +1,6 @@
-import React from "react";
 import TrackCard from "./components/TrackCard";
-import { selectParty, useAppSelector } from "../../redux/hooks";
-import { useGetPlayedTracksQuery } from "../../redux/party/partyApiSlice";
+import { selectParty, useAppSelector } from "#/redux/hooks";
+import { useGetPlayedTracksQuery } from "#/redux/party/partyApiSlice";
 import prettyMilliseconds from "pretty-ms";
 
 const PartyHistory = () => {

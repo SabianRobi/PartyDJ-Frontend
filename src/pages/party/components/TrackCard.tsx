@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCompactDisc } from "@fortawesome/free-solid-svg-icons";
 import { faSpotify, faYoutube } from "@fortawesome/free-brands-svg-icons";
@@ -26,10 +26,10 @@ const TrackCard = (props: SearchResultCardProps) => {
   const shouldArtistsMarqueePlay = props.artists.join(", ").length > 45;
 
   const [isTitleMarqueePlaying, setTitleMarqueePlaying] = useState(
-    shouldTitleMarqueePlay,
+    shouldTitleMarqueePlay
   );
   const [isArtistsMarqueePlaying, setArtistsMarqueePlaying] = useState(
-    shouldArtistsMarqueePlay,
+    shouldArtistsMarqueePlay
   );
 
   const handleTitleCycleComplete = async () => {
@@ -89,7 +89,7 @@ const TrackCard = (props: SearchResultCardProps) => {
     <button
       className={classNames(
         "bg-primary min-w-[300px] w-full max-w-[500px] h-[80px] rounded-xl flex flex-row relative",
-        getPlatformDropShadow(props.platformType),
+        getPlatformDropShadow(props.platformType)
       )}
       onClick={props.onClick}
       disabled={!props.onClick}
@@ -132,7 +132,7 @@ const TrackCard = (props: SearchResultCardProps) => {
               icon={getPlatformLogo(props.platformType)}
               className={classNames(
                 "text-[28px] pl-1.5 pb-1.5 p-1",
-                getPlatformLogoColor(props.platformType),
+                getPlatformLogoColor(props.platformType)
               )}
             />
           )}

@@ -1,4 +1,3 @@
-import React from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import FooterButtons from "./FooterButtons";
 import { EditUsernameInput } from "./EditUsernameModalContent";
@@ -9,27 +8,28 @@ import {
   useDeleteUserMutation,
   useUpdateUserDetailsMutation,
   useUpdateUserPasswordMutation,
-} from "../../../redux/auth/authApiSlice";
+} from "#/redux/auth/authApiSlice";
 import {
   selectCurrentUser,
   useAppDispatch,
   useAppSelector,
-} from "../../../redux/hooks";
+} from "#/redux/hooks";
 import {
   IGeneralErrorResponse,
   IUpdateUserDetailsRequest,
   IUpdateUserPasswordRequest,
-} from "../../../redux/types";
-import { clearUser, setUser } from "../../../redux/auth/authSlice";
-import { errorToast, successToast } from "../../generalComponents/Toasts";
+} from "#/redux/types";
+import { clearUser, setUser } from "#/redux/auth/authSlice";
+import { errorToast, successToast } from "#/components/Toasts";
 import { useNavigate } from "react-router-dom"; // TODO: make errors more visible
+import { ReactNode } from "react";
 
 // TODO: make errors more visible
 
 type ModalContentProps = {
   handleCloseModal: () => void;
   type: FormInputEnum;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export enum FormInputEnum {

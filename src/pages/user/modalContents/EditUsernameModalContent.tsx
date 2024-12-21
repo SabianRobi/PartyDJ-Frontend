@@ -1,7 +1,6 @@
-import React from "react";
-import Field from "../../generalComponents/form/Field";
+import Field from "#/components/form/Field";
 import { useFormContext } from "react-hook-form";
-import { selectCurrentUser, useAppSelector } from "../../../redux/hooks";
+import { selectCurrentUser, useAppSelector } from "#/redux/hooks";
 
 export type EditUsernameInput = {
   username: string;

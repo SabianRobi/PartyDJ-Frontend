@@ -1,9 +1,9 @@
-import React from "react";
 import classNames from "classnames";
+import { HTMLAttributes, ReactNode } from "react";
 
-interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface CardProps extends HTMLAttributes<HTMLDivElement> {
   title?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 const Card = ({ title, children, ...rest }: CardProps) => {
   return (

@@ -1,4 +1,4 @@
-import { EPlatformType } from "../../pages/party/components/TrackCard";
+import { EPlatformType } from "#/pages/party/components/TrackCard";
 
 export interface ITrack {
   title: string;

@@ -1,7 +1,6 @@
-// @flow
-import * as React from "react";
 import classNames from "classnames";
 import { Button } from "flowbite-react";
+import { ReactNode } from "react";
 import { SubmitHandler } from "react-hook-form";
 
 type MyFromProps = {
@@ -9,7 +8,7 @@ type MyFromProps = {
   children: JSX.Element;
   className?: string;
   submitText: string;
-  helper?: React.ReactNode;
+  helper?: ReactNode;
   handleSubmit: SubmitHandler<any>;
 };
 

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ISpotifyLoginUriResponse, ISpotifyTokenResponse } from "../types";
+import { ISpotifyLoginUriResponse, ISpotifyTokenResponse } from "#/redux/types";
 import { setSpotifyToken } from "./spotifySlice";
 
 export const spotifyApi = createApi({
@@ -25,7 +25,7 @@ export const spotifyApi = createApi({
             dispatch(
               setSpotifyToken({
                 token: response.data.token,
-              }),
+              })
             );
           }
         });
@@ -52,7 +52,7 @@ export const spotifyApi = createApi({
             dispatch(
               setSpotifyToken({
                 token: response.data.token,
-              }),
+              })
             );
           }
         });

@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import TrackCard, { EPlatformType } from "./components/TrackCard";
-import { ITrackSearchResultResponse } from "../../redux/party/types";
+import { ITrackSearchResultResponse } from "#/redux/party/types";
 import {
   useAddTrackToQueueMutation,
   useLazySearchTracksQuery,
-} from "../../redux/party/partyApiSlice";
-import { selectParty, useAppSelector } from "../../redux/hooks";
-import { errorToast, successToast } from "../generalComponents/Toasts";
-import Modal from "../generalComponents/modal/Modal";
+} from "#/redux/party/partyApiSlice";
+import { selectParty, useAppSelector } from "#/redux/hooks";
+import { errorToast, successToast } from "#/components/Toasts";
+import Modal from "#/components/modal/Modal";
 import SearchSettingsModalContent from "./modalContents/SearchSettingsModalContent";
 
 export interface ISearchFormInput {

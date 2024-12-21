@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IPartyResponse, IPartyState, IUser } from "../types";
+import { IPartyResponse, IPartyState, IUser } from "#/redux/types";
 
 const initialState: IPartyState = {
   party: null,
