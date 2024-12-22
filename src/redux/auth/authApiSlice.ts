@@ -43,6 +43,12 @@ export const authApi = apiSlice.injectEndpoints({
         method: "POST"
       })
     }),
+    //  TODO: Implement
+    getMe: builder.query<void, void>({
+      query: () => ({
+        url: "/me"
+      })
+    }),
     getUserByUsername: builder.query<UserResponse, string>({
       query: (username) => ({
         url: `/user/${username}`
@@ -88,6 +94,7 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useLogoutMutation,
+  useGetMeQuery,
   useUpdateUserDetailsMutation,
   useUpdateUserPasswordMutation,
   useDeleteUserMutation
