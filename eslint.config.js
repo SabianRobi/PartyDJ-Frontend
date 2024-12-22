@@ -33,10 +33,9 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
   rules: {
     ...jsxA11y.configs.recommended.rules,
     ...reactHooks.configs.recommended.rules,
-    // ...stylistic.configs.recommended.rules,
     ...reactRefresh.configs.recommended.rules,
 
-    // ? React rules
+    // React rules
     "react-hooks/rules-of-hooks": "error",
     "react/no-children-prop": [
       "warn",
@@ -49,6 +48,7 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
       { props: "never", children: "never", propElementValues: "always" },
     ],
     "react/button-has-type": ["error"],
+
     // Eslint rules
     "no-console": ["warn", { allow: ["warn", "error", "info"] }],
     "no-alert": "error",
@@ -70,6 +70,7 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
     "no-var": "error",
     "prefer-const": "error",
     "arrow-body-style": ["warn", "as-needed"],
+
     // Stylistic rules
     "@stylistic/quotes": ["error", "double", { avoidEscape: true }],
     "@stylistic/switch-colon-spacing": ["warn", { after: true, before: false }],
@@ -178,7 +179,8 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
         next: ["enum", "interface", "type"],
       },
     ],
-    // ? Typescript rules
+    
+    // Typescript rules
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/no-unused-vars": [
       "error",
