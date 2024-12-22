@@ -23,7 +23,7 @@ import SpotifyCallback from "./pages/auth/SpotifyCallback";
 import { store } from "./redux/store";
 
 // Styles
-import "./index.css";
+import "./main.css";
 import "react-toastify/dist/ReactToastify.css";
 import Auth from "./pages/auth/Auth";
 import { StrictMode } from "react";

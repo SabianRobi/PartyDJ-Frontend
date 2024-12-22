@@ -41,7 +41,7 @@ const Party = () => {
   const onSubmit: SubmitHandler<ISearchFormInput> = (data) => {
     console.log(data);
 
-    let platforms = [];
+    const platforms: EPlatformType[] = [];
     if (data.settings.spotify.enabled) {
       platforms.push(EPlatformType.SPOTIFY);
     }

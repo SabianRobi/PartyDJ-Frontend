@@ -1,4 +1,4 @@
-import SpotifyPlayer from "react-spotify-web-playback";
+import SpotifyPlayer, { CallbackState } from "react-spotify-web-playback";
 import {
   selectParty,
   selectSpotifyTokens,
@@ -17,7 +17,7 @@ const SpotifyPlayerOverlay = () => {
   const [doSetPlaybackDevice] = useSetPlaybackDeviceMutation();
   const [doSkipTrack] = useSkipTrackMutation();
 
-  const handlePlayerChange = (state: SpotifyPlayer.CallbackState) => {
+  const handlePlayerChange = (state: CallbackState) => {
     // Set the playback device id at backend (to play tracks in this player)
     if (state.type === "status_update" && state.status === "READY") {
       doSetPlaybackDevice({

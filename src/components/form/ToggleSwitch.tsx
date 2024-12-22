@@ -13,7 +13,7 @@ export const customTheme: CustomFlowbiteTheme = {
       base: "group flex rounded-lg focus:outline-none",
       active: {
         on: "cursor-pointer",
-        off: "cursor-not-allowed opacity-50",
+        off: "cursor-not-allowed opacity/50",
       },
       label:
         "ms-3 mt-0.5 text-start text-sm font-medium text-gray-900 dark:text-gray-300",

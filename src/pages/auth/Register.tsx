@@ -1,11 +1,10 @@
-// @flow
 import Field from "#/components/form/Field";
 import MyForm from "#/components/form/MyForm";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "#/redux/auth/authApiSlice";
 import { errorToast, successToast } from "#/components/Toasts";
-import { GeneralErrorResponse, UserResponse } from "#/redux/types";
+import { GeneralErrorResponse } from "#/redux/types";
 
 export interface RegisterData {
   email: string;
@@ -37,7 +36,7 @@ const Register = () => {
 
     doRegister(data)
       .unwrap()
-      .then((userInfo: UserResponse) => {
+      .then(() => {
         console.log("Successfully registered!");
         successToast("Successfully registered!");
         navigate("/auth/login");

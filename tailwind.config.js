@@ -1,12 +1,19 @@
 /** @type {import('tailwindcss').Config} */
+
+import flowbite from "flowbite-react/tailwind";
+import colors from "tailwindcss/colors";
+
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "node_modules/flowbite-react/lib/esm/**/*.js",
-  ],
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}", flowbite.content],
   theme: {
     extend: {
       colors: {
+        // v2 -> v3 migration
+        green: colors.emerald,
+        yellow: colors.amber,
+        purple: colors.violet,
+        gray: colors.neutral,
+        // Custom colors
         background: "#32404b",
         primary: "#012340",
         secondary: "#0367A6",
@@ -23,5 +30,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("flowbite/plugin")],
+  plugins: [flowbite.plugin()],
 };
