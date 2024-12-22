@@ -2,7 +2,6 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCompactDisc } from "@fortawesome/free-solid-svg-icons";
 import { faSpotify, faYoutube } from "@fortawesome/free-brands-svg-icons";
-import classNames from "classnames";
 import Marquee from "react-fast-marquee";
 import prettyMilliseconds from "pretty-ms";
 
@@ -87,10 +86,8 @@ const TrackCard = (props: SearchResultCardProps) => {
 
   return (
     <button
-      className={classNames(
-        "bg-primary min-w-[300px] w-full max-w-[500px] h-[80px] rounded-xl flex flex-row relative",
-        getPlatformDropShadow(props.platformType)
-      )}
+      className={`${getPlatformDropShadow(props.platformType)}
+        "bg-primary min-w-[300px] w-full max-w-[500px] h-[80px] rounded-xl flex flex-row relative`}
       onClick={props.onClick}
       disabled={!props.onClick}
     >
@@ -130,10 +127,9 @@ const TrackCard = (props: SearchResultCardProps) => {
           {props.platformType && (
             <FontAwesomeIcon
               icon={getPlatformLogo(props.platformType)}
-              className={classNames(
-                "text-[28px] pl-1.5 pb-1.5 p-1",
-                getPlatformLogoColor(props.platformType)
-              )}
+              className={`${getPlatformLogoColor(
+                props.platformType
+              )} text-[28px] pl-1.5 pb-1.5 p-1`}
             />
           )}
         </div>

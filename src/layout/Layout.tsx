@@ -1,13 +1,12 @@
 import { Outlet, useLocation, useNavigation } from "react-router-dom";
 import Navbar from "./navbar/Navbar";
-import classNames from "classnames";
 import Toasts from "#/components/Toasts";
 import SpotifyPlayerOverlay from "#/pages/party/components/SpotifyPlayerOverlay";
 import { selectPartyRole, useAppSelector } from "#/redux/hooks";
 
 const Layout = () => {
   const navigation = useNavigation();
-  let { pathname: currentPath } = useLocation();
+  const { pathname: currentPath } = useLocation();
   const partyRole = useAppSelector(selectPartyRole);
 
   return (
@@ -27,17 +26,18 @@ const Layout = () => {
                 <Navbar />
               </div>
               <div
-                className={classNames(
+                className={`
                   "flex-1 m-2",
-                  [
-                    "/auth/login",
-                    "/auth/register",
-                    "/party/join",
-                    "/party/create",
-                  ].includes(currentPath)
-                    ? "grid place-items-center"
-                    : ""
-                )}
+                  ${
+                    [
+                      "/auth/login",
+                      "/auth/register",
+                      "/party/join",
+                      "/party/create",
+                    ].includes(currentPath)
+                      ? "grid place-items-center"
+                      : ""
+                  }`}
               >
                 <Outlet />
               </div>

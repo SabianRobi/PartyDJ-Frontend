@@ -1,5 +1,3 @@
-import classNames from "classnames";
-
 type CheckboxProps = {
   name: string;
   label: string;
@@ -18,10 +16,7 @@ const Checkbox = (props: CheckboxProps) => {
         type={"checkbox"}
         id={props.name}
         name={props.name}
-        className={classNames(
-          "my-auto !bg-primary w-4 h-4 border-0 rounded-sm focus:border-tertiary focus:border-1",
-          props.inputClassNames
-        )}
+        className={`${props.inputClassNames} my-auto !bg-primary w-4 h-4 border-0 rounded-sm focus:border-tertiary focus:border-1`}
       />
       <div>
         <label htmlFor={props.name}>

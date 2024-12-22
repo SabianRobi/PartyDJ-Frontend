@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import { HTMLAttributes, ReactNode } from "react";
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
@@ -11,10 +10,9 @@ const Card = ({ title, children, ...rest }: CardProps) => {
       <div>
         {title && <h3 className={"text-xl"}>{title}</h3>}
         <div
-          className={classNames(
-            "bg-primary rounded-2xl min-w-[300px] max-w-[500px] p-3",
+          className={`${
             title ? "rounded-tl-none" : ""
-          )}
+          } bg-primary rounded-2xl min-w-[300px] max-w-[500px] p-3`}
         >
           {children}
         </div>

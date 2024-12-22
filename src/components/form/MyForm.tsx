@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import { Button } from "flowbite-react";
 import { ReactNode } from "react";
 import { SubmitHandler } from "react-hook-form";
@@ -16,10 +15,7 @@ const MyForm = (props: MyFromProps) => {
   return (
     <form onSubmit={props.handleSubmit}>
       <div
-        className={classNames(
-          "bg-primary rounded-3xl min-w-[300px] max-w-[500px] p-3",
-          props.className
-        )}
+        className={`${props.className} bg-primary rounded-3xl min-w-[300px] max-w-[500px] p-3`}
       >
         <h3 className={"text-2xl text-center pb-8"}>{props.title}</h3>
 

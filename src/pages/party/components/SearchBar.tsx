@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
@@ -61,10 +60,9 @@ const SearchBar = ({ setIsSettingsModalOpen }: SearchBarProps) => {
               },
             })}
             type={"text"}
-            className={classNames(
-              "transition-all duration-150 w-full h-min-max border-0 bg-secondary focus:border-tertiary focus:border-1 placeholder-lightText/40",
+            className={`${
               errors["query"] ? "rounded-br-none" : ""
-            )}
+            } transition-all duration-150 w-full h-min-max border-0 bg-secondary focus:border-tertiary focus:border-1 placeholder-lightText/40`}
             placeholder={"Monday left me broken"}
           />
 
