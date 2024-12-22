@@ -1,14 +1,14 @@
-import SpotifyPlayer, { CallbackState } from "react-spotify-web-playback";
 import {
   selectParty,
   selectSpotifyTokens,
-  useAppSelector,
+  useAppSelector
 } from "#/redux/hooks";
-import { useRefreshTokenMutation } from "#/redux/spotify/spotifyApiSlice";
 import {
   useSetPlaybackDeviceMutation,
-  useSkipTrackMutation,
+  useSkipTrackMutation
 } from "#/redux/party/partyApiSlice";
+import { useRefreshTokenMutation } from "#/redux/spotify/spotifyApiSlice";
+import SpotifyPlayer, { type CallbackState } from "react-spotify-web-playback";
 
 const SpotifyPlayerOverlay = () => {
   const spotifyToken = useAppSelector(selectSpotifyTokens).spotify?.token ?? "";
@@ -22,11 +22,11 @@ const SpotifyPlayerOverlay = () => {
     if (state.type === "status_update" && state.status === "READY") {
       doSetPlaybackDevice({
         partyName: party?.name ?? "",
-        deviceId: state.deviceId,
+        deviceId: state.deviceId
       })
         .unwrap()
         .then(() => {
-          console.log("Device id set!");
+          console.info("Device id set!");
         })
         .catch((error) => {
           console.error("Failed to set device id!", error);
@@ -39,7 +39,7 @@ const SpotifyPlayerOverlay = () => {
       !state.isPlaying &&
       state.progressMs === 0
     ) {
-      console.log("Track ended, requesting to play next...");
+      console.info("Track ended, requesting to play next...");
       handleSkip();
     }
   };
@@ -48,7 +48,7 @@ const SpotifyPlayerOverlay = () => {
     doSkipTrack(party?.name ?? "")
       .unwrap()
       .then(() => {
-        console.log("Track skipped!");
+        console.info("Track skipped!");
       })
       .catch((error) => {
         console.error("Failed to skip track!", error);
@@ -59,25 +59,25 @@ const SpotifyPlayerOverlay = () => {
     <div className="absolute bottom-0 right-0 w-full">
       <SpotifyPlayer
         token={spotifyToken}
-        uris={"spotify:track:4lhqb6JvbHId48OUJGwymk"} // Avicii: Hey Brother
+        uris="spotify:track:4lhqb6JvbHId48OUJGwymk" // Avicii: Hey Brother
         getOAuthToken={async (callback) => {
-          console.log("Refreshing Spotify token");
+          console.info("Refreshing Spotify token");
           await doRefreshSpotifyToken().unwrap();
           callback(spotifyToken);
         }}
-        name={"PartyDJ Web Player"}
+        name="PartyDJ Web Player"
         initialVolume={0.5}
         hideAttribution={true}
         callback={handlePlayerChange}
         styles={{
-          bgColor: "#012340", // primary
+          bgColor: "#012340", // Primary
           color: "#fff",
           trackNameColor: "#fff",
-          sliderColor: "#049DD9", // tertiary
-          sliderHandleColor: "#0367A6", // secondary
-          sliderTrackColor: "#32404b", // background
+          sliderColor: "#049DD9", // Tertiary
+          sliderHandleColor: "#0367A6", // Secondary
+          sliderTrackColor: "#32404b", // Background
           trackArtistColor: "#aaa",
-          loaderColor: "#0367A6", // secondary
+          loaderColor: "#0367A6" // Secondary
         }}
       />
     </div>

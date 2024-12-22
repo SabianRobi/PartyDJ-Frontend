@@ -1,12 +1,12 @@
-import { RegisterData } from "#/pages/auth/Register";
-import { UserResponse } from "#/redux/types";
-import { LoginData } from "#/pages/auth/Login";
+import { type LoginData } from "#/pages/auth/Login";
+import { type RegisterData } from "#/pages/auth/Register";
 import {
-  DeleteUserData,
-  UpdateUserDetailsData,
-  UpdateUserPasswordData,
+  type DeleteUserData,
+  type UpdateUserDetailsData,
+  type UpdateUserPasswordData
 } from "#/pages/user/modalContents/ModalContent";
 import { apiSlice } from "#/redux/apiSlice";
+import { type UserResponse } from "#/redux/types";
 import { setUser } from "./authSlice";
 
 export const authApi = apiSlice.injectEndpoints({
@@ -15,8 +15,8 @@ export const authApi = apiSlice.injectEndpoints({
       query: (data) => ({
         url: "/user",
         method: "POST",
-        body: data,
-      }),
+        body: data
+      })
     }),
     login: builder.mutation<UserResponse, LoginData>({
       query: (data) => {
@@ -27,63 +27,61 @@ export const authApi = apiSlice.injectEndpoints({
         return {
           url: "/login",
           method: "POST",
-          body: bodyFormData,
+          body: bodyFormData
         };
       },
-      onQueryStarted(_arg, { queryFulfilled, dispatch }) {
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         // Save to redux store
-        queryFulfilled.then((response) => {
+        await queryFulfilled.then((response) => {
           dispatch(setUser(response.data));
         });
-      },
+      }
     }),
     logout: builder.mutation<null, null>({
       query: () => ({
         url: "/logout",
-        method: "POST",
-      }),
+        method: "POST"
+      })
     }),
     getUserByUsername: builder.query<UserResponse, string>({
       query: (username) => ({
-        url: `/user/${username}`,
-      }),
+        url: `/user/${username}`
+      })
     }),
     updateUserDetails: builder.mutation<UserResponse, UpdateUserDetailsData>({
       query: ({ currentUsername, data }) => ({
         url: `/user/${currentUsername}`,
         method: "PATCH",
-        body: data,
+        body: data
       }),
-      onQueryStarted(_arg, { queryFulfilled, dispatch }) {
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         // Save to redux store
-        queryFulfilled.then((response) => {
+        await queryFulfilled.then((response) => {
           dispatch(setUser(response.data));
         });
-      },
-    }),
-    updateUserPassword: builder.mutation<UserResponse, UpdateUserPasswordData>(
-      {
-        query: ({ currentUsername, data }) => ({
-          url: `/user/${currentUsername}/password`,
-          method: "PATCH",
-          body: data,
-        }),
-        onQueryStarted(_arg, { queryFulfilled, dispatch }) {
-          // Save to redux store
-          queryFulfilled.then((response) => {
-            dispatch(setUser(response.data));
-          });
-        },
       }
-    ),
+    }),
+    updateUserPassword: builder.mutation<UserResponse, UpdateUserPasswordData>({
+      query: ({ currentUsername, data }) => ({
+        url: `/user/${currentUsername}/password`,
+        method: "PATCH",
+        body: data
+      }),
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
+        // Save to redux store
+        await queryFulfilled.then((response) => {
+          dispatch(setUser(response.data));
+        });
+      }
+    }),
     deleteUser: builder.mutation<UserResponse, DeleteUserData>({
       query: ({ username, data }) => ({
         url: `/user/${username}`,
         method: "DELETE",
-        body: data,
-      }),
-    }),
-  }),
+        body: data
+      })
+    })
+  })
 });
 
 export const {
@@ -92,5 +90,5 @@ export const {
   useLogoutMutation,
   useUpdateUserDetailsMutation,
   useUpdateUserPasswordMutation,
-  useDeleteUserMutation,
+  useDeleteUserMutation
 } = authApi;

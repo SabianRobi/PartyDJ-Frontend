@@ -1,7 +1,7 @@
-import TrackCard from "./components/TrackCard";
-import { useGetTracksInQueueQuery } from "#/redux/party/partyApiSlice";
 import { selectParty, useAppSelector } from "#/redux/hooks";
+import { useGetTracksInQueueQuery } from "#/redux/party/partyApiSlice";
 import prettyMilliseconds from "pretty-ms";
+import TrackCard from "./components/TrackCard";
 
 const PartyQueue = () => {
   const party = useAppSelector(selectParty);
@@ -10,10 +10,10 @@ const PartyQueue = () => {
   const {
     data: tracksInQueue,
     isFetching,
-    error,
+    error
   } = useGetTracksInQueueQuery(party?.name ?? "", {
     refetchOnMountOrArgChange: true,
-    pollingInterval: 60000,
+    pollingInterval: 60000
   });
 
   return (
@@ -26,9 +26,11 @@ const PartyQueue = () => {
       ) : tracksInQueue?.length === 0 ? (
         <p>Queue is empty</p>
       ) : (
-        <div className={"grid grid-cols-1 gap-3"}>
+        <div className="grid grid-cols-1 gap-3">
           {tracksInQueue?.map((track, index, tracks) => {
-            if (index > 0) willBePlayedIn += tracks[index - 1].length;
+            if (index > 0) {
+              willBePlayedIn += tracks[index - 1].length;
+            }
             return (
               <TrackCard
                 key={index}
@@ -42,7 +44,7 @@ const PartyQueue = () => {
                     ? "Currently playing"
                     : "Will be played in " +
                       prettyMilliseconds(willBePlayedIn, {
-                        secondsDecimalDigits: 0,
+                        secondsDecimalDigits: 0
                       })
                 }
               />

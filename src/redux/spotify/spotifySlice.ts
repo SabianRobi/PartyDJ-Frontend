@@ -1,8 +1,8 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Spotify, SpotifyState } from "#/redux/types";
+import type { Spotify, SpotifyState } from "#/redux/types";
+import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: SpotifyState = {
-  spotify: null,
+  spotify: null
 };
 
 export const spotifySlice = createSlice({
@@ -14,8 +14,8 @@ export const spotifySlice = createSlice({
     },
     clearSpotifyTokens: (state) => {
       state.spotify = null;
-    },
-  },
+    }
+  }
 });
 
 export const { setSpotifyToken, clearSpotifyTokens } = spotifySlice.actions;

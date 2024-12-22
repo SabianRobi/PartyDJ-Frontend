@@ -1,8 +1,8 @@
-import { Outlet, useLocation, useNavigation } from "react-router-dom";
-import Navbar from "./navbar/Navbar";
-import Toasts from "#/components/Toasts";
 import SpotifyPlayerOverlay from "#/pages/party/components/SpotifyPlayerOverlay";
 import { selectPartyRole, useAppSelector } from "#/redux/hooks";
+import { Outlet, useLocation, useNavigation } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import Navbar from "./navbar/Navbar";
 
 const Layout = () => {
   const navigation = useNavigation();
@@ -11,18 +11,14 @@ const Layout = () => {
 
   return (
     <>
-      <Toasts />
-      <div
-        className={
-          "bg-background text-lightText min-h-screen min-w-screen font-k2d relative"
-        }
-      >
-        <div className={"flex flex-col container mx-auto min-h-full"}>
+      <ToastContainer />
+      <div className="bg-background text-lightText min-h-screen min-w-screen font-k2d relative">
+        <div className="flex flex-col container mx-auto min-h-full">
           {navigation.state === "loading" ? (
             <p>Page is loading...</p>
           ) : (
-            <div className={"flex flex-col min-h-screen"}>
-              <div className={"flex-initial"}>
+            <div className="flex flex-col min-h-screen">
+              <div className="flex-initial">
                 <Navbar />
               </div>
               <div
@@ -33,7 +29,7 @@ const Layout = () => {
                       "/auth/login",
                       "/auth/register",
                       "/party/join",
-                      "/party/create",
+                      "/party/create"
                     ].includes(currentPath)
                       ? "grid place-items-center"
                       : ""
@@ -41,7 +37,7 @@ const Layout = () => {
               >
                 <Outlet />
               </div>
-              <div className={"flex-initial text-center bg-primary"}>
+              <div className="flex-initial text-center bg-primary">
                 Footer will be placed here
               </div>
             </div>

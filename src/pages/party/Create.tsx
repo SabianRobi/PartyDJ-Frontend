@@ -1,29 +1,29 @@
-import MyForm from "#/components/form/MyForm";
 import Field from "#/components/form/Field";
-import { Link, useNavigate } from "react-router-dom";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useCreatePartyMutation } from "#/redux/party/partyApiSlice";
-import { errorToast, successToast } from "#/components/Toasts";
-import { PartyResponse } from "#/redux/types";
+import MyForm from "#/components/form/MyForm";
+import { errorToast, successToast } from "#/components/utils";
 import {
   selectCurrentUser,
   useAppDispatch,
-  useAppSelector,
+  useAppSelector
 } from "#/redux/hooks";
+import { useCreatePartyMutation } from "#/redux/party/partyApiSlice";
 import { setParty } from "#/redux/party/partySlice";
+import type { PartyResponse } from "#/redux/types";
+import { type SubmitHandler, useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 
-export interface ICreatePartyFormInput {
+export type ICreatePartyFormInput = {
   name: string;
   password: string;
   confirmPassword: string;
-}
+};
 
 const Create = () => {
   const {
     register,
     handleSubmit,
     setError,
-    formState: { errors },
+    formState: { errors }
   } = useForm<ICreatePartyFormInput>();
   const [doCreateParty] = useCreatePartyMutation();
   const currentUser = useAppSelector(selectCurrentUser);
@@ -34,7 +34,7 @@ const Create = () => {
     if (data.password !== data.confirmPassword) {
       setError("confirmPassword", {
         type: "custom",
-        message: "Passwords does not match!",
+        message: "Passwords does not match!"
       });
       return;
     }
@@ -42,7 +42,7 @@ const Create = () => {
     doCreateParty(data)
       .unwrap()
       .then((data: PartyResponse) => {
-        console.log("Successfully created party!");
+        console.info("Successfully created party!");
         successToast("Successfully created party!");
 
         if (currentUser) {
@@ -99,12 +99,12 @@ const Create = () => {
             required: { value: true, message: "Should not be empty." },
             minLength: {
               value: 3,
-              message: "Should be at least 3 characters long.",
+              message: "Should be at least 3 characters long."
             },
             maxLength: {
               value: 32,
-              message: "Should be maximum 32 characters long.",
-            },
+              message: "Should be maximum 32 characters long."
+            }
           }}
           errors={errors}
         />

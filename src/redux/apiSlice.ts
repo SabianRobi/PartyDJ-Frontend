@@ -4,7 +4,7 @@ import {
   // type BaseQueryFn,
   // type FetchArgs,
   createApi,
-  fetchBaseQuery,
+  fetchBaseQuery
 } from "@reduxjs/toolkit/query/react";
 // import { setUser, clearUser } from "#/redux/auth/authSlice";
 // import type { RootState } from "#/redux/store";
@@ -14,7 +14,7 @@ import {
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:8080/api/v1",
-  credentials: "include",
+  credentials: "include"
 });
 
 // const baseQueryWithReauth: BaseQueryFn = async (
@@ -65,5 +65,5 @@ const baseQuery = fetchBaseQuery({
 export const apiSlice = createApi({
   baseQuery: baseQuery,
   tagTypes: [],
-  endpoints: () => ({}),
+  endpoints: () => ({})
 });

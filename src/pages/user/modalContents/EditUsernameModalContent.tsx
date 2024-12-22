@@ -1,6 +1,6 @@
 import Field from "#/components/form/Field";
-import { useFormContext } from "react-hook-form";
 import { selectCurrentUser, useAppSelector } from "#/redux/hooks";
+import { useFormContext } from "react-hook-form";
 
 export type EditUsernameInput = {
   username: string;
@@ -9,16 +9,16 @@ export type EditUsernameInput = {
 const EditUsernameModalContent = () => {
   const {
     register,
-    formState: { errors },
+    formState: { errors }
   } = useFormContext();
   const user = useAppSelector(selectCurrentUser);
 
   return (
     <Field
-      inputClassNames={"!bg-primary text-lightText"}
-      label={"New username"}
-      name={"username"}
-      type={"text"}
+      inputClassNames="!bg-primary text-lightText"
+      label="New username"
+      name="username"
+      type="text"
       register={register}
       required
       inputPlaceholder={user?.username}
@@ -27,12 +27,12 @@ const EditUsernameModalContent = () => {
         required: { value: true, message: "Should not be empty." },
         minLength: {
           value: 3,
-          message: "Should be at least 3 characters long.",
+          message: "Should be at least 3 characters long."
         },
         maxLength: {
           value: 32,
-          message: "Should be maximum 32 characters long.",
-        },
+          message: "Should be maximum 32 characters long."
+        }
       }}
     />
   );

@@ -1,18 +1,19 @@
-import { useState } from "react";
-import SearchBar from "./components/SearchBar";
-import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import TrackCard, { EPlatformType } from "./components/TrackCard";
-import { TrackSearchResultResponse } from "#/redux/party/types";
+import Modal from "#/components/modal/Modal";
+import { errorToast, successToast } from "#/components/utils";
+import { selectParty, useAppSelector } from "#/redux/hooks";
 import {
   useAddTrackToQueueMutation,
-  useLazySearchTracksQuery,
+  useLazySearchTracksQuery
 } from "#/redux/party/partyApiSlice";
-import { selectParty, useAppSelector } from "#/redux/hooks";
-import { errorToast, successToast } from "#/components/Toasts";
-import Modal from "#/components/modal/Modal";
+import type { TrackSearchResultResponse } from "#/redux/party/types";
+import { useState } from "react";
+import { type SubmitHandler, FormProvider, useForm } from "react-hook-form";
+import SearchBar from "./components/SearchBar";
+import TrackCard from "./components/TrackCard";
+import { EPlatformType } from "./components/utils";
 import SearchSettingsModalContent from "./modalContents/SearchSettingsModalContent";
 
-export interface ISearchFormInput {
+export type ISearchFormInput = {
   query: string;
   settings: {
     spotify: {
@@ -24,7 +25,7 @@ export interface ISearchFormInput {
       limit: number;
     };
   };
-}
+};
 
 const Party = () => {
   const [searchResults, setSearchResults] = useState<
@@ -52,7 +53,7 @@ const Party = () => {
     doSearchTracks({
       query: data.query,
       partyName: party!.name,
-      platforms: platforms,
+      platforms: platforms
     })
       .unwrap()
       .then((response) => {
@@ -67,11 +68,11 @@ const Party = () => {
   const handleAddTrackToQueue = (searchResult: TrackSearchResultResponse) => {
     doAddTrackToQueue({
       partyName: party!.name,
-      track: { uri: searchResult.uri, platformType: searchResult.platformType },
+      track: { uri: searchResult.uri, platformType: searchResult.platformType }
     })
       .unwrap()
       .then((response) => {
-        console.log("Successfully added track to queue!", response);
+        console.info("Successfully added track to queue!", response);
         successToast("Successfully added track to queue!");
       })
       .catch((error) => {
@@ -86,7 +87,7 @@ const Party = () => {
 
       <FormProvider {...methods}>
         {/* Searchbar */}
-        <form onSubmit={methods.handleSubmit(onSubmit)} className={"mt-2"}>
+        <form onSubmit={void methods.handleSubmit(onSubmit)} className="mt-2">
           <SearchBar setIsSettingsModalOpen={setIsSettingsModalOpen} />
 
           {/* Settings modal */}
@@ -101,7 +102,7 @@ const Party = () => {
       </FormProvider>
 
       {/* Search results */}
-      <div className={"flex flex-col mt-8"}>
+      <div className="flex flex-col mt-8">
         {searchResults.length === 0 ? (
           isLoading && !isFetching ? (
             <p>No tracks found :( </p>
@@ -109,7 +110,7 @@ const Party = () => {
         ) : (
           <>
             <p>Results</p>
-            <div className={"grid grid-cols-1 gap-3"}>
+            <div className="grid grid-cols-1 gap-3">
               {searchResults.map((track) => (
                 <TrackCard
                   key={track.uri}

@@ -1,16 +1,16 @@
-import MyForm from "#/components/form/MyForm";
 import Field from "#/components/form/Field";
-import { Link, useNavigate } from "react-router-dom";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { PartyResponse } from "#/redux/types";
-import { errorToast, successToast } from "#/components/Toasts";
-import { setParty } from "#/redux/party/partySlice";
-import { useJoinPartyMutation } from "#/redux/party/partyApiSlice";
+import MyForm from "#/components/form/MyForm";
+import { errorToast, successToast } from "#/components/utils";
 import {
   selectCurrentUser,
   useAppDispatch,
-  useAppSelector,
+  useAppSelector
 } from "#/redux/hooks";
+import { useJoinPartyMutation } from "#/redux/party/partyApiSlice";
+import { setParty } from "#/redux/party/partySlice";
+import { PartyResponse } from "#/redux/types";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 
 export interface IJoinPartyFormInput {
   name: string;
@@ -22,7 +22,7 @@ const Join = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm<IJoinPartyFormInput>();
   const [doJoinParty] = useJoinPartyMutation();
   const currentUser = useAppSelector(selectCurrentUser);
@@ -90,12 +90,12 @@ const Join = () => {
             required: { value: true, message: "Should not be empty." },
             minLength: {
               value: 3,
-              message: "Should be at least 3 characters long.",
+              message: "Should be at least 3 characters long."
             },
             maxLength: {
               value: 32,
-              message: "Should be maximum 32 characters long.",
-            },
+              message: "Should be maximum 32 characters long."
+            }
           }}
           errors={errors}
         />

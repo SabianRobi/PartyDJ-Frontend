@@ -2,31 +2,31 @@
 import ReactDOM from "react-dom/client";
 
 // Router
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // Pages
+import Layout from "./layout/Layout";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import SpotifyCallback from "./pages/auth/SpotifyCallback";
 import GeneralError from "./pages/error/GeneralError";
-import Layout from "./layout/Layout";
 import MainPage from "./pages/MainPage";
-import Join from "./pages/party/Join";
 import Create from "./pages/party/Create";
-import UserSettings from "./pages/user/UserSettings";
+import Join from "./pages/party/Join";
 import Party from "./pages/party/Party";
 import PartyHistory from "./pages/party/PartyHistory";
 import PartyQueue from "./pages/party/PartyQueue";
-import SpotifyCallback from "./pages/auth/SpotifyCallback";
+import UserSettings from "./pages/user/UserSettings";
 
 // Redux
 import { store } from "./redux/store";
 
 // Styles
-import "./main.css";
-import "react-toastify/dist/ReactToastify.css";
-import Auth from "./pages/auth/Auth";
 import { StrictMode } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import "./main.css";
+import Auth from "./pages/auth/Auth";
 
 const router = createBrowserRouter([
   {
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
           // Main page
           {
             index: true,
-            element: <MainPage />,
+            element: <MainPage />
           },
 
           // Authentication & authorization
@@ -53,20 +53,20 @@ const router = createBrowserRouter([
                 children: [
                   {
                     index: true,
-                    element: <Login />,
+                    element: <Login />
                   },
                   {
                     path: "spotify/callback",
-                    element: <SpotifyCallback />,
-                  },
-                ],
+                    element: <SpotifyCallback />
+                  }
+                ]
               },
               // Register
               {
                 path: "register",
-                element: <Register />,
-              },
-            ],
+                element: <Register />
+              }
+            ]
           },
 
           // User
@@ -75,9 +75,9 @@ const router = createBrowserRouter([
             children: [
               {
                 path: ":username",
-                element: <UserSettings />,
-              },
-            ],
+                element: <UserSettings />
+              }
+            ]
           },
 
           // Party
@@ -87,13 +87,13 @@ const router = createBrowserRouter([
               // Create
               {
                 path: "create",
-                element: <Create />,
+                element: <Create />
               },
 
               // Join
               {
                 path: "join",
-                element: <Join />,
+                element: <Join />
               },
 
               // InParty
@@ -102,26 +102,26 @@ const router = createBrowserRouter([
                 children: [
                   {
                     element: <Party />,
-                    index: true,
+                    index: true
                   },
                   // Queue
                   {
                     path: "/party/:partyName/queue",
-                    element: <PartyQueue />,
+                    element: <PartyQueue />
                   },
                   // History
                   {
                     path: "/party/:partyName/history",
-                    element: <PartyHistory />,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
+                    element: <PartyHistory />
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

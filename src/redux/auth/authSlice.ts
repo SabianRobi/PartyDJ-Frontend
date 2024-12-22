@@ -1,8 +1,8 @@
+import type { UserState } from "#/redux/types";
 import { createSlice } from "@reduxjs/toolkit";
-import { UserState } from "#/redux/types";
 
 const initialState: UserState = {
-  user: null,
+  user: null
 };
 
 export const authSlice = createSlice({
@@ -14,8 +14,8 @@ export const authSlice = createSlice({
     },
     clearUser: (state) => {
       state.user = null;
-    },
-  },
+    }
+  }
 });
 
 export const { setUser, clearUser } = authSlice.actions;

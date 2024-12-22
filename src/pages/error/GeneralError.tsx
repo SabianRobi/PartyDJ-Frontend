@@ -9,9 +9,9 @@ const GeneralError = () => {
   const error = useRouteError();
   console.error(error);
 
-  let errorMessage: ErrorMessage = {
+  const errorMessage: ErrorMessage = {
     statusText: "",
-    message: "",
+    message: ""
   };
 
   if (isRouteErrorResponse(error)) {

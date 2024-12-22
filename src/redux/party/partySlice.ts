@@ -1,9 +1,9 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PartyResponse, PartyState, User } from "#/redux/types";
+import type { PartyResponse, PartyState, User } from "#/redux/types";
+import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: PartyState = {
   party: null,
-  role: null,
+  role: null
 };
 
 export const partySlice = createSlice({
@@ -22,8 +22,8 @@ export const partySlice = createSlice({
     },
     clearParty: (state) => {
       state.party = null;
-    },
-  },
+    }
+  }
 });
 
 export const { setParty, clearParty } = partySlice.actions;

@@ -1,12 +1,12 @@
 import js from "@eslint/js";
-import tseslint from "typescript-eslint";
-import globals from "globals";
+import stylistic from "@stylistic/eslint-plugin";
 import typescriptParser from "@typescript-eslint/parser";
 import jsxA11y from "eslint-plugin-jsx-a11y";
+import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
-import stylistic from "@stylistic/eslint-plugin";
-import react from "eslint-plugin-react";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
   extends: [js.configs.recommended, ...tseslint.configs.recommended],
@@ -44,6 +44,11 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
         allowFunctions: false,
       },
     ],
+    "react/jsx-curly-brace-presence": [
+      "error",
+      { props: "never", children: "never", propElementValues: "always" },
+    ],
+    "react/button-has-type": ["error"],
     // Eslint rules
     "no-console": ["warn", { allow: ["warn", "error", "info"] }],
     "no-alert": "error",
@@ -136,14 +141,6 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
       "warn",
       { allowLeadingUnderscore: false, allowNamespace: true },
     ],
-    "@stylistic/jsx-sort-props": [
-      "warn",
-      {
-        shorthandFirst: true,
-        reservedFirst: true,
-        noSortAlphabetically: true,
-      },
-    ],
     "@stylistic/jsx-tag-spacing": [
       "warn",
       {
@@ -209,9 +206,9 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
     "@typescript-eslint/consistent-type-imports": [
       "warn",
       {
-        fixStyle: "separate-type-imports",
+        fixStyle: "inline-type-imports"
       },
     ],
     "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
-  },
+  }
 });

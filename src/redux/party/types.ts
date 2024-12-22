@@ -1,4 +1,4 @@
-import { EPlatformType } from "#/pages/party/components/TrackCard";
+import type { EPlatformType } from "#/pages/party/components/utils";
 
 // ##################
 // ----- MODELS -----
@@ -10,21 +10,21 @@ export type Track = {
   artists: ArtistResponse[];
   length: number;
   platformType: EPlatformType;
-}
+};
 
 export type TrackInQueue = Track & {
   id: number;
   addedBy: {
     username: string;
   };
-}
+};
 
 export type PlayedTrack = Track & {
   endedAt: number;
   addedBy: {
     username: string;
   };
-}
+};
 
 // ####################
 // ----- REQUESTS -----
@@ -34,7 +34,7 @@ export type SearchTrackRequest = {
   partyName: string;
   query: string;
   platforms: EPlatformType[];
-}
+};
 
 export type AddTrackToQueueRequest = {
   partyName: string;
@@ -42,7 +42,7 @@ export type AddTrackToQueueRequest = {
     uri: string;
     platformType: EPlatformType;
   };
-}
+};
 
 export type GetTracksInQueueRequest = string;
 export type PlayNextTrackRequest = string;
@@ -58,7 +58,7 @@ export type GetPlayedTracksRequest = string;
 
 export type TrackSearchResultResponse = Track & {
   uri: string;
-}
+};
 
 export type TrackSearchResultPreResponse = Omit<
   TrackSearchResultResponse,
@@ -73,7 +73,7 @@ export type ArtistResponse = {
 
 export type TrackInQueueResponse = Omit<TrackInQueue, "platformType"> & {
   platformType: string;
-}
+};
 
 export type PlayedTrackPreResponse = Omit<
   PlayedTrack,

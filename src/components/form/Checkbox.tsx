@@ -8,30 +8,28 @@ type CheckboxProps = {
   inputClassNames?: string;
 };
 
-const Checkbox = (props: CheckboxProps) => {
-  return (
-    <div className={"pb-2 flex flex-row gap-2"}>
-      <input
-        {...props.register(props.name, props.validation)}
-        type={"checkbox"}
-        id={props.name}
-        name={props.name}
-        className={`${props.inputClassNames} my-auto !bg-primary w-4 h-4 border-0 rounded-sm focus:border-tertiary focus:border-1`}
-      />
-      <div>
-        <label htmlFor={props.name}>
-          {props.label}
-          {props.required ? <span className={"text-error"}>*</span> : ""}
-        </label>
+const Checkbox = (props: CheckboxProps) => (
+  <div className="pb-2 flex flex-row gap-2">
+    <input
+      {...props.register(props.name, props.validation)}
+      type="checkbox"
+      id={props.name}
+      name={props.name}
+      className={`${props.inputClassNames} my-auto !bg-primary w-4 h-4 border-0 rounded-sm focus:border-tertiary focus:border-1`}
+    />
+    <div>
+      <label htmlFor={props.name}>
+        {props.label}
+        {props.required ? <span className="text-error">*</span> : ""}
+      </label>
 
-        {props.errors[props.name] && (
-          <p className={"text-error text-sm text-end"}>
-            {"" + props?.errors[props.name]?.message}
-          </p>
-        )}
-      </div>
+      {props.errors[props.name] && (
+        <p className="text-error text-sm text-end">
+          {"" + props?.errors[props.name]?.message}
+        </p>
+      )}
     </div>
-  );
-};
+  </div>
+);
 
 export default Checkbox;

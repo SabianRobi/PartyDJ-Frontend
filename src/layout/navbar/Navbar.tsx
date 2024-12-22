@@ -1,35 +1,35 @@
-import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  CustomFlowbiteTheme,
-  Dropdown,
-  DropdownDivider,
-  Flowbite,
-} from "flowbite-react";
-import { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import NavbarLink from "./NavbarLink";
+import { errorToast, successToast } from "#/components/utils";
+import { useLogoutMutation } from "#/redux/auth/authApiSlice";
+import { clearUser } from "#/redux/auth/authSlice";
 import {
   selectCurrentUser,
   selectParticipatingParty,
   selectPartyRole,
   useAppDispatch,
-  useAppSelector,
+  useAppSelector
 } from "#/redux/hooks";
-import { useLogoutMutation } from "#/redux/auth/authApiSlice";
-import { errorToast, successToast } from "#/components/Toasts";
-import { clearUser } from "#/redux/auth/authSlice";
-import { clearParty } from "#/redux/party/partySlice";
-import { clearSpotifyTokens } from "#/redux/spotify/spotifySlice";
 import {
   useDeletePartyMutation,
-  useLeavePartyMutation,
+  useLeavePartyMutation
 } from "#/redux/party/partyApiSlice";
+import { clearParty } from "#/redux/party/partySlice";
+import { clearSpotifyTokens } from "#/redux/spotify/spotifySlice";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  type CustomFlowbiteTheme,
+  Dropdown,
+  DropdownDivider,
+  Flowbite
+} from "flowbite-react";
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import NavbarLink from "./NavbarLink";
 
 enum Status {
   LOGGED_OUT,
   LOGGED_IN,
-  IN_PARTY,
+  IN_PARTY
 }
 
 const customTheme: CustomFlowbiteTheme = {
@@ -39,13 +39,13 @@ const customTheme: CustomFlowbiteTheme = {
       divider: "my-1 h-px bg-tertiary",
       header: "px-4 py-2 text-sm text-lightText",
       item: {
-        base: "flex items-center justify-start py-2 px-4 text-sm text-lightText cursor-pointer w-full hover:bg-tertiary focus:outline-none",
+        base: "flex items-center justify-start py-2 px-4 text-sm text-lightText cursor-pointer w-full hover:bg-tertiary focus:outline-none"
       },
       style: {
-        auto: "",
-      },
-    },
-  },
+        auto: ""
+      }
+    }
+  }
 };
 
 const Navbar = () => {
@@ -66,16 +66,16 @@ const Navbar = () => {
   }, [user, party]);
 
   const handleLogout = () => {
-    console.log("Sending logout request...");
+    console.info("Sending logout request...");
     doLogout(null)
       .unwrap()
       .then(() => {
-        console.log("Successfully logged out!");
+        console.info("Successfully logged out!");
         successToast("Successfully logged out!");
         dispatch(clearUser());
         dispatch(clearParty());
         dispatch(clearSpotifyTokens());
-        navigate("/");
+        void navigate("/");
       })
       .catch((error) => {
         console.error("Failed to log out: ", error);
@@ -83,61 +83,60 @@ const Navbar = () => {
       });
   };
 
-  const handleLeaveDeleteParty = async () => {
+  const handleLeaveDeleteParty = () => {
     if (partyRole === "CREATOR") {
       // TODO: Add a confirm modal when the party has other users in it
-      console.log("Deleting party...");
+      console.info("Deleting party...");
 
-      await doDeleteParty(party!.name)
+      doDeleteParty(party!.name)
         .then(() => {
-          console.log("Successfully deleted the party!");
+          console.info("Successfully deleted the party!");
           successToast("Successfully deleted the party!");
+          void navigate("/");
         })
         .catch((error) => {
           console.error("Failed to delete the party: ", error);
           errorToast("Failed to delete the party!");
         });
     } else {
-      console.log("Leaving party...");
-      await doLeaveParty(party!.name)
+      console.info("Leaving party...");
+
+      doLeaveParty(party!.name)
         .then(() => {
-          console.log("Successfully left the party!");
+          console.info("Successfully left the party!");
           successToast("Successfully left the party!");
+          void navigate("/");
         })
         .catch((error) => {
           console.error("Failed to leave the party: ", error);
           errorToast("Failed to leave the party!");
         });
     }
-
-    navigate("/");
   };
 
   return (
     <>
-      <nav
-        className={"flex flex-row justify-between p-2 bg-primary items-center"}
-      >
-        <NavLink to={"/"} className={"flex flex-row content-center"}>
+      <nav className="flex flex-row justify-between p-2 bg-primary items-center">
+        <NavLink to="/" className="flex flex-row content-center">
           <img
             src="/logo-light.png"
             className="mr-3 h-10 sm:h-9"
             alt="PartyDJ Logo"
           />
-          {/*<span>PartyDJ</span>*/}
+          {/* <span>PartyDJ</span> */}
         </NavLink>
 
-        <ul className={"flex flex-row justify-around"}>
+        <ul className="flex flex-row justify-around">
           {status === Status.LOGGED_OUT ? (
             <>
-              <NavbarLink to={"/auth/login"} text={"Login"} />
-              <NavbarLink to={"/auth/register"} text={"Register"} />
+              <NavbarLink to="/auth/login" text="Login" />
+              <NavbarLink to="/auth/register" text="Register" />
             </>
           ) : status === Status.LOGGED_IN ? (
             <>
-              <NavbarLink to={"/party/join"} text={"Join party"} />
-              <NavbarLink to={"/party/create"} text={"Create party"} />
-              <li className={"pl-2 sm:pl-5 h-max"}>
+              <NavbarLink to="/party/join" text="Join party" />
+              <NavbarLink to="/party/create" text="Create party" />
+              <li className="pl-2 sm:pl-5 h-max">
                 <Flowbite theme={{ theme: customTheme }}>
                   <Dropdown
                     arrowIcon={false}
@@ -145,7 +144,7 @@ const Navbar = () => {
                     label={
                       <FontAwesomeIcon
                         icon={faUser}
-                        className={"p-2 rounded-2xl bg-tertiary"}
+                        className="p-2 rounded-2xl bg-tertiary"
                       />
                     }
                   >
@@ -156,9 +155,7 @@ const Navbar = () => {
                       Settings
                     </Dropdown.Item>
                     <Dropdown.Item
-                      className={
-                        "hover:bg-error hover:text-lightText text-error"
-                      }
+                      className="hover:bg-error hover:text-lightText text-error"
                       onClick={handleLogout}
                     >
                       <p>Logout</p>
@@ -169,7 +166,7 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <li className={"p-2 sm:pl-5 h-max bg-tertiary rounded"}>
+              <li className="p-2 sm:pl-5 h-max bg-tertiary rounded">
                 <Flowbite theme={{ theme: customTheme }}>
                   <Dropdown arrowIcon={true} inline={true} label={<p>Party</p>}>
                     <Dropdown.Item as={NavLink} to={"/party/" + party?.name}>
@@ -195,9 +192,7 @@ const Navbar = () => {
                       Manage platforms
                     </Dropdown.Item>
                     <Dropdown.Item
-                      className={
-                        "hover:bg-error hover:text-lightText text-error"
-                      }
+                      className="hover:bg-error hover:text-lightText text-error"
                       onClick={handleLeaveDeleteParty}
                     >
                       <p>
@@ -207,7 +202,7 @@ const Navbar = () => {
                   </Dropdown>
                 </Flowbite>
               </li>
-              <li className={"pl-2 sm:pl-5 h-max my-auto"}>
+              <li className="pl-2 sm:pl-5 h-max my-auto">
                 <Flowbite theme={{ theme: customTheme }}>
                   <Dropdown
                     arrowIcon={false}
@@ -215,7 +210,7 @@ const Navbar = () => {
                     label={
                       <FontAwesomeIcon
                         icon={faUser}
-                        className={"p-2 rounded-2xl bg-tertiary"}
+                        className="p-2 rounded-2xl bg-tertiary"
                       />
                     }
                   >
@@ -226,9 +221,7 @@ const Navbar = () => {
                       <NavLink to={"/user/" + user?.username}>Settings</NavLink>
                     </Dropdown.Item>
                     <Dropdown.Item
-                      className={
-                        "hover:bg-error hover:text-lightText text-error"
-                      }
+                      className="hover:bg-error hover:text-lightText text-error"
                       onClick={handleLogout}
                     >
                       <p>Logout</p>

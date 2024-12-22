@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+import type { FieldErrors, UseFormRegister } from "react-hook-form";
 
 type FieldProps = {
   type: string;
@@ -23,12 +23,12 @@ const Field = (props: FieldProps) => {
   };
 
   return (
-    <div className={"pb-2"}>
+    <div className="pb-2">
       <label htmlFor={props.name}>
         {props.label}
-        {props.required ? <span className={"text-error"}>*</span> : ""}
+        {props.required ? <span className="text-error">*</span> : ""}
       </label>
-      <div className={"relative"}>
+      <div className="relative">
         <input
           {...props.register(props.name, props.validation)}
           type={
@@ -46,8 +46,9 @@ const Field = (props: FieldProps) => {
           placeholder={props.inputPlaceholder}
         />
         {props.type === "password" && (
-          <span
-            className={"absolute top-2 right-2"}
+          <button
+            type="button"
+            className="absolute top-2 right-2"
             onClick={handleToggleHidden}
           >
             {hidden ? (
@@ -55,10 +56,10 @@ const Field = (props: FieldProps) => {
             ) : (
               <FontAwesomeIcon icon={faEyeSlash} />
             )}
-          </span>
+          </button>
         )}
         {props.errors[props.name] && (
-          <p className={"text-error text-sm text-end"}>
+          <p className="text-error text-sm text-end">
             {"" + props?.errors[props.name]?.message}
           </p>
         )}

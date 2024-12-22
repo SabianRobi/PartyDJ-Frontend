@@ -1,18 +1,19 @@
-import Card from "./card/Card";
-import CardRow from "./card/CardRow";
-import { faLink, faLinkSlash, faPen } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "#/components/modal/Modal";
-import EditEmailModalContent from "./modalContents/EditEmailModalContent";
-import ModalContent, { FormInputEnum } from "./modalContents/ModalContent";
-import EditPasswordModalContent from "./modalContents/EditPasswordModalContent";
-import EditUsernameModalContent from "./modalContents/EditUsernameModalContent";
-import { Button } from "flowbite-react";
-import DeleteAccountModalContent from "./modalContents/DeleteAccountModalContent";
+import { errorToast } from "#/components/utils";
 import { selectCurrentUser, useAppSelector } from "#/redux/hooks";
 import { useLazyGetSpotifyAuthUrlQuery } from "#/redux/spotify/spotifyApiSlice";
-import { errorToast } from "#/components/Toasts";
-import { ReactNode, useState } from "react";
+import { faLink, faLinkSlash, faPen } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button } from "flowbite-react";
+import { type ReactNode, useState } from "react";
+import Card from "./card/Card";
+import CardRow from "./card/CardRow";
+import DeleteAccountModalContent from "./modalContents/DeleteAccountModalContent";
+import EditEmailModalContent from "./modalContents/EditEmailModalContent";
+import EditPasswordModalContent from "./modalContents/EditPasswordModalContent";
+import EditUsernameModalContent from "./modalContents/EditUsernameModalContent";
+import ModalContent from "./modalContents/ModalContent";
+import { FormInputEnum } from "./modalContents/utils";
 
 type TModalContent = {
   title: string;
@@ -25,7 +26,7 @@ const UserSettings = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState<TModalContent>({
     title: "Initial title",
-    body: <></>,
+    body: <></>
   });
   const user = useAppSelector(selectCurrentUser);
   const [doGetSpotifyAuthUrl] = useLazyGetSpotifyAuthUrlQuery();
@@ -40,7 +41,7 @@ const UserSettings = () => {
         >
           <EditUsernameModalContent />
         </ModalContent>
-      ),
+      )
     });
     setShowModal(true);
   };
@@ -55,7 +56,7 @@ const UserSettings = () => {
         >
           <EditEmailModalContent />
         </ModalContent>
-      ),
+      )
     });
     setShowModal(true);
   };
@@ -70,7 +71,7 @@ const UserSettings = () => {
         >
           <EditPasswordModalContent />
         </ModalContent>
-      ),
+      )
     });
     setShowModal(true);
   };
@@ -85,7 +86,7 @@ const UserSettings = () => {
         >
           <DeleteAccountModalContent />
         </ModalContent>
-      ),
+      )
     });
     setShowModal(true);
   };
@@ -95,23 +96,23 @@ const UserSettings = () => {
   };
 
   const handleGetSpotifyAuthUrl = () => {
-    console.log("Requesting Spotify login url...");
+    console.info("Requesting Spotify login url...");
 
     doGetSpotifyAuthUrl(null)
       .unwrap()
       .then((data) => {
-        console.log("Successfully got the Spotify login url!");
-        console.log("Redirecting to Spotify login page...");
+        console.info("Successfully got the Spotify login url!");
+        console.info("Redirecting to Spotify login page...");
         window.location.href = data.uri;
       })
       .catch((error) => {
-        console.log("Failed to get Spotify login url: ", error);
+        console.info("Failed to get Spotify login url: ", error);
         errorToast("Failed to get Spotify login url!");
       });
   };
 
   return (
-    <div className={"flex flex-col gap-6 justify-between h-full"}>
+    <div className="flex flex-col gap-6 justify-between h-full">
       <Modal
         title={modalContent?.title}
         showModal={showModal}
@@ -121,44 +122,44 @@ const UserSettings = () => {
       </Modal>
 
       <div>
-        <h3 className={"text-center text-2xl"}>Settings</h3>
-        <Card title={"Account"} className="pt-8">
+        <h3 className="text-center text-2xl">Settings</h3>
+        <Card title="Account" className="pt-8">
           <CardRow
-            name={"Username"}
+            name="Username"
             value={<>{user?.username}</>}
-            icon={<FontAwesomeIcon icon={faPen} className={"text-orange"} />}
+            icon={<FontAwesomeIcon icon={faPen} className="text-orange" />}
             onIconClick={handleOpenEditUsernameModal}
           />
           <CardRow
-            name={"Email"}
+            name="Email"
             value={<>{user?.email}</>}
-            icon={<FontAwesomeIcon icon={faPen} className={"text-orange"} />}
+            icon={<FontAwesomeIcon icon={faPen} className="text-orange" />}
             onIconClick={handleOpenEditEmailModal}
           />
           <CardRow
-            name={"Password"}
-            icon={<FontAwesomeIcon icon={faPen} className={"text-orange"} />}
+            name="Password"
+            icon={<FontAwesomeIcon icon={faPen} className="text-orange" />}
             onIconClick={handleOpenEditPasswordModal}
           />
         </Card>
 
-        <Card title={"Platforms"} className="pt-8">
+        <Card title="Platforms" className="pt-8">
           <CardRow
-            name={"Spotify"}
+            name="Spotify"
             value={<>{user?.spotifyConnected ? "connected" : "disconnected"}</>}
             icon={
               user?.spotifyConnected ? (
                 <FontAwesomeIcon
                   icon={faLinkSlash}
-                  className={"text-error"}
-                  title={"Disconnect"}
+                  className="text-error"
+                  title="Disconnect"
                 />
               ) : (
-                <button onClick={handleGetSpotifyAuthUrl}>
+                <button type="button" onClick={handleGetSpotifyAuthUrl}>
                   <FontAwesomeIcon
                     icon={faLink}
-                    className={"text-success"}
-                    title={"Connect"}
+                    className="text-success"
+                    title="Connect"
                   />
                 </button>
               )
@@ -168,7 +169,7 @@ const UserSettings = () => {
       </div>
       <div>
         <Button
-          className={"mx-auto bg-primary text-error min-w-[300px]"}
+          className="mx-auto bg-primary text-error min-w-[300px]"
           onClick={handleOpenDeleteAccountModal}
         >
           Delete account

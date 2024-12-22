@@ -1,4 +1,4 @@
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 
 export const successToast = (text: string) => {
   toast.success(text, {
@@ -8,7 +8,7 @@ export const successToast = (text: string) => {
     progress: undefined,
     theme: "colored",
     transition: Bounce,
-    className: "!bg-success !text-lightText",
+    className: "!bg-success !text-lightText"
   });
 };
 
@@ -20,12 +20,6 @@ export const errorToast = (text: string) => {
     progress: undefined,
     theme: "colored",
     transition: Bounce,
-    className: "!bg-error !text-lightText",
+    className: "!bg-error !text-lightText"
   });
 };
-
-const Toasts = () => {
-  return <ToastContainer />;
-};
-
-export default Toasts;

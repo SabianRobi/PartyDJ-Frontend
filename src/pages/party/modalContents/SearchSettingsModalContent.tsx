@@ -1,19 +1,19 @@
-import CardRow from "#/pages/user/card/CardRow";
-import Card from "#/pages/user/card/Card";
 import ToggleSwitch from "#/components/form/ToggleSwitch";
-import { useFormContext } from "react-hook-form";
+import Card from "#/pages/user/card/Card";
+import CardRow from "#/pages/user/card/CardRow";
 import { selectCurrentUser, useAppSelector } from "#/redux/hooks";
+import { useFormContext } from "react-hook-form";
 
 const SearchSettingsModalContent = () => {
-  const { register, setValue, getValues, watch } = useFormContext(); // retrieve all hook methods
+  const { register, setValue, getValues, watch } = useFormContext(); // Retrieve all hook methods
   const isSpotifyConnected =
     useAppSelector(selectCurrentUser)?.spotifyConnected ?? false;
 
   return (
     <>
-      <Card title={"General"}>
+      <Card title="General">
         <CardRow
-          name={"Data saver"}
+          name="Data saver"
           value={
             <ToggleSwitch
               {...register("settings.dataSaver")}
@@ -29,9 +29,9 @@ const SearchSettingsModalContent = () => {
           }
         />
       </Card>
-      <Card title={"Spotify"} className="mt-4">
+      <Card title="Spotify" className="mt-4">
         <CardRow
-          name={"Enable search"}
+          name="Enable search"
           value={
             <ToggleSwitch
               {...register("settings.spotify.enabled")}
@@ -49,15 +49,15 @@ const SearchSettingsModalContent = () => {
           // onIconClick={handleOpenEditUsernameModal}
         />
         <CardRow
-          name={"Count"}
+          name="Count"
           value={isSpotifyConnected ? "10" : "0"}
           // icon={<FontAwesomeIcon icon={faPen} className={"text-orange"} />}
           // onIconClick={handleOpenEditUsernameModal}
         />
       </Card>
-      <Card title={"YouTube"} className="mt-4">
+      <Card title="YouTube" className="mt-4">
         <CardRow
-          name={"Enable search"}
+          name="Enable search"
           value={
             <ToggleSwitch
               {...register("settings.youTube.enabled")}
@@ -74,7 +74,7 @@ const SearchSettingsModalContent = () => {
           // onIconClick={handleOpenEditUsernameModal}
         />
         <CardRow
-          name={"Count"}
+          name="Count"
           value={<>10</>}
           // icon={<FontAwesomeIcon icon={faPen} className={"text-orange"} />}
           // onIconClick={handleOpenEditUsernameModal}

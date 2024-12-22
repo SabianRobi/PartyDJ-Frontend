@@ -1,15 +1,15 @@
-import MyForm from "#/components/form/MyForm";
 import Field from "#/components/form/Field";
-import { Link, useNavigate } from "react-router-dom";
+import MyForm from "#/components/form/MyForm";
+import { errorToast, successToast } from "#/components/utils";
 import { useLoginMutation } from "#/redux/auth/authApiSlice";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { errorToast, successToast } from "#/components/Toasts";
 import { useEffect } from "react";
+import { type SubmitHandler, useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 
-export interface LoginData {
+export type LoginData = {
   username: string;
   password: string;
-}
+};
 
 const Login = () => {
   const [doLogin] = useLoginMutation();
@@ -20,19 +20,19 @@ const Login = () => {
     setError,
     formState: { errors },
     clearErrors,
-    watch,
+    watch
   } = useForm<LoginData>();
 
   const onSubmit: SubmitHandler<LoginData> = (data) => {
-    console.log("Sending login request...");
+    console.info("Sending login request...");
 
     doLogin(data)
       .unwrap()
       .then(() => {
-        console.log("Successfully logged in!");
+        console.info("Successfully logged in!");
         successToast("Successfully logged in!");
 
-        navigate("/");
+        void navigate("/");
       })
       .catch((error) => {
         console.error("Failed to log in: ", error);
@@ -41,12 +41,12 @@ const Login = () => {
         if (error.status === 401) {
           setError("root", {
             type: "custom",
-            message: "Incorrect username or password.",
+            message: "Incorrect username or password."
           });
         } else {
           setError("root", {
             type: "custom",
-            message: "Something went wrong, please try again later.",
+            message: "Something went wrong, please try again later."
           });
         }
       });
@@ -61,18 +61,14 @@ const Login = () => {
   return (
     <MyForm
       handleSubmit={handleSubmit(onSubmit)}
-      title={"Login"}
-      className={"mx-auto align-middle"}
-      submitText={"Login"}
+      title="Login"
+      className="mx-auto align-middle"
+      submitText="Login"
       helper={
-        <div className={"flex flex-col justify-end"}>
-          <p className={"text-lightText/50"}>New to PartyDJ?</p>
-          <Link to={"/auth/register"}>
-            <p
-              className={
-                "text-lightText/50 hover:text-lightText hover:underline"
-              }
-            >
+        <div className="flex flex-col justify-end">
+          <p className="text-lightText/50">New to PartyDJ?</p>
+          <Link to="/auth/register">
+            <p className="text-lightText/50 hover:text-lightText hover:underline">
               Register an account instead!
             </p>
           </Link>
@@ -81,41 +77,41 @@ const Login = () => {
     >
       <>
         <Field
-          label={"Username"}
-          name={"username"}
-          type={"text"}
+          label="Username"
+          name="username"
+          type="text"
           register={register}
           required
           validation={{
             required: { value: true, message: "Should not be empty." },
             minLength: {
               value: 3,
-              message: "Should be at least 3 characters long.",
+              message: "Should be at least 3 characters long."
             },
             maxLength: {
               value: 32,
-              message: "Should be maximum 32 characters long.",
-            },
+              message: "Should be maximum 32 characters long."
+            }
           }}
           errors={errors}
         />
         <Field
-          label={"Password"}
-          name={"password"}
-          type={"password"}
+          label="Password"
+          name="password"
+          type="password"
           register={register}
           required
           validation={{
             required: { value: true, message: "Should not be empty." },
             minLength: {
               value: 6,
-              message: "Should be at least 6 characters long.",
-            },
+              message: "Should be at least 6 characters long."
+            }
           }}
           errors={errors}
         />
         {errors.root?.message && (
-          <p className={"text-error text-sm text-end"}>{errors.root.message}</p>
+          <p className="text-error text-sm text-end">{errors.root.message}</p>
         )}
       </>
     </MyForm>
