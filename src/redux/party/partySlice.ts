@@ -10,10 +10,7 @@ export const partySlice = createSlice({
   name: "party",
   initialState,
   reducers: {
-    setParty: (
-      state,
-      action: PayloadAction<{ party: PartyResponse; currentUser: User }>
-    ) => {
+    setParty: (state, action: PayloadAction<{ party: PartyResponse; currentUser: User }>) => {
       state.party = action.payload.party;
 
       state.role = action.payload.party.participants.find(
@@ -22,6 +19,7 @@ export const partySlice = createSlice({
     },
     clearParty: (state) => {
       state.party = null;
+      state.role = null;
     }
   }
 });

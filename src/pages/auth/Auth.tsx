@@ -1,6 +1,8 @@
-import { selectCurrentUser, useAppSelector } from "#/redux/hooks";
+import { selectCurrentUser, useAppDispatch, useAppSelector } from "#/redux/hooks";
 import { useLazyGetPartyByNameQuery } from "#/redux/party/partyApiSlice";
+import { setParty } from "#/redux/party/partySlice";
 import { useLazyGetTokenQuery } from "#/redux/spotify/spotifyApiSlice";
+import { setSpotifyToken } from "#/redux/spotify/spotifySlice";
 import { type ReactNode, useEffect } from "react";
 
 type AuthProps = {
@@ -10,6 +12,7 @@ const Auth = ({ children }: AuthProps) => {
   const user = useAppSelector(selectCurrentUser);
   const [doGetPartyByName] = useLazyGetPartyByNameQuery();
   const [doGetSpotifyToken] = useLazyGetTokenQuery();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!user) {
@@ -17,9 +20,13 @@ const Auth = ({ children }: AuthProps) => {
     }
 
     if (user.partyName) {
-      void doGetPartyByName({ name: user.partyName, currentUser: user });
+      void doGetPartyByName({ name: user.partyName })
+        .unwrap()
+        .then((data) => {
+          dispatch(setParty({ party: data, currentUser: user }));
+        });
     }
-  }, [doGetPartyByName, user]);
+  }, [dispatch, doGetPartyByName, user]);
 
   useEffect(() => {
     if (!user) {
@@ -27,9 +34,13 @@ const Auth = ({ children }: AuthProps) => {
     }
 
     if (user.spotifyConnected) {
-      void doGetSpotifyToken();
+      void doGetSpotifyToken()
+        .unwrap()
+        .then((data) => {
+          dispatch(setSpotifyToken({ token: data.token }));
+        });
     }
-  }, [doGetSpotifyToken, user]);
+  }, [dispatch, doGetSpotifyToken, user]);
 
   return <>{children}</>;
 };

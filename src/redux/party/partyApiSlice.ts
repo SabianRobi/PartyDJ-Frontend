@@ -1,9 +1,9 @@
 import { EPlatformType } from "#/pages/party/components/utils";
-import { type ICreatePartyFormInput } from "#/pages/party/Create";
-import { type IJoinPartyFormInput } from "#/pages/party/Join";
+import { type CreatePartyFormInput } from "#/pages/party/Create";
+import { type JoinPartyFormInput } from "#/pages/party/Join";
 import { type GetPartyRequest, type PartyResponse } from "#/redux/types";
 import { apiSlice } from "../apiSlice";
-import { clearParty, setParty } from "./partySlice";
+import { clearParty } from "./partySlice";
 import {
   type AddTrackToQueueRequest,
   type GetPlayedTracksRequest,
@@ -21,7 +21,7 @@ import {
 
 export const partyApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    createParty: builder.mutation<PartyResponse, ICreatePartyFormInput>({
+    createParty: builder.mutation<PartyResponse, CreatePartyFormInput>({
       query: (data) => ({
         url: "/party",
         method: "POST",
@@ -29,7 +29,7 @@ export const partyApi = apiSlice.injectEndpoints({
       }),
       extraOptions: { maxRetries: 0 }
     }),
-    joinParty: builder.mutation<PartyResponse, IJoinPartyFormInput>({
+    joinParty: builder.mutation<PartyResponse, JoinPartyFormInput>({
       query: (data) => ({
         url: `/party/${data.name}/join`,
         method: "POST",
@@ -38,17 +38,7 @@ export const partyApi = apiSlice.injectEndpoints({
       extraOptions: { maxRetries: 0 }
     }),
     getPartyByName: builder.query<PartyResponse, GetPartyRequest>({
-      query: (data) => `/party/${data.name}`,
-      async onQueryStarted({ currentUser }, { dispatch, queryFulfilled }) {
-        await queryFulfilled.then((response) => {
-          if (response.data) {
-            dispatch(
-              setParty({ party: response.data, currentUser: currentUser })
-            );
-          }
-        });
-      },
-      extraOptions: { maxRetries: 0 }
+      query: (data) => `/party/${data.name}`
     }),
     leaveParty: builder.mutation<PartyResponse, string>({
       query: (partyName) => ({
@@ -74,10 +64,7 @@ export const partyApi = apiSlice.injectEndpoints({
       },
       extraOptions: { maxRetries: 0 }
     }),
-    searchTracks: builder.query<
-      TrackSearchResultResponse[],
-      SearchTrackRequest
-    >({
+    searchTracks: builder.query<TrackSearchResultResponse[], SearchTrackRequest>({
       query: ({ partyName, query, platforms }) => ({
         url: `/party/${partyName}/search`,
         params: {
@@ -88,10 +75,7 @@ export const partyApi = apiSlice.injectEndpoints({
       transformResponse(response: TrackSearchResultPreResponse[]) {
         return response.map((track) => ({
           ...track,
-          platformType:
-            track.platformType === "SPOTIFY"
-              ? EPlatformType.SPOTIFY
-              : EPlatformType.YOUTUBE
+          platformType: track.platformType === "SPOTIFY" ? EPlatformType.SPOTIFY : EPlatformType.YOUTUBE
         }));
       },
       extraOptions: { maxRetries: 0 }
@@ -100,10 +84,7 @@ export const partyApi = apiSlice.injectEndpoints({
       query: (request) => {
         const data = {
           uri: request.track.uri,
-          platformType:
-            request.track.platformType === EPlatformType.SPOTIFY
-              ? "SPOTIFY"
-              : "YOUTUBE"
+          platformType: request.track.platformType === EPlatformType.SPOTIFY ? "SPOTIFY" : "YOUTUBE"
         };
 
         return {
@@ -122,10 +103,7 @@ export const partyApi = apiSlice.injectEndpoints({
       transformResponse(response: TrackInQueueResponse[]) {
         return response.map((track) => ({
           ...track,
-          platformType:
-            track.platformType === "SPOTIFY"
-              ? EPlatformType.SPOTIFY
-              : EPlatformType.YOUTUBE
+          platformType: track.platformType === "SPOTIFY" ? EPlatformType.SPOTIFY : EPlatformType.YOUTUBE
         }));
       },
       extraOptions: { maxRetries: 0 }
@@ -136,23 +114,14 @@ export const partyApi = apiSlice.injectEndpoints({
         return response
           .map((track) => ({
             ...track,
-            platformType:
-              track.platformType === "SPOTIFY"
-                ? EPlatformType.SPOTIFY
-                : EPlatformType.YOUTUBE,
+            platformType: track.platformType === "SPOTIFY" ? EPlatformType.SPOTIFY : EPlatformType.YOUTUBE,
             endedAt: Date.now() - Date.parse(track.endedAt)
           }))
-          .sort(
-            (prevTrack, currentTrack) =>
-              prevTrack.endedAt - currentTrack.endedAt
-          );
+          .sort((prevTrack, currentTrack) => prevTrack.endedAt - currentTrack.endedAt);
       },
       extraOptions: { maxRetries: 0 }
     }),
-    setPlaybackDevice: builder.mutation<
-      PartyResponse,
-      SetPlaybackDeviceIdRequest
-    >({
+    setPlaybackDevice: builder.mutation<PartyResponse, SetPlaybackDeviceIdRequest>({
       query: ({ partyName, deviceId }) => {
         const data = {
           deviceId

@@ -15,21 +15,16 @@ export const router = createBrowserRouter([
     errorElement: <GeneralError />,
     children: [
       {
-        errorElement: <GeneralError />,
+        element: <AuthProvider />,
+        ErrorBoundary: RootBoundary,
         children: [
           {
-            element: <AuthProvider />,
-            ErrorBoundary: RootBoundary,
-            children: [
-              {
-                element: <PublicRoutes />,
-                children: publicRoutes
-              },
-              {
-                element: <PrivateRoutes />,
-                children: privateRoutes
-              }
-            ]
+            element: <PublicRoutes />,
+            children: publicRoutes
+          },
+          {
+            element: <PrivateRoutes />,
+            children: privateRoutes
           }
         ]
       }

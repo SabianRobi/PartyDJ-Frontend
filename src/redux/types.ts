@@ -40,7 +40,6 @@ export type UpdateUserPasswordRequest = {
 
 export type GetPartyRequest = {
   name: string;
-  currentUser: User;
 };
 
 // Backend responses
