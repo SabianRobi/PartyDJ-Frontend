@@ -45,9 +45,7 @@ export const authApi = apiSlice.injectEndpoints({
     }),
     //  TODO: Implement
     getMe: builder.query<void, void>({
-      query: () => ({
-        url: "/me"
-      })
+      query: () => "/user/me"
     }),
     getUserByUsername: builder.query<UserResponse, string>({
       query: (username) => ({
