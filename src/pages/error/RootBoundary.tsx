@@ -10,15 +10,9 @@ const RootBoundary = () => {
     return error.status === 404 ? (
       <ErrorPage status={404} message="Page not found" />
     ) : error.status === 401 ? (
-      <ErrorPage
-        status={401}
-        message="You don't have permission to visit this page"
-      />
+      <ErrorPage status={401} message="You don't have permission to visit this page" />
     ) : error.status === 503 ? (
-      <ErrorPage
-        status={503}
-        message="Something went wrong with your request"
-      />
+      <ErrorPage status={503} message="Something went wrong with your request" />
     ) : null;
   }
 

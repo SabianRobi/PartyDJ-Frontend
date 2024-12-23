@@ -23,12 +23,12 @@ module.exports = {
         error: "#B20000",
         success: "#008B38",
         lightText: "#ffffff",
-        darkText: "#000000",
+        darkText: "#000000"
       },
       fontFamily: {
-        k2d: ["K2D", "sans-serif"],
-      },
-    },
+        k2d: ["K2D", "sans-serif"]
+      }
+    }
   },
-  plugins: [flowbite.plugin()],
+  plugins: [flowbite.plugin()]
 };

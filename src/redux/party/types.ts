@@ -60,10 +60,7 @@ export type TrackSearchResultResponse = Track & {
   uri: string;
 };
 
-export type TrackSearchResultPreResponse = Omit<
-  TrackSearchResultResponse,
-  "platformType"
-> & {
+export type TrackSearchResultPreResponse = Omit<TrackSearchResultResponse, "platformType"> & {
   platformType: string;
 };
 
@@ -75,10 +72,7 @@ export type TrackInQueueResponse = Omit<TrackInQueue, "platformType"> & {
   platformType: string;
 };
 
-export type PlayedTrackPreResponse = Omit<
-  PlayedTrack,
-  "platformType" | "endedAt"
-> & {
+export type PlayedTrackPreResponse = Omit<PlayedTrack, "platformType" | "endedAt"> & {
   platformType: string; // "SPOTIFY" | "YOUTUBE"
   endedAt: string; // "2024-06-29 12:16:49"
 };

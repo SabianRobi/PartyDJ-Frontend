@@ -1,12 +1,5 @@
 import type { RouteObject } from "react-router-dom";
-import {
-  Create,
-  Join,
-  Party,
-  PartyHistory,
-  PartyQueue,
-  UserSettings
-} from "./pages";
+import { Create, Join, Party, PartyHistory, PartyQueue, UserSettings } from "./pages";
 
 export const privateRoutes: RouteObject[] = [
   {

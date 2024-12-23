@@ -6,8 +6,7 @@ import { useFormContext } from "react-hook-form";
 
 const SearchSettingsModalContent = () => {
   const { register, setValue, getValues, watch } = useFormContext(); // Retrieve all hook methods
-  const isSpotifyConnected =
-    useAppSelector(selectCurrentUser)?.spotifyConnected ?? false;
+  const isSpotifyConnected = useAppSelector(selectCurrentUser)?.spotifyConnected ?? false;
 
   return (
     <>
@@ -18,10 +17,7 @@ const SearchSettingsModalContent = () => {
             <ToggleSwitch
               {...register("settings.dataSaver")}
               onChange={() => {
-                setValue(
-                  "settings.dataSaver",
-                  !getValues("settings.dataSaver")
-                );
+                setValue("settings.dataSaver", !getValues("settings.dataSaver"));
               }}
               checked={Boolean(getValues("settings.dataSaver"))}
               disabled
@@ -36,10 +32,7 @@ const SearchSettingsModalContent = () => {
             <ToggleSwitch
               {...register("settings.spotify.enabled")}
               onChange={() => {
-                setValue(
-                  "settings.spotify.enabled",
-                  !getValues("settings.spotify.enabled")
-                );
+                setValue("settings.spotify.enabled", !getValues("settings.spotify.enabled"));
               }}
               checked={Boolean(watch("settings.spotify.enabled"))}
               disabled={!isSpotifyConnected}
@@ -62,10 +55,7 @@ const SearchSettingsModalContent = () => {
             <ToggleSwitch
               {...register("settings.youTube.enabled")}
               onChange={() => {
-                setValue(
-                  "settings.youTube.enabled",
-                  !getValues("settings.youTube.enabled")
-                );
+                setValue("settings.youTube.enabled", !getValues("settings.youTube.enabled"));
               }}
               checked={Boolean(watch("settings.youTube.enabled"))}
             />

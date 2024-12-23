@@ -20,12 +20,8 @@ const TrackCard = (props: SearchResultCardProps) => {
   const shouldTitleMarqueePlay = props.title.length > 33;
   const shouldArtistsMarqueePlay = props.artists.join(", ").length > 45;
 
-  const [isTitleMarqueePlaying, setTitleMarqueePlaying] = useState(
-    shouldTitleMarqueePlay
-  );
-  const [isArtistsMarqueePlaying, setArtistsMarqueePlaying] = useState(
-    shouldArtistsMarqueePlay
-  );
+  const [isTitleMarqueePlaying, setTitleMarqueePlaying] = useState(shouldTitleMarqueePlay);
+  const [isArtistsMarqueePlaying, setArtistsMarqueePlaying] = useState(shouldArtistsMarqueePlay);
 
   const handleTitleCycleComplete = () => {
     setTitleMarqueePlaying(false);
@@ -106,42 +102,24 @@ const TrackCard = (props: SearchResultCardProps) => {
       <div className="flex flex-col w-full p-1">
         {/* Top row: title, platform logo */}
         <div className="flex flex-row justify-between">
-          <div
-            onMouseEnter={() => handleTitleHover(true)}
-            onMouseLeave={() => handleTitleHover(false)}
-          >
-            <Marquee
-              delay={2}
-              onCycleComplete={() => handleTitleCycleComplete()}
-              play={isTitleMarqueePlaying}
-            >
-              <p className="font-bold line-clamp-2 leading-tight">
-                {props.title}
-              </p>
+          <div onMouseEnter={() => handleTitleHover(true)} onMouseLeave={() => handleTitleHover(false)}>
+            <Marquee delay={2} onCycleComplete={() => handleTitleCycleComplete()} play={isTitleMarqueePlaying}>
+              <p className="font-bold line-clamp-2 leading-tight">{props.title}</p>
             </Marquee>
           </div>
 
           {props.platformType && (
             <FontAwesomeIcon
               icon={getPlatformLogo(props.platformType)}
-              className={`${getPlatformLogoColor(
-                props.platformType
-              )} text-[28px] pl-1.5 pb-1.5 p-1`}
+              className={`${getPlatformLogoColor(props.platformType)} text-[28px] pl-1.5 pb-1.5 p-1`}
             />
           )}
         </div>
 
         {/* Bottom row: artist, duration */}
         <div className="h-full w-full">
-          <div
-            onMouseEnter={() => handleArtistsHover(true)}
-            onMouseLeave={() => handleArtistsHover(false)}
-          >
-            <Marquee
-              delay={2}
-              onCycleComplete={() => handleArtistsCycleComplete()}
-              play={isArtistsMarqueePlaying}
-            >
+          <div onMouseEnter={() => handleArtistsHover(true)} onMouseLeave={() => handleArtistsHover(false)}>
+            <Marquee delay={2} onCycleComplete={() => handleArtistsCycleComplete()} play={isArtistsMarqueePlaying}>
               <p className="text-sm">{props.artists.join(", ")}</p>
             </Marquee>
           </div>
@@ -153,9 +131,7 @@ const TrackCard = (props: SearchResultCardProps) => {
               })}
             </p>
 
-            {props.altText && (
-              <p className="text-tertiary italic">{props.altText}</p>
-            )}
+            {props.altText && <p className="text-tertiary italic">{props.altText}</p>}
           </div>
         </div>
       </div>

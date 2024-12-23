@@ -14,11 +14,7 @@ const CardRow = (props: CardRowProps) => (
       <div>
         {props.value ? <span>{props.value}</span> : null}
         {props.icon ? (
-          <button
-            type="button"
-            className="pl-2 p-1.5 hover:cursor-pointer"
-            onClick={props.onIconClick}
-          >
+          <button type="button" className="pl-2 p-1.5 hover:cursor-pointer" onClick={props.onIconClick}>
             {props.icon}
           </button>
         ) : null}

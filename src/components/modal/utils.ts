@@ -4,8 +4,7 @@ export const customTheme: CustomFlowbiteTheme = {
   modal: {
     content: {
       base: "relative h-full w-full p-4 md:h-auto",
-      inner:
-        "relative rounded-2xl text-lightText p-2 bg-secondary shadow flex flex-col max-h-[90dvh]"
+      inner: "relative rounded-2xl text-lightText p-2 bg-secondary shadow flex flex-col max-h-[90dvh]"
     },
     header: {
       base: "flex items-start justify-between rounded-t dark:border-gray-600 border-b p-3",

@@ -19,16 +19,16 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
       projectService: true,
       tsconfigRootDir: import.meta.dirname,
       ecmaFeatures: {
-        jsx: true,
-      },
-    },
+        jsx: true
+      }
+    }
   },
   plugins: {
     "react-hooks": reactHooks,
     "react-refresh": reactRefresh,
     "jsx-a11y": jsxA11y,
     "@stylistic": stylistic,
-    react,
+    react
   },
   rules: {
     ...jsxA11y.configs.recommended.rules,
@@ -40,13 +40,10 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
     "react/no-children-prop": [
       "warn",
       {
-        allowFunctions: false,
-      },
+        allowFunctions: false
+      }
     ],
-    "react/jsx-curly-brace-presence": [
-      "error",
-      { props: "never", children: "never", propElementValues: "always" },
-    ],
+    "react/jsx-curly-brace-presence": ["error", { props: "never", children: "never", propElementValues: "always" }],
     "react/button-has-type": ["error"],
 
     // Eslint rules
@@ -77,10 +74,7 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
     "@stylistic/spaced-comment": ["warn", "always"],
     "@stylistic/semi-style": ["warn", "last"],
     "@stylistic/semi-spacing": ["warn", { before: false, after: true }],
-    "@stylistic/no-multiple-empty-lines": [
-      "warn",
-      { max: 1, maxEOF: 1, maxBOF: 0 },
-    ],
+    "@stylistic/no-multiple-empty-lines": ["warn", { max: 1, maxEOF: 1, maxBOF: 0 }],
     "@stylistic/max-len": [
       "warn",
       {
@@ -90,8 +84,8 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
         ignoreTemplateLiterals: true,
         ignoreTrailingComments: true,
         ignoreUrls: true,
-        ignoreRegExpLiterals: true,
-      },
+        ignoreRegExpLiterals: true
+      }
     ],
     "@stylistic/lines-between-class-members": ["error", "always"],
     "@stylistic/comma-style": ["error", "last"],
@@ -109,8 +103,8 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
         allowBlockStart: true,
         allowClassStart: true,
         allowObjectStart: true,
-        allowArrayStart: true,
-      },
+        allowArrayStart: true
+      }
     ],
     "@stylistic/lines-around-comment": [
       "warn",
@@ -118,8 +112,8 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
         allowEnumStart: true,
         allowInterfaceStart: true,
         allowModuleStart: true,
-        allowTypeStart: true,
-      },
+        allowTypeStart: true
+      }
     ],
     "@stylistic/keyword-spacing": [
       "warn",
@@ -129,26 +123,23 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
         overrides: {
           for: { before: false },
           while: { before: false },
-          static: { after: false },
-        },
-      },
+          static: { after: false }
+        }
+      }
     ],
     "@stylistic/no-confusing-arrow": "warn",
     "@stylistic/no-multi-spaces": ["warn", { ignoreEOLComments: false }],
     "@stylistic/rest-spread-spacing": ["warn", "never"],
     "@stylistic/space-before-blocks": "warn",
     "@stylistic/type-annotation-spacing": "warn",
-    "@stylistic/jsx-pascal-case": [
-      "warn",
-      { allowLeadingUnderscore: false, allowNamespace: true },
-    ],
+    "@stylistic/jsx-pascal-case": ["warn", { allowLeadingUnderscore: false, allowNamespace: true }],
     "@stylistic/jsx-tag-spacing": [
       "warn",
       {
         beforeSelfClosing: "proportional-always",
         afterOpening: "never",
-        beforeClosing: "never",
-      },
+        beforeClosing: "never"
+      }
     ],
     "@stylistic/padding-line-between-statements": [
       "warn",
@@ -157,7 +148,7 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
       {
         blankLine: "any",
         prev: ["const", "let", "var"],
-        next: ["const", "let", "var"],
+        next: ["const", "let", "var"]
       },
       { blankLine: "always", prev: "directive", next: "*" },
       { blankLine: "any", prev: "directive", next: "directive" },
@@ -169,17 +160,17 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
       { blankLine: "always", prev: "*", next: "try" },
       { blankLine: "always", prev: "try", next: "*" },
       { blankLine: "always", prev: "*", next: "default" },
-      { blankLine: "always", prev: "*", next: "function" },
+      { blankLine: "always", prev: "*", next: "function" }
     ],
     "@stylistic/padding-line-between-statements": [
       "warn",
       {
         blankLine: "always",
         prev: "*",
-        next: ["enum", "interface", "type"],
-      },
+        next: ["enum", "interface", "type"]
+      }
     ],
-    
+
     // Typescript rules
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/no-unused-vars": [
@@ -188,8 +179,8 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
         varsIgnorePattern: "^_",
         ignoreRestSiblings: true,
         destructuredArrayIgnorePattern: "[A-Z]",
-        caughtErrors: "none",
-      },
+        caughtErrors: "none"
+      }
     ],
     "@typescript-eslint/no-magic-numbers": [
       "off",
@@ -197,20 +188,17 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
         ignoreEnums: true,
         ignoreNumericLiteralTypes: true,
         ignoreReadonlyClassProperties: true,
-        ignoreTypeIndexes: true,
-      },
+        ignoreTypeIndexes: true
+      }
     ],
     "@typescript-eslint/no-unnecessary-template-expression": "error",
-    "@typescript-eslint/no-empty-object-type": [
-      "warn",
-      { allowWithName: "Props$", allowObjectTypes: "never" },
-    ],
+    "@typescript-eslint/no-empty-object-type": ["warn", { allowWithName: "Props$", allowObjectTypes: "never" }],
     "@typescript-eslint/consistent-type-imports": [
       "warn",
       {
         fixStyle: "inline-type-imports"
-      },
+      }
     ],
-    "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
+    "@typescript-eslint/consistent-type-definitions": ["warn", "type"]
   }
 });

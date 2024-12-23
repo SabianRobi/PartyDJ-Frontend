@@ -1,8 +1,4 @@
-import {
-  faMagnifyingGlass,
-  faSliders,
-  faXmark
-} from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faSliders, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { Dispatch, SetStateAction } from "react";
 import { useFormContext } from "react-hook-form";
@@ -36,10 +32,7 @@ const SearchBar = ({ setIsSettingsModalOpen }: SearchBarProps) => {
           type="button"
           onClick={() => setIsSettingsModalOpen(true)}
         >
-          <FontAwesomeIcon
-            icon={faSliders}
-            className="h-4 w-4 rotate-90 mx-auto"
-          />
+          <FontAwesomeIcon icon={faSliders} className="h-4 w-4 rotate-90 mx-auto" />
         </button>
 
         {/* Input */}
@@ -62,25 +55,15 @@ const SearchBar = ({ setIsSettingsModalOpen }: SearchBarProps) => {
 
           {/* Reset button */}
           <div className="absolute top-0 right-0 mr-4 h-full flex items-center">
-            <button
-              className="flex items-center"
-              onClick={handleClearInput}
-              type="reset"
-            >
+            <button className="flex items-center" onClick={handleClearInput} type="reset">
               <FontAwesomeIcon icon={faXmark} className="p-2" />
             </button>
           </div>
         </div>
 
         {/* Search logo */}
-        <button
-          className="mx-auto p-2 bg-tertiary rounded-e-2xl w-[40px]"
-          type="submit"
-        >
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-            className="h-4 w-4 mx-auto"
-          />
+        <button className="mx-auto p-2 bg-tertiary rounded-e-2xl w-[40px]" type="submit">
+          <FontAwesomeIcon icon={faMagnifyingGlass} className="h-4 w-4 mx-auto" />
         </button>
       </div>
     </div>

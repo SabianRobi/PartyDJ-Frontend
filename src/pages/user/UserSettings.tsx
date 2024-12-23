@@ -35,10 +35,7 @@ const UserSettings = () => {
     setModalContent({
       title: "Editing username",
       body: (
-        <ModalContent
-          handleCloseModal={handleCloseModal}
-          type={FormInputEnum.EditUsernameInput}
-        >
+        <ModalContent handleCloseModal={handleCloseModal} type={FormInputEnum.EditUsernameInput}>
           <EditUsernameModalContent />
         </ModalContent>
       )
@@ -50,10 +47,7 @@ const UserSettings = () => {
     setModalContent({
       title: "Editing email",
       body: (
-        <ModalContent
-          handleCloseModal={handleCloseModal}
-          type={FormInputEnum.EditEmailInput}
-        >
+        <ModalContent handleCloseModal={handleCloseModal} type={FormInputEnum.EditEmailInput}>
           <EditEmailModalContent />
         </ModalContent>
       )
@@ -65,10 +59,7 @@ const UserSettings = () => {
     setModalContent({
       title: "Editing password",
       body: (
-        <ModalContent
-          handleCloseModal={handleCloseModal}
-          type={FormInputEnum.EditPasswordInput}
-        >
+        <ModalContent handleCloseModal={handleCloseModal} type={FormInputEnum.EditPasswordInput}>
           <EditPasswordModalContent />
         </ModalContent>
       )
@@ -80,10 +71,7 @@ const UserSettings = () => {
     setModalContent({
       title: "Deleting account",
       body: (
-        <ModalContent
-          handleCloseModal={handleCloseModal}
-          type={FormInputEnum.DeleteAccountInput}
-        >
+        <ModalContent handleCloseModal={handleCloseModal} type={FormInputEnum.DeleteAccountInput}>
           <DeleteAccountModalContent />
         </ModalContent>
       )
@@ -113,11 +101,7 @@ const UserSettings = () => {
 
   return (
     <div className="flex flex-col gap-6 justify-between h-full">
-      <Modal
-        title={modalContent?.title}
-        showModal={showModal}
-        setShowModal={setShowModal}
-      >
+      <Modal title={modalContent?.title} showModal={showModal} setShowModal={setShowModal}>
         {modalContent?.body}
       </Modal>
 
@@ -149,18 +133,10 @@ const UserSettings = () => {
             value={<>{user?.spotifyConnected ? "connected" : "disconnected"}</>}
             icon={
               user?.spotifyConnected ? (
-                <FontAwesomeIcon
-                  icon={faLinkSlash}
-                  className="text-error"
-                  title="Disconnect"
-                />
+                <FontAwesomeIcon icon={faLinkSlash} className="text-error" title="Disconnect" />
               ) : (
                 <button type="button" onClick={handleGetSpotifyAuthUrl}>
-                  <FontAwesomeIcon
-                    icon={faLink}
-                    className="text-success"
-                    title="Connect"
-                  />
+                  <FontAwesomeIcon icon={faLink} className="text-success" title="Connect" />
                 </button>
               )
             }
@@ -168,10 +144,7 @@ const UserSettings = () => {
         </Card>
       </div>
       <div>
-        <Button
-          className="mx-auto bg-primary text-error min-w-[300px]"
-          onClick={handleOpenDeleteAccountModal}
-        >
+        <Button className="mx-auto bg-primary text-error min-w-[300px]" onClick={handleOpenDeleteAccountModal}>
           Delete account
         </Button>
       </div>

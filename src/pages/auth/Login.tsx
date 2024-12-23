@@ -68,9 +68,7 @@ const Login = () => {
         <div className="flex flex-col justify-end">
           <p className="text-lightText/50">New to PartyDJ?</p>
           <Link to="/auth/register">
-            <p className="text-lightText/50 hover:text-lightText hover:underline">
-              Register an account instead!
-            </p>
+            <p className="text-lightText/50 hover:text-lightText hover:underline">Register an account instead!</p>
           </Link>
         </div>
       }
@@ -110,9 +108,7 @@ const Login = () => {
           }}
           errors={errors}
         />
-        {errors.root?.message && (
-          <p className="text-error text-sm text-end">{errors.root.message}</p>
-        )}
+        {errors.root?.message && <p className="text-error text-sm text-end">{errors.root.message}</p>}
       </>
     </MyForm>
   );

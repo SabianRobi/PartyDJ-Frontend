@@ -1,10 +1,7 @@
 import Modal from "#/components/modal/Modal";
 import { errorToast, successToast } from "#/components/utils";
 import { selectParty, useAppSelector } from "#/redux/hooks";
-import {
-  useAddTrackToQueueMutation,
-  useLazySearchTracksQuery
-} from "#/redux/party/partyApiSlice";
+import { useAddTrackToQueueMutation, useLazySearchTracksQuery } from "#/redux/party/partyApiSlice";
 import type { TrackSearchResultResponse } from "#/redux/party/types";
 import { useState } from "react";
 import { type SubmitHandler, FormProvider, useForm } from "react-hook-form";
@@ -13,7 +10,7 @@ import TrackCard from "./components/TrackCard";
 import { EPlatformType } from "./components/utils";
 import SearchSettingsModalContent from "./modalContents/SearchSettingsModalContent";
 
-export type ISearchFormInput = {
+export type SearchFormInput = {
   query: string;
   settings: {
     spotify: {
@@ -28,18 +25,23 @@ export type ISearchFormInput = {
 };
 
 const Party = () => {
-  const [searchResults, setSearchResults] = useState<
-    TrackSearchResultResponse[]
-  >([]);
+  const [searchResults, setSearchResults] = useState<TrackSearchResultResponse[]>([]);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-  const [doSearchTracks, { isLoading, isFetching }] =
-    useLazySearchTracksQuery();
+  const [doSearchTracks, { isLoading, isFetching }] = useLazySearchTracksQuery();
   const [doAddTrackToQueue] = useAddTrackToQueueMutation();
   const party = useAppSelector(selectParty);
 
-  const methods = useForm<ISearchFormInput>({ defaultValues: { query: "" } });
+  const methods = useForm<SearchFormInput>({
+    defaultValues: {
+      query: "",
+      settings: {
+        spotify: { enabled: true, limit: 5 },
+        youTube: { enabled: false, limit: 5 }
+      }
+    }
+  });
 
-  const onSubmit: SubmitHandler<ISearchFormInput> = (data) => {
+  const onSubmit: SubmitHandler<SearchFormInput> = (data) => {
     console.log(data);
 
     const platforms: EPlatformType[] = [];
@@ -91,11 +93,7 @@ const Party = () => {
           <SearchBar setIsSettingsModalOpen={setIsSettingsModalOpen} />
 
           {/* Settings modal */}
-          <Modal
-            title="Search settings"
-            showModal={isSettingsModalOpen}
-            setShowModal={setIsSettingsModalOpen}
-          >
+          <Modal title="Search settings" showModal={isSettingsModalOpen} setShowModal={setIsSettingsModalOpen}>
             <SearchSettingsModalContent />
           </Modal>
         </form>

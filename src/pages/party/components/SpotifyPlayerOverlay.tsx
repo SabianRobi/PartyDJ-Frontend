@@ -1,12 +1,5 @@
-import {
-  selectParty,
-  selectSpotifyTokens,
-  useAppSelector
-} from "#/redux/hooks";
-import {
-  useSetPlaybackDeviceMutation,
-  useSkipTrackMutation
-} from "#/redux/party/partyApiSlice";
+import { selectParty, selectSpotifyTokens, useAppSelector } from "#/redux/hooks";
+import { useSetPlaybackDeviceMutation, useSkipTrackMutation } from "#/redux/party/partyApiSlice";
 import { useRefreshTokenMutation } from "#/redux/spotify/spotifyApiSlice";
 import SpotifyPlayer, { type CallbackState } from "react-spotify-web-playback";
 
@@ -34,11 +27,7 @@ const SpotifyPlayerOverlay = () => {
     }
 
     // Play next track when the previous has ended
-    if (
-      state.type === "player_update" &&
-      !state.isPlaying &&
-      state.progressMs === 0
-    ) {
+    if (state.type === "player_update" && !state.isPlaying && state.progressMs === 0) {
       console.info("Track ended, requesting to play next...");
       handleSkip();
     }

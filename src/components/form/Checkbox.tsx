@@ -24,9 +24,7 @@ const Checkbox = (props: CheckboxProps) => (
       </label>
 
       {props.errors[props.name] && (
-        <p className="text-error text-sm text-end">
-          {"" + props?.errors[props.name]?.message}
-        </p>
+        <p className="text-error text-sm text-end">{"" + props?.errors[props.name]?.message}</p>
       )}
     </div>
   </div>

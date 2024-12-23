@@ -31,13 +31,7 @@ const Field = (props: FieldProps) => {
       <div className="relative">
         <input
           {...props.register(props.name, props.validation)}
-          type={
-            props.type === "password"
-              ? hidden
-                ? "password"
-                : "text"
-              : props.type
-          }
+          type={props.type === "password" ? (hidden ? "password" : "text") : props.type}
           id={props.name}
           name={props.name}
           className={`${props.errors[props.name] ? "rounded-br-none" : ""} ${
@@ -46,22 +40,12 @@ const Field = (props: FieldProps) => {
           placeholder={props.inputPlaceholder}
         />
         {props.type === "password" && (
-          <button
-            type="button"
-            className="absolute top-2 right-2"
-            onClick={handleToggleHidden}
-          >
-            {hidden ? (
-              <FontAwesomeIcon icon={faEye} />
-            ) : (
-              <FontAwesomeIcon icon={faEyeSlash} />
-            )}
+          <button type="button" className="absolute top-2 right-2" onClick={handleToggleHidden}>
+            {hidden ? <FontAwesomeIcon icon={faEye} /> : <FontAwesomeIcon icon={faEyeSlash} />}
           </button>
         )}
         {props.errors[props.name] && (
-          <p className="text-error text-sm text-end">
-            {"" + props?.errors[props.name]?.message}
-          </p>
+          <p className="text-error text-sm text-end">{"" + props?.errors[props.name]?.message}</p>
         )}
       </div>
     </div>

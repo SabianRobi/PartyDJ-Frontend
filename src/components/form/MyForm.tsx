@@ -13,9 +13,7 @@ type MyFromProps = {
 
 const MyForm = (props: MyFromProps) => (
   <form onSubmit={props.handleSubmit}>
-    <div
-      className={`${props.className} bg-primary rounded-3xl min-w-[300px] max-w-[500px] p-3`}
-    >
+    <div className={`${props.className} bg-primary rounded-3xl min-w-[300px] max-w-[500px] p-3`}>
       <h3 className="text-2xl text-center pb-8">{props.title}</h3>
 
       {props.children}

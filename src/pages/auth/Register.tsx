@@ -47,15 +47,13 @@ const Register = () => {
         errorToast("Register failed!");
 
         if (error.data.errors) {
-          Object.entries(error.data.errors).forEach(
-            ([fieldName, errorMessage]) => {
-              // @ts-expect-error: fieldName is a string
-              setError(fieldName, {
-                type: "custom",
-                message: errorMessage
-              });
-            }
-          );
+          Object.entries(error.data.errors).forEach(([fieldName, errorMessage]) => {
+            // @ts-expect-error: fieldName is a string
+            setError(fieldName, {
+              type: "custom",
+              message: errorMessage
+            });
+          });
         }
       });
   };
@@ -70,9 +68,7 @@ const Register = () => {
         <div className="flex flex-col justify-end">
           <p className="text-lightText/50">Already have an account?</p>
           <Link to="/auth/login">
-            <p className="text-lightText/50 hover:text-lightText hover:underline">
-              Log in instead!
-            </p>
+            <p className="text-lightText/50 hover:text-lightText hover:underline">Log in instead!</p>
           </Link>
         </div>
       }

@@ -4,9 +4,7 @@ import { lazy } from "react";
 export const Home = lazy(() => import("#/pages/Home"));
 export const Login = lazy(() => import("#/pages/auth/Login"));
 export const Register = lazy(() => import("#/pages/auth/Register"));
-export const SpotifyCallback = lazy(
-  () => import("#/pages/auth/SpotifyCallback")
-);
+export const SpotifyCallback = lazy(() => import("#/pages/auth/SpotifyCallback"));
 
 // Public routes
 export const UserSettings = lazy(() => import("#/pages/user/UserSettings"));

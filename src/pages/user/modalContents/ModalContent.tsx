@@ -5,16 +5,8 @@ import {
   useUpdateUserPasswordMutation
 } from "#/redux/auth/authApiSlice";
 import { clearUser, setUser } from "#/redux/auth/authSlice";
-import {
-  selectCurrentUser,
-  useAppDispatch,
-  useAppSelector
-} from "#/redux/hooks";
-import type {
-  GeneralErrorResponse,
-  UpdateUserDetailsRequest,
-  UpdateUserPasswordRequest
-} from "#/redux/types";
+import { selectCurrentUser, useAppDispatch, useAppSelector } from "#/redux/hooks";
+import type { GeneralErrorResponse, UpdateUserDetailsRequest, UpdateUserPasswordRequest } from "#/redux/types";
 import { type ReactNode } from "react";
 import { type SubmitHandler, FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom"; // TODO: make errors more visible
@@ -33,18 +25,14 @@ type ModalContentProps = {
   children: ReactNode;
 };
 
-type FormInputTypes =
-  | EditUsernameInput
-  | EditEmailInput
-  | EditPasswordInput
-  | DeleteAccountInput;
+type FormInputTypes = EditUsernameInput | EditEmailInput | EditPasswordInput | DeleteAccountInput;
 
-type IUpdateUserDetails = {
+type UpdateUserDetails = {
   currentUsername: string;
   data: UpdateUserDetailsRequest;
 };
 
-type IUpdateUserPassword = {
+type UpdateUserPassword = {
   currentUsername: string;
   data: UpdateUserPasswordRequest;
 };
@@ -76,9 +64,7 @@ const ModalContent = (props: ModalContentProps) => {
   const [doUpdateUserPassword] = useUpdateUserPasswordMutation();
   const [doDeleteUser] = useDeleteUserMutation();
 
-  const handleEditPasswordSubmit: SubmitHandler<EditPasswordInput> = (
-    data: EditPasswordInput
-  ) => {
+  const handleEditPasswordSubmit: SubmitHandler<EditPasswordInput> = (data: EditPasswordInput) => {
     // Custom validation
     if (data.password !== data.confirmPassword) {
       methods.setError("confirmPassword", {
@@ -88,7 +74,7 @@ const ModalContent = (props: ModalContentProps) => {
       return;
     }
 
-    const toSubmit: IUpdateUserPassword = {
+    const toSubmit: UpdateUserPassword = {
       currentUsername: user?.username ?? "",
       data: data
     };
@@ -116,8 +102,7 @@ const ModalContent = (props: ModalContentProps) => {
         if (error.data.errors["updatePassword.updateUserPasswordRequest"]) {
           methods.setError("confirmPassword", {
             type: "custom",
-            message:
-              error.data.errors["updatePassword.updateUserPasswordRequest"]
+            message: error.data.errors["updatePassword.updateUserPasswordRequest"]
           });
         }
 
@@ -126,30 +111,23 @@ const ModalContent = (props: ModalContentProps) => {
       });
   };
 
-  const handleEditEmailSubmit: SubmitHandler<EditEmailInput> = (
-    data: EditEmailInput
-  ) => {
-    const toSubmit: IUpdateUserDetails = {
+  const handleEditEmailSubmit: SubmitHandler<EditEmailInput> = (data: EditEmailInput) => {
+    const toSubmit: UpdateUserDetails = {
       currentUsername: user?.username ?? "",
       data: { email: data.email, username: user?.username ?? "" }
     };
     updateUserDetails("email", toSubmit);
   };
 
-  const handleEditUsernameSubmit: SubmitHandler<EditUsernameInput> = (
-    data: EditUsernameInput
-  ) => {
-    const toSubmit: IUpdateUserDetails = {
+  const handleEditUsernameSubmit: SubmitHandler<EditUsernameInput> = (data: EditUsernameInput) => {
+    const toSubmit: UpdateUserDetails = {
       currentUsername: user?.username ?? "",
       data: { email: user?.email ?? "", username: data.username }
     };
     updateUserDetails("username", toSubmit);
   };
 
-  const updateUserDetails = (
-    field: "username" | "email",
-    toSubmit: IUpdateUserDetails
-  ) => {
+  const updateUserDetails = (field: "username" | "email", toSubmit: UpdateUserDetails) => {
     console.info(`Editing ${field}...`);
 
     doUpdateUserDetails(toSubmit)
@@ -174,9 +152,7 @@ const ModalContent = (props: ModalContentProps) => {
       });
   };
 
-  const handleDeleteAccountSubmit: SubmitHandler<DeleteAccountInput> = (
-    data: DeleteAccountInput
-  ) => {
+  const handleDeleteAccountSubmit: SubmitHandler<DeleteAccountInput> = (data: DeleteAccountInput) => {
     const toSubmit: DeleteUserData = {
       username: user?.username ?? "",
       data: data

@@ -16,8 +16,8 @@ const DeleteAccountModalContent = () => {
   return (
     <div className="flex flex-col justify-between">
       <div className="pb-24 text-justify">
-        By deleting your account, all associated data will be removed from our
-        database and all connected platforms will be disconnected automatically.
+        By deleting your account, all associated data will be removed from our database and all connected platforms will
+        be disconnected automatically.
       </div>
       <Checkbox
         name="confirmChoice"

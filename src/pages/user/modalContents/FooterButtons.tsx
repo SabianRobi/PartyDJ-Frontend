@@ -6,10 +6,7 @@ type FooterButtonsProps = {
 
 const FooterButtons = (props: FooterButtonsProps) => (
   <div className="flex flex-row justify-between pt-3 text-sm">
-    <Button
-      className="bg-error hover:!bg-error/80"
-      onClick={() => props.handleCloseModal()}
-    >
+    <Button className="bg-error hover:!bg-error/80" onClick={() => props.handleCloseModal()}>
       Cancel
     </Button>
     <Button type="submit" className="bg-success hover:!bg-success/50">
