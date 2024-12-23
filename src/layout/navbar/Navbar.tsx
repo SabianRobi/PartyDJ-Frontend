@@ -8,21 +8,13 @@ import {
   useAppDispatch,
   useAppSelector
 } from "#/redux/hooks";
-import {
-  useDeletePartyMutation,
-  useLeavePartyMutation
-} from "#/redux/party/partyApiSlice";
+import { useDeletePartyMutation, useLeavePartyMutation } from "#/redux/party/partyApiSlice";
 import { clearParty } from "#/redux/party/partySlice";
 import { clearSpotifyTokens } from "#/redux/spotify/spotifySlice";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  type CustomFlowbiteTheme,
-  Dropdown,
-  DropdownDivider,
-  Flowbite
-} from "flowbite-react";
-import { useEffect, useState } from "react";
+import { type CustomFlowbiteTheme, Dropdown, DropdownDivider, Flowbite } from "flowbite-react";
+import { type HTMLProps, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import NavbarLink from "./NavbarLink";
 
@@ -48,7 +40,9 @@ const customTheme: CustomFlowbiteTheme = {
   }
 };
 
-const Navbar = () => {
+type NavbarProps = HTMLProps<HTMLDivElement>;
+
+const Navbar = (props: NavbarProps) => {
   const [status, setStatus] = useState<Status>(Status.LOGGED_OUT);
   const user = useAppSelector(selectCurrentUser);
   const party = useAppSelector(selectParticipatingParty);
@@ -60,13 +54,12 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setStatus(
-      party ? Status.IN_PARTY : user ? Status.LOGGED_IN : Status.LOGGED_OUT
-    );
+    setStatus(party ? Status.IN_PARTY : user ? Status.LOGGED_IN : Status.LOGGED_OUT);
   }, [user, party]);
 
   const handleLogout = () => {
     console.info("Sending logout request...");
+
     doLogout(null)
       .unwrap()
       .then(() => {
@@ -115,14 +108,10 @@ const Navbar = () => {
   };
 
   return (
-    <>
+    <div {...props}>
       <nav className="flex flex-row justify-between p-2 bg-primary items-center">
         <NavLink to="/" className="flex flex-row content-center">
-          <img
-            src="/logo-light.png"
-            className="mr-3 h-10 sm:h-9"
-            alt="PartyDJ Logo"
-          />
+          <img src="/logo-light.png" className="mr-3 h-10 sm:h-9" alt="PartyDJ Logo" />
           {/* <span>PartyDJ</span> */}
         </NavLink>
 
@@ -141,12 +130,7 @@ const Navbar = () => {
                   <Dropdown
                     arrowIcon={false}
                     inline={true}
-                    label={
-                      <FontAwesomeIcon
-                        icon={faUser}
-                        className="p-2 rounded-2xl bg-tertiary"
-                      />
-                    }
+                    label={<FontAwesomeIcon icon={faUser} className="p-2 rounded-2xl bg-tertiary" />}
                   >
                     <Dropdown.Header>
                       <span className="text-sm">{user?.username}</span>
@@ -154,10 +138,7 @@ const Navbar = () => {
                     <Dropdown.Item as={NavLink} to={"/user/" + user?.username}>
                       Settings
                     </Dropdown.Item>
-                    <Dropdown.Item
-                      className="hover:bg-error hover:text-lightText text-error"
-                      onClick={handleLogout}
-                    >
+                    <Dropdown.Item className="hover:bg-error hover:text-lightText text-error" onClick={handleLogout}>
                       <p>Logout</p>
                     </Dropdown.Item>
                   </Dropdown>
@@ -170,21 +151,13 @@ const Navbar = () => {
                 <Flowbite theme={{ theme: customTheme }}>
                   <Dropdown arrowIcon={true} inline={true} label={<p>Party</p>}>
                     <Dropdown.Item as={NavLink} to={"/party/" + party?.name}>
-                      <span className="text-sm text-center w-full">
-                        {party?.name}
-                      </span>
+                      <span className="text-sm text-center w-full">{party?.name}</span>
                     </Dropdown.Item>
                     <DropdownDivider />
-                    <Dropdown.Item
-                      as={NavLink}
-                      to={"/party/" + party?.name + "/queue"}
-                    >
+                    <Dropdown.Item as={NavLink} to={"/party/" + party?.name + "/queue"}>
                       Watch queue
                     </Dropdown.Item>
-                    <Dropdown.Item
-                      as={NavLink}
-                      to={"/party/" + party?.name + "/history"}
-                    >
+                    <Dropdown.Item as={NavLink} to={"/party/" + party?.name + "/history"}>
                       Watch history
                     </Dropdown.Item>
                     <DropdownDivider />
@@ -195,9 +168,7 @@ const Navbar = () => {
                       className="hover:bg-error hover:text-lightText text-error"
                       onClick={handleLeaveDeleteParty}
                     >
-                      <p>
-                        {partyRole === "CREATOR" ? "Delete" : "Leave"} party
-                      </p>
+                      <p>{partyRole === "CREATOR" ? "Delete" : "Leave"} party</p>
                     </Dropdown.Item>
                   </Dropdown>
                 </Flowbite>
@@ -207,12 +178,7 @@ const Navbar = () => {
                   <Dropdown
                     arrowIcon={false}
                     inline={true}
-                    label={
-                      <FontAwesomeIcon
-                        icon={faUser}
-                        className="p-2 rounded-2xl bg-tertiary"
-                      />
-                    }
+                    label={<FontAwesomeIcon icon={faUser} className="p-2 rounded-2xl bg-tertiary" />}
                   >
                     <Dropdown.Header>
                       <span className="text-sm">{user?.username}</span>
@@ -220,10 +186,7 @@ const Navbar = () => {
                     <Dropdown.Item>
                       <NavLink to={"/user/" + user?.username}>Settings</NavLink>
                     </Dropdown.Item>
-                    <Dropdown.Item
-                      className="hover:bg-error hover:text-lightText text-error"
-                      onClick={handleLogout}
-                    >
+                    <Dropdown.Item className="hover:bg-error hover:text-lightText text-error" onClick={handleLogout}>
                       <p>Logout</p>
                     </Dropdown.Item>
                   </Dropdown>
@@ -233,7 +196,7 @@ const Navbar = () => {
           )}
         </ul>
       </nav>
-    </>
+    </div>
   );
 };
 

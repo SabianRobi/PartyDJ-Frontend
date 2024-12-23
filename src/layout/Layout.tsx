@@ -1,11 +1,11 @@
 import SpotifyPlayerOverlay from "#/pages/party/components/SpotifyPlayerOverlay";
 import { selectPartyRole, useAppSelector } from "#/redux/hooks";
-import { Outlet, useLocation, useNavigation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import Footer from "./Footer";
 import Navbar from "./navbar/Navbar";
 
 const Layout = () => {
-  const navigation = useNavigation();
   const { pathname: currentPath } = useLocation();
   const partyRole = useAppSelector(selectPartyRole);
 
@@ -13,35 +13,20 @@ const Layout = () => {
     <>
       <ToastContainer />
       <div className="bg-background text-lightText min-h-screen min-w-screen font-k2d relative">
-        <div className="flex flex-col container mx-auto min-h-full">
-          {navigation.state === "loading" ? (
-            <p>Page is loading...</p>
-          ) : (
-            <div className="flex flex-col min-h-screen">
-              <div className="flex-initial">
-                <Navbar />
-              </div>
-              <div
-                className={`
-                  "flex-1 m-2",
-                  ${
-                    [
-                      "/auth/login",
-                      "/auth/register",
-                      "/party/join",
-                      "/party/create"
-                    ].includes(currentPath)
-                      ? "grid place-items-center"
-                      : ""
-                  }`}
-              >
-                <Outlet />
-              </div>
-              <div className="flex-initial text-center bg-primary">
-                Footer will be placed here
-              </div>
+        <div className="flex flex-col max-w-7xl mx-auto min-h-full">
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <div
+              className={`flex-grow m-2 ${
+                ["/auth/login", "/auth/register", "/party/join", "/party/create"].includes(currentPath)
+                  ? "grid place-items-center"
+                  : ""
+              }`}
+            >
+              <Outlet />
             </div>
-          )}
+            <Footer />
+          </div>
         </div>
 
         {/* Spotify player */}
