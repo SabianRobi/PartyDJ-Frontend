@@ -1,19 +1,19 @@
-import type { Spotify, SpotifyState } from "#/redux/types";
+import type { SpotifyState } from "#/redux/types";
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: SpotifyState = {
-  spotify: null
+  token: null
 };
 
 export const spotifySlice = createSlice({
   name: "spotify",
   initialState,
   reducers: {
-    setSpotifyToken: (state, action: PayloadAction<Spotify>) => {
-      state.spotify = action.payload;
+    setSpotifyToken: (state, action: PayloadAction<SpotifyState["token"]>) => {
+      state.token = action.payload;
     },
     clearSpotifyToken: (state) => {
-      state.spotify = null;
+      state.token = null;
     }
   }
 });

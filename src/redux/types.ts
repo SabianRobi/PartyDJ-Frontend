@@ -10,12 +10,8 @@ export type UserState = {
   user: User | null;
 };
 
-export type Spotify = {
-  token: string;
-};
-
 export type SpotifyState = {
-  spotify: Spotify | null;
+  token: string | null;
 };
 
 export type PartyState = {
@@ -40,6 +36,11 @@ export type UpdateUserPasswordRequest = {
 
 export type GetPartyRequest = {
   name: string;
+};
+
+export type SetSpotifyTokensRequest = {
+  code: string;
+  state: string;
 };
 
 // Backend responses

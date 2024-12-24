@@ -1,7 +1,6 @@
 import { errorToast, successToast } from "#/components/utils";
-import { useAppDispatch } from "#/redux/hooks";
-import { useSetSpotifyTokensQuery } from "#/redux/spotify/spotifyApiSlice";
-import { setSpotifyToken } from "#/redux/spotify/spotifySlice";
+import { selectCurrentUser, useAppSelector } from "#/redux/hooks";
+import { useSetSpotifyTokensMutation } from "#/redux/spotify/spotifyApiSlice";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -10,40 +9,30 @@ const SpotifyCallback = () => {
   const urlParams = new URLSearchParams(location.search);
   const code = urlParams.get("code") ?? "";
   const state = urlParams.get("state") ?? "";
-
+  const user = useAppSelector(selectCurrentUser);
   const navigate = useNavigate();
 
-  const {
-    // status,
-    data,
-    isError,
-    isLoading,
-    isFetching,
-    isSuccess,
-    isUninitialized
-  } = useSetSpotifyTokensQuery({ code, state });
-
-  // const params = useParams();
-  const dispatch = useAppDispatch();
+  const [doeSetSpotifyTokens, { isError, isLoading, isSuccess, isUninitialized }] = useSetSpotifyTokensMutation();
 
   useEffect(() => {
-    if (isSuccess) {
-      dispatch(setSpotifyToken({ token: data.token }));
-      successToast("Successfully connected Spotify!");
-      // TODO: Redirect works, but the token does not stay because of the navigate(-1) -> goes to "another page" -> redux context is lost
-      // TODO: To solve this, implement auto-login when page loads (multiple tabs), then if the user's isSpotifyConnected flag is true, fetch the token also.
-      void navigate(-1);
-    }
-    if (isError) {
-      errorToast("Failed to connected Spotify!");
-    }
-  }, [isSuccess, isError, dispatch, data, navigate]);
+    doeSetSpotifyTokens({ code, state })
+      .unwrap()
+      .then(() => {
+        console.info("Successfully connected Spotify!");
+        successToast("Successfully connected Spotify!");
+        void navigate(`/user/${user?.username}`);
+      })
+      .catch((error) => {
+        console.info("Failed to connect Spotify: ", error);
+        errorToast("Failed to connect Spotify!");
+      });
+  }, [code, state, doeSetSpotifyTokens, navigate, user?.username]);
 
   return (
     <p>
       {isSuccess && "Successfully connected with Spotify!"}
       {isError && "Failed to connect Spotify!"}
-      {isUninitialized || isLoading || (isFetching && "Connecting Spotify...")}
+      {isUninitialized || isLoading || (isLoading && "Connecting Spotify...")}
     </p>
   );
 };

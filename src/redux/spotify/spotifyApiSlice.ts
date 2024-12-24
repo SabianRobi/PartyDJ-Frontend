@@ -1,4 +1,4 @@
-import type { SpotifyLoginUriResponse, SpotifyTokenResponse } from "#/redux/types";
+import type { SetSpotifyTokensRequest, SpotifyLoginUriResponse, SpotifyTokenResponse } from "#/redux/types";
 import { apiSlice } from "../apiSlice";
 import { clearSpotifyToken, setSpotifyToken } from "./spotifySlice";
 
@@ -9,14 +9,22 @@ export const spotifyApi = apiSlice.injectEndpoints({
     }),
 
     getToken: builder.query<SpotifyTokenResponse, void>({
-      query: () => "/platforms/spotify/token"
+      query: () => "/platforms/spotify/token",
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        await queryFulfilled
+          .then(({ data }) => dispatch(setSpotifyToken(data.token)))
+          .catch(() => dispatch(clearSpotifyToken()));
+      },
+      providesTags: ["SpotifyToken"]
     }),
 
-    // TODO: Make it a POST request in backend
-    setSpotifyTokens: builder.query<SpotifyTokenResponse, { code: string; state: string }>({
-      query: ({ code, state }) => ({
-        url: `/platforms/spotify/callback?code=${code}&state=${state}`
-      })
+    setSpotifyTokens: builder.mutation<SpotifyTokenResponse, SetSpotifyTokensRequest>({
+      query: (data) => ({
+        url: "/platforms/spotify/callback",
+        method: "POST",
+        body: data
+      }),
+      invalidatesTags: ["Me", "SpotifyToken"]
     }),
 
     refreshToken: builder.mutation<SpotifyTokenResponse, void>({
@@ -24,17 +32,7 @@ export const spotifyApi = apiSlice.injectEndpoints({
         url: "/platforms/spotify/token",
         method: "PATCH"
       }),
-      async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        await queryFulfilled.then((response) => {
-          if (response.data) {
-            dispatch(
-              setSpotifyToken({
-                token: response.data.token
-              })
-            );
-          }
-        });
-      }
+      invalidatesTags: ["SpotifyToken"]
     }),
 
     disconnect: builder.mutation<SpotifyTokenResponse, void>({
@@ -42,20 +40,14 @@ export const spotifyApi = apiSlice.injectEndpoints({
         url: "/platforms/spotify/logout",
         method: "POST"
       }),
-      async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        await queryFulfilled.then((response) => {
-          if (response.data) {
-            dispatch(clearSpotifyToken());
-          }
-        });
-      }
+      invalidatesTags: ["Me", "SpotifyToken"]
     })
   })
 });
 
 export const {
   useLazyGetSpotifyAuthUrlQuery,
-  useSetSpotifyTokensQuery,
+  useSetSpotifyTokensMutation,
   useLazyGetTokenQuery,
   useRefreshTokenMutation,
   useDisconnectMutation

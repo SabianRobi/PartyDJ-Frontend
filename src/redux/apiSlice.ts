@@ -64,6 +64,6 @@ const baseQuery = fetchBaseQuery({
 
 export const apiSlice = createApi({
   baseQuery: baseQuery,
-  tagTypes: [],
+  tagTypes: ["Me", "SpotifyToken", "Party"],
   endpoints: () => ({})
 });

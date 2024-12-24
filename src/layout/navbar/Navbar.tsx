@@ -1,16 +1,7 @@
 import { errorToast, successToast } from "#/components/utils";
 import { useLogoutMutation } from "#/redux/auth/authApiSlice";
-import { clearUser } from "#/redux/auth/authSlice";
-import {
-  selectCurrentUser,
-  selectParticipatingParty,
-  selectPartyRole,
-  useAppDispatch,
-  useAppSelector
-} from "#/redux/hooks";
+import { selectCurrentUser, selectParticipatingParty, selectPartyRole, useAppSelector } from "#/redux/hooks";
 import { useDeletePartyMutation, useLeavePartyMutation } from "#/redux/party/partyApiSlice";
-import { clearParty } from "#/redux/party/partySlice";
-import { clearSpotifyToken } from "#/redux/spotify/spotifySlice";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { type CustomFlowbiteTheme, Dropdown, DropdownDivider, Flowbite } from "flowbite-react";
@@ -47,7 +38,6 @@ const Navbar = (props: NavbarProps) => {
   const user = useAppSelector(selectCurrentUser);
   const party = useAppSelector(selectParticipatingParty);
   const partyRole = useAppSelector(selectPartyRole);
-  const dispatch = useAppDispatch();
   const [doLogout] = useLogoutMutation();
   const [doDeleteParty] = useDeletePartyMutation();
   const [doLeaveParty] = useLeavePartyMutation();
@@ -65,9 +55,6 @@ const Navbar = (props: NavbarProps) => {
       .then(() => {
         console.info("Successfully logged out!");
         successToast("Successfully logged out!");
-        dispatch(clearUser());
-        dispatch(clearParty());
-        dispatch(clearSpotifyToken());
         void navigate("/");
       })
       .catch((error) => {
