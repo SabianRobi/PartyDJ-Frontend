@@ -2,6 +2,7 @@ import { faMagnifyingGlass, faSliders, faXmark } from "@fortawesome/free-solid-s
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { Dispatch, SetStateAction } from "react";
 import { useFormContext } from "react-hook-form";
+import type { SearchFormInput } from "../Party";
 
 type SearchBarProps = {
   setIsSettingsModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -13,7 +14,7 @@ const SearchBar = ({ setIsSettingsModalOpen }: SearchBarProps) => {
     formState: { errors },
     resetField,
     setFocus
-  } = useFormContext(); // Retrieve all hook methods
+  } = useFormContext<SearchFormInput>(); // Retrieve all hook methods
 
   const handleClearInput = () => {
     resetField("query");

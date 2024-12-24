@@ -1,28 +1,21 @@
 import Field from "#/components/form/Field";
 import { selectCurrentUser, useAppSelector } from "#/redux/hooks";
-import { useFormContext } from "react-hook-form";
 
 export type EditEmailInput = {
   email: string;
 };
 
 const EditEmailModalContent = () => {
-  const {
-    register,
-    formState: { errors }
-  } = useFormContext();
   const user = useAppSelector(selectCurrentUser);
 
   return (
-    <Field
+    <Field<EditEmailInput>
       inputClassNames="!bg-primary text-lightText"
       label="New email"
       name="email"
       type="email"
       required
-      register={register}
       inputPlaceholder={user?.email}
-      errors={errors}
       validation={{
         required: { value: true, message: "Should not be empty." },
         pattern: {

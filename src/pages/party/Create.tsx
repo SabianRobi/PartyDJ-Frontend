@@ -5,7 +5,7 @@ import { selectCurrentUser, useAppDispatch, useAppSelector } from "#/redux/hooks
 import { useCreatePartyMutation } from "#/redux/party/partyApiSlice";
 import { setParty } from "#/redux/party/partySlice";
 import type { PartyResponse } from "#/redux/types";
-import { type SubmitHandler, useForm } from "react-hook-form";
+import { type SubmitHandler, FormProvider, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
 export type CreatePartyFormInput = {
@@ -15,16 +15,12 @@ export type CreatePartyFormInput = {
 };
 
 const Create = () => {
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors }
-  } = useForm<CreatePartyFormInput>();
   const [doCreateParty] = useCreatePartyMutation();
   const currentUser = useAppSelector(selectCurrentUser);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const methods = useForm<CreatePartyFormInput>();
+  const { setError } = methods;
 
   const onSubmit: SubmitHandler<CreatePartyFormInput> = (data) => {
     if (data.password !== data.confirmPassword) {
@@ -64,45 +60,45 @@ const Create = () => {
   };
 
   return (
-    <MyForm
-      handleSubmit={handleSubmit(onSubmit)}
-      title="Create party"
-      className="mx-auto align-middle"
-      submitText="Create"
-      helper={
-        <div className="flex flex-col justify-end">
-          <p className="text-lightText/50">Did you just arrive?</p>
-          <Link to="/party/join">
-            <p className="text-lightText/50 hover:text-lightText hover:underline">Join a party instead!</p>
-          </Link>
-        </div>
-      }
-    >
-      <>
-        <Field
-          label="Name"
-          name="name"
-          type="text"
-          required
-          register={register}
-          validation={{
-            required: { value: true, message: "Should not be empty." },
-            minLength: {
-              value: 3,
-              message: "Should be at least 3 characters long."
-            },
-            maxLength: {
-              value: 32,
-              message: "Should be maximum 32 characters long."
-            }
-          }}
-          errors={errors}
-        />
-        <Field label="Password" name="password" type="password" register={register} errors={errors} />
+    <FormProvider {...methods}>
+      <MyForm<CreatePartyFormInput>
+        onSubmit={onSubmit}
+        title="Create party"
+        className="mx-auto align-middle"
+        submitText="Create"
+        helper={
+          <div className="flex flex-col justify-end">
+            <p className="text-lightText/50">Did you just arrive?</p>
+            <Link to="/party/join">
+              <p className="text-lightText/50 hover:text-lightText hover:underline">Join a party instead!</p>
+            </Link>
+          </div>
+        }
+      >
+        <>
+          <Field<CreatePartyFormInput>
+            label="Name"
+            name="name"
+            type="text"
+            required
+            validation={{
+              required: { value: true, message: "Should not be empty." },
+              minLength: {
+                value: 3,
+                message: "Should be at least 3 characters long."
+              },
+              maxLength: {
+                value: 32,
+                message: "Should be maximum 32 characters long."
+              }
+            }}
+          />
+          <Field<CreatePartyFormInput> label="Password" name="password" type="password" />
 
-        <Field label="Confirm password" name="confirmPassword" type="password" register={register} errors={errors} />
-      </>
-    </MyForm>
+          <Field<CreatePartyFormInput> label="Confirm password" name="confirmPassword" type="password" />
+        </>
+      </MyForm>
+    </FormProvider>
   );
 };
 

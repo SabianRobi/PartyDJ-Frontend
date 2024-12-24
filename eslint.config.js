@@ -182,6 +182,14 @@ export default tseslint.config(tseslint.configs.recommendedTypeChecked, {
         caughtErrors: "none"
       }
     ],
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        checksVoidReturn: {
+          attributes: false
+        }
+      }
+    ],
     "@typescript-eslint/no-magic-numbers": [
       "off",
       {

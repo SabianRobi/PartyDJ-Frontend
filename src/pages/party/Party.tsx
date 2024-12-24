@@ -89,7 +89,7 @@ const Party = () => {
 
       <FormProvider {...methods}>
         {/* Searchbar */}
-        <form onSubmit={void methods.handleSubmit(onSubmit)} className="mt-2">
+        <form onSubmit={methods.handleSubmit(onSubmit)} className="mt-2">
           <SearchBar setIsSettingsModalOpen={setIsSettingsModalOpen} />
 
           {/* Settings modal */}

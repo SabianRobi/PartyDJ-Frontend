@@ -1,5 +1,4 @@
 import Field from "#/components/form/Field";
-import { useFormContext } from "react-hook-form";
 
 export type EditPasswordInput = {
   currentPassword: string;
@@ -7,64 +6,51 @@ export type EditPasswordInput = {
   confirmPassword: string;
 };
 
-const EditPasswordModalContent = () => {
-  const {
-    register,
-    formState: { errors }
-  } = useFormContext();
-
-  return (
-    <>
-      <Field
-        inputClassNames="!bg-primary text-lightText"
-        label="Current password"
-        name="currentPassword"
-        type="password"
-        required
-        register={register}
-        validation={{
-          required: { value: true, message: "Should not be empty." },
-          minLength: {
-            value: 6,
-            message: "Should be at least 6 characters long."
-          }
-        }}
-        errors={errors}
-      />
-      <Field
-        inputClassNames="!bg-primary text-lightText"
-        label="New password"
-        name="password"
-        type="password"
-        required
-        register={register}
-        validation={{
-          required: { value: true, message: "Should not be empty." },
-          minLength: {
-            value: 6,
-            message: "Should be at least 6 characters long."
-          }
-        }}
-        errors={errors}
-      />
-      <Field
-        inputClassNames="!bg-primary text-lightText"
-        label="Confirm new password"
-        name="confirmPassword"
-        type="password"
-        required
-        register={register}
-        validation={{
-          required: { value: true, message: "Should not be empty." },
-          minLength: {
-            value: 6,
-            message: "Should be at least 6 characters long."
-          }
-        }}
-        errors={errors}
-      />
-    </>
-  );
-};
+const EditPasswordModalContent = () => (
+  <>
+    <Field<EditPasswordInput>
+      inputClassNames="!bg-primary text-lightText"
+      label="Current password"
+      name="currentPassword"
+      type="password"
+      required
+      validation={{
+        required: { value: true, message: "Should not be empty." },
+        minLength: {
+          value: 6,
+          message: "Should be at least 6 characters long."
+        }
+      }}
+    />
+    <Field<EditPasswordInput>
+      inputClassNames="!bg-primary text-lightText"
+      label="New password"
+      name="password"
+      type="password"
+      required
+      validation={{
+        required: { value: true, message: "Should not be empty." },
+        minLength: {
+          value: 6,
+          message: "Should be at least 6 characters long."
+        }
+      }}
+    />
+    <Field<EditPasswordInput>
+      inputClassNames="!bg-primary text-lightText"
+      label="Confirm new password"
+      name="confirmPassword"
+      type="password"
+      required
+      validation={{
+        required: { value: true, message: "Should not be empty." },
+        minLength: {
+          value: 6,
+          message: "Should be at least 6 characters long."
+        }
+      }}
+    />
+  </>
+);
 
 export default EditPasswordModalContent;

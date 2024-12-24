@@ -210,7 +210,7 @@ const ModalContent = (props: ModalContentProps) => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={void methods.handleSubmit(getSubmitHandler)}>
+      <form onSubmit={methods.handleSubmit(getSubmitHandler)}>
         {props.children}
         <FooterButtons handleCloseModal={props.handleCloseModal} type={props.type} />
       </form>
