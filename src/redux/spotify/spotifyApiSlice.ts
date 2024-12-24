@@ -1,6 +1,6 @@
 import type { SpotifyLoginUriResponse, SpotifyTokenResponse } from "#/redux/types";
 import { apiSlice } from "../apiSlice";
-import { setSpotifyToken } from "./spotifySlice";
+import { clearSpotifyToken, setSpotifyToken } from "./spotifySlice";
 
 export const spotifyApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -18,6 +18,7 @@ export const spotifyApi = apiSlice.injectEndpoints({
         url: `/platforms/spotify/callback?code=${code}&state=${state}`
       })
     }),
+
     refreshToken: builder.mutation<SpotifyTokenResponse, void>({
       query: () => ({
         url: "/platforms/spotify/token",
@@ -34,6 +35,20 @@ export const spotifyApi = apiSlice.injectEndpoints({
           }
         });
       }
+    }),
+
+    disconnect: builder.mutation<SpotifyTokenResponse, void>({
+      query: () => ({
+        url: "/platforms/spotify/logout",
+        method: "POST"
+      }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        await queryFulfilled.then((response) => {
+          if (response.data) {
+            dispatch(clearSpotifyToken());
+          }
+        });
+      }
     })
   })
 });
@@ -42,5 +57,6 @@ export const {
   useLazyGetSpotifyAuthUrlQuery,
   useSetSpotifyTokensQuery,
   useLazyGetTokenQuery,
-  useRefreshTokenMutation
+  useRefreshTokenMutation,
+  useDisconnectMutation
 } = spotifyApi;

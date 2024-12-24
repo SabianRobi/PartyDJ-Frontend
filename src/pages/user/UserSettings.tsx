@@ -1,7 +1,7 @@
 import Modal from "#/components/modal/Modal";
-import { errorToast } from "#/components/utils";
+import { errorToast, successToast } from "#/components/utils";
 import { selectCurrentUser, useAppSelector } from "#/redux/hooks";
-import { useLazyGetSpotifyAuthUrlQuery } from "#/redux/spotify/spotifyApiSlice";
+import { useDisconnectMutation, useLazyGetSpotifyAuthUrlQuery } from "#/redux/spotify/spotifyApiSlice";
 import { faLink, faLinkSlash, faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "flowbite-react";
@@ -30,6 +30,7 @@ const UserSettings = () => {
   });
   const user = useAppSelector(selectCurrentUser);
   const [doGetSpotifyAuthUrl] = useLazyGetSpotifyAuthUrlQuery();
+  const [doDisconnectSpotify] = useDisconnectMutation();
 
   const handleOpenEditUsernameModal = () => {
     setModalContent({
@@ -99,15 +100,30 @@ const UserSettings = () => {
       });
   };
 
+  const handleDisconnectSpotify = () => {
+    console.info("Requesting to log out from Spotify...");
+
+    doDisconnectSpotify()
+      .unwrap()
+      .then(() => {
+        console.info("Successfully disconnected Spotify!");
+        successToast("Successfully disconnected Spotify!");
+      })
+      .catch((error) => {
+        console.info("Failed to disconnect Spotify: ", error);
+        errorToast("Failed to disconnect Spotify!");
+      });
+  };
+
   return (
-    <div className="flex flex-col gap-6 justify-between h-full">
+    <div className="flex flex-col gap-6 justify-between items-center h-full">
       <Modal title={modalContent?.title} showModal={showModal} setShowModal={setShowModal}>
         {modalContent?.body}
       </Modal>
 
-      <div>
+      <div className="flex flex-col items-center gap-6">
         <h3 className="text-center text-2xl">Settings</h3>
-        <Card title="Account" className="pt-8">
+        <Card title="Account">
           <CardRow
             name="Username"
             value={<>{user?.username}</>}
@@ -127,13 +143,15 @@ const UserSettings = () => {
           />
         </Card>
 
-        <Card title="Platforms" className="pt-8">
+        <Card title="Platforms">
           <CardRow
             name="Spotify"
             value={<>{user?.spotifyConnected ? "connected" : "disconnected"}</>}
             icon={
               user?.spotifyConnected ? (
-                <FontAwesomeIcon icon={faLinkSlash} className="text-error" title="Disconnect" />
+                <button type="button" onClick={handleDisconnectSpotify}>
+                  <FontAwesomeIcon icon={faLinkSlash} className="text-error" title="Disconnect" />
+                </button>
               ) : (
                 <button type="button" onClick={handleGetSpotifyAuthUrl}>
                   <FontAwesomeIcon icon={faLink} className="text-success" title="Connect" />
@@ -144,7 +162,7 @@ const UserSettings = () => {
         </Card>
       </div>
       <div>
-        <Button className="mx-auto bg-primary text-error min-w-[300px]" onClick={handleOpenDeleteAccountModal}>
+        <Button className="bg-primary text-error min-w-[300px]" onClick={handleOpenDeleteAccountModal}>
           Delete account
         </Button>
       </div>

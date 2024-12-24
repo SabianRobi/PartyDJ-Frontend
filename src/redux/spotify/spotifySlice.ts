@@ -12,11 +12,11 @@ export const spotifySlice = createSlice({
     setSpotifyToken: (state, action: PayloadAction<Spotify>) => {
       state.spotify = action.payload;
     },
-    clearSpotifyTokens: (state) => {
+    clearSpotifyToken: (state) => {
       state.spotify = null;
     }
   }
 });
 
-export const { setSpotifyToken, clearSpotifyTokens } = spotifySlice.actions;
+export const { setSpotifyToken, clearSpotifyToken } = spotifySlice.actions;
 export default spotifySlice.reducer;

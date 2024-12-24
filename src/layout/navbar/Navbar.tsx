@@ -10,7 +10,7 @@ import {
 } from "#/redux/hooks";
 import { useDeletePartyMutation, useLeavePartyMutation } from "#/redux/party/partyApiSlice";
 import { clearParty } from "#/redux/party/partySlice";
-import { clearSpotifyTokens } from "#/redux/spotify/spotifySlice";
+import { clearSpotifyToken } from "#/redux/spotify/spotifySlice";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { type CustomFlowbiteTheme, Dropdown, DropdownDivider, Flowbite } from "flowbite-react";
@@ -67,7 +67,7 @@ const Navbar = (props: NavbarProps) => {
         successToast("Successfully logged out!");
         dispatch(clearUser());
         dispatch(clearParty());
-        dispatch(clearSpotifyTokens());
+        dispatch(clearSpotifyToken());
         void navigate("/");
       })
       .catch((error) => {
