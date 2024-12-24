@@ -4,7 +4,7 @@ import flowbite from "flowbite-react/tailwind";
 import colors from "tailwindcss/colors";
 
 module.exports = {
-  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}", flowbite.content],
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}", flowbite.content()],
   theme: {
     extend: {
       colors: {
