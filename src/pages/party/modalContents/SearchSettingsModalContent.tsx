@@ -9,7 +9,7 @@ const SearchSettingsModalContent = () => {
   const isSpotifyConnected = useAppSelector(selectCurrentUser)?.spotifyConnected ?? false;
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       <Card title="General">
         <CardRow
           name="Data saver"
@@ -25,7 +25,7 @@ const SearchSettingsModalContent = () => {
           }
         />
       </Card>
-      <Card title="Spotify" className="mt-4">
+      <Card title="Spotify">
         <CardRow
           name="Enable search"
           value={
@@ -48,7 +48,7 @@ const SearchSettingsModalContent = () => {
           // onIconClick={handleOpenEditUsernameModal}
         />
       </Card>
-      <Card title="YouTube" className="mt-4">
+      <Card title="YouTube">
         <CardRow
           name="Enable search"
           value={
@@ -70,7 +70,7 @@ const SearchSettingsModalContent = () => {
           // onIconClick={handleOpenEditUsernameModal}
         />
       </Card>
-    </>
+    </div>
   );
 };
 

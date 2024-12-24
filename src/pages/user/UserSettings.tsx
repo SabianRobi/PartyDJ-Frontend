@@ -117,8 +117,8 @@ const UserSettings = () => {
 
   return (
     <div className="flex flex-col gap-6 justify-between items-center h-full">
-      <Modal title={modalContent?.title} showModal={showModal} setShowModal={setShowModal}>
-        {modalContent?.body}
+      <Modal title={modalContent.title} showModal={showModal} setShowModal={setShowModal}>
+        {modalContent.body}
       </Modal>
 
       <div className="flex flex-col items-center gap-6">
@@ -149,15 +149,12 @@ const UserSettings = () => {
             value={<>{user?.spotifyConnected ? "connected" : "disconnected"}</>}
             icon={
               user?.spotifyConnected ? (
-                <button type="button" onClick={handleDisconnectSpotify}>
-                  <FontAwesomeIcon icon={faLinkSlash} className="text-error" title="Disconnect" />
-                </button>
+                <FontAwesomeIcon icon={faLinkSlash} className="text-error" title="Disconnect" />
               ) : (
-                <button type="button" onClick={handleGetSpotifyAuthUrl}>
-                  <FontAwesomeIcon icon={faLink} className="text-success" title="Connect" />
-                </button>
+                <FontAwesomeIcon icon={faLink} className="text-success" title="Connect" />
               )
             }
+            onIconClick={user?.spotifyConnected ? handleDisconnectSpotify : handleGetSpotifyAuthUrl}
           />
         </Card>
       </div>

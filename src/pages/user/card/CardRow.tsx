@@ -7,18 +7,16 @@ type CardRowProps = {
   onIconClick?: () => void;
 };
 
-const CardRow = (props: CardRowProps) => (
-  <div>
-    <div className="flex flex-row justify-between pb-2">
-      <p>{props.name}</p>
-      <div>
-        {props.value ? <span>{props.value}</span> : null}
-        {props.icon ? (
-          <button type="button" className="pl-2 p-1.5 hover:cursor-pointer" onClick={props.onIconClick}>
-            {props.icon}
-          </button>
-        ) : null}
-      </div>
+const CardRow = ({ name, value, icon, onIconClick }: CardRowProps) => (
+  <div className="flex flex-row justify-between pb-2 items-center">
+    <p>{name}</p>
+    <div>
+      {value ? value : null}
+      {icon ? (
+        <button type="button" className="pl-2 p-1.5 hover:cursor-pointer" onClick={onIconClick}>
+          {icon}
+        </button>
+      ) : null}
     </div>
   </div>
 );
