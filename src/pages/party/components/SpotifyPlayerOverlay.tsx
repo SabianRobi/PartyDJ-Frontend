@@ -4,7 +4,7 @@ import { useRefreshTokenMutation } from "#/redux/spotify/spotifyApiSlice";
 import SpotifyPlayer, { type CallbackState } from "react-spotify-web-playback";
 
 const SpotifyPlayerOverlay = () => {
-  const spotifyToken = useAppSelector(selectSpotifyTokens).spotify?.token ?? "";
+  const spotifyToken = useAppSelector(selectSpotifyTokens).token ?? "";
   const party = useAppSelector(selectParty);
   const [doRefreshSpotifyToken] = useRefreshTokenMutation();
   const [doSetPlaybackDevice] = useSetPlaybackDeviceMutation();
