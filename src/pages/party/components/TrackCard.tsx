@@ -79,8 +79,9 @@ const TrackCard = (props: SearchResultCardProps) => {
   return (
     <button
       type="button"
-      className={`${getPlatformDropShadow(props.platformType)}
-        "bg-primary min-w-[300px] w-full max-w-[500px] h-[80px] rounded-xl flex flex-row relative`}
+      className={`${getPlatformDropShadow(
+        props.platformType
+      )} bg-primary min-w-[300px] w-full max-w-[500px] h-[80px] rounded-xl flex flex-row relative`}
       onClick={props.onClick}
       disabled={!props.onClick}
     >

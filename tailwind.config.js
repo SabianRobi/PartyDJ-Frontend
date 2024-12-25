@@ -6,13 +6,15 @@ import colors from "tailwindcss/colors";
 module.exports = {
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}", flowbite.content()],
   theme: {
+    colors: {
+      // v2 -> v3 migration
+      green: colors.emerald,
+      yellow: colors.amber,
+      purple: colors.violet,
+      gray: colors.neutral
+    },
     extend: {
       colors: {
-        // v2 -> v3 migration
-        green: colors.emerald,
-        yellow: colors.amber,
-        purple: colors.violet,
-        gray: colors.neutral,
         // Custom colors
         background: "#32404b",
         primary: "#012340",

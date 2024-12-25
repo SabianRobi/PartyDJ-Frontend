@@ -4,7 +4,7 @@ import { selectCurrentUser, selectParticipatingParty, selectPartyRole, useAppSel
 import { useDeletePartyMutation, useLeavePartyMutation } from "#/redux/party/partyApiSlice";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { type CustomFlowbiteTheme, Dropdown, DropdownDivider, Flowbite } from "flowbite-react";
+import { Dropdown, DropdownDivider } from "flowbite-react";
 import { type HTMLProps, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import NavbarLink from "./NavbarLink";
@@ -14,22 +14,6 @@ enum Status {
   LOGGED_IN,
   IN_PARTY
 }
-
-const customTheme: CustomFlowbiteTheme = {
-  dropdown: {
-    content: "py-1 focus:outline-none bg-secondary rounded",
-    floating: {
-      divider: "my-1 h-px bg-tertiary",
-      header: "px-4 py-2 text-sm text-lightText",
-      item: {
-        base: "flex items-center justify-start py-2 px-4 text-sm text-lightText cursor-pointer w-full hover:bg-tertiary focus:outline-none"
-      },
-      style: {
-        auto: ""
-      }
-    }
-  }
-};
 
 type NavbarProps = HTMLProps<HTMLDivElement>;
 
@@ -113,71 +97,65 @@ const Navbar = (props: NavbarProps) => {
               <NavbarLink to="/party/join" text="Join party" />
               <NavbarLink to="/party/create" text="Create party" />
               <li className="pl-2 sm:pl-5 h-max">
-                <Flowbite theme={{ theme: customTheme }}>
-                  <Dropdown
-                    arrowIcon={false}
-                    inline={true}
-                    label={<FontAwesomeIcon icon={faUser} className="p-2 rounded-2xl bg-tertiary" />}
-                  >
-                    <Dropdown.Header>
-                      <span className="text-sm">{user?.username}</span>
-                    </Dropdown.Header>
-                    <Dropdown.Item as={NavLink} to={"/user/" + user?.username}>
-                      Settings
-                    </Dropdown.Item>
-                    <Dropdown.Item className="hover:bg-error hover:text-lightText text-error" onClick={handleLogout}>
-                      <p>Logout</p>
-                    </Dropdown.Item>
-                  </Dropdown>
-                </Flowbite>
+                <Dropdown
+                  arrowIcon={false}
+                  inline={true}
+                  label={<FontAwesomeIcon icon={faUser} className="p-2 rounded-2xl bg-tertiary" />}
+                >
+                  <Dropdown.Header>
+                    <span className="text-sm">{user?.username}</span>
+                  </Dropdown.Header>
+                  <Dropdown.Item as={NavLink} to={"/user/" + user?.username}>
+                    Settings
+                  </Dropdown.Item>
+                  <Dropdown.Item className="hover:bg-error hover:text-lightText text-error" onClick={handleLogout}>
+                    <p>Logout</p>
+                  </Dropdown.Item>
+                </Dropdown>
               </li>
             </>
           ) : (
             <>
               <li className="p-2 sm:pl-5 h-max bg-tertiary rounded">
-                <Flowbite theme={{ theme: customTheme }}>
-                  <Dropdown arrowIcon={true} inline={true} label={<p>Party</p>}>
-                    <Dropdown.Item as={NavLink} to={"/party/" + party?.name}>
-                      <span className="text-sm text-center w-full">{party?.name}</span>
-                    </Dropdown.Item>
-                    <DropdownDivider />
-                    <Dropdown.Item as={NavLink} to={"/party/" + party?.name + "/queue"}>
-                      Watch queue
-                    </Dropdown.Item>
-                    <Dropdown.Item as={NavLink} to={"/party/" + party?.name + "/history"}>
-                      Watch history
-                    </Dropdown.Item>
-                    <DropdownDivider />
-                    <Dropdown.Item as={NavLink} to={"/user/" + user?.username}>
-                      Manage platforms
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      className="hover:bg-error hover:text-lightText text-error"
-                      onClick={handleLeaveDeleteParty}
-                    >
-                      <p>{partyRole === "CREATOR" ? "Delete" : "Leave"} party</p>
-                    </Dropdown.Item>
-                  </Dropdown>
-                </Flowbite>
+                <Dropdown arrowIcon={true} inline={true} label={<p>Party</p>}>
+                  <Dropdown.Item as={NavLink} to={"/party/" + party?.name}>
+                    <span className="text-sm text-center w-full">{party?.name}</span>
+                  </Dropdown.Item>
+                  <DropdownDivider />
+                  <Dropdown.Item as={NavLink} to={"/party/" + party?.name + "/queue"}>
+                    Watch queue
+                  </Dropdown.Item>
+                  <Dropdown.Item as={NavLink} to={"/party/" + party?.name + "/history"}>
+                    Watch history
+                  </Dropdown.Item>
+                  <DropdownDivider />
+                  <Dropdown.Item as={NavLink} to={"/user/" + user?.username}>
+                    Manage platforms
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    className="hover:bg-error hover:text-lightText text-error"
+                    onClick={handleLeaveDeleteParty}
+                  >
+                    <p>{partyRole === "CREATOR" ? "Delete" : "Leave"} party</p>
+                  </Dropdown.Item>
+                </Dropdown>
               </li>
               <li className="pl-2 sm:pl-5 h-max my-auto">
-                <Flowbite theme={{ theme: customTheme }}>
-                  <Dropdown
-                    arrowIcon={false}
-                    inline={true}
-                    label={<FontAwesomeIcon icon={faUser} className="p-2 rounded-2xl bg-tertiary" />}
-                  >
-                    <Dropdown.Header>
-                      <span className="text-sm">{user?.username}</span>
-                    </Dropdown.Header>
-                    <Dropdown.Item>
-                      <NavLink to={"/user/" + user?.username}>Settings</NavLink>
-                    </Dropdown.Item>
-                    <Dropdown.Item className="hover:bg-error hover:text-lightText text-error" onClick={handleLogout}>
-                      <p>Logout</p>
-                    </Dropdown.Item>
-                  </Dropdown>
-                </Flowbite>
+                <Dropdown
+                  arrowIcon={false}
+                  inline={true}
+                  label={<FontAwesomeIcon icon={faUser} className="p-2 rounded-2xl bg-tertiary" />}
+                >
+                  <Dropdown.Header>
+                    <span className="text-sm">{user?.username}</span>
+                  </Dropdown.Header>
+                  <Dropdown.Item>
+                    <NavLink to={"/user/" + user?.username}>Settings</NavLink>
+                  </Dropdown.Item>
+                  <Dropdown.Item className="hover:bg-error hover:text-lightText text-error" onClick={handleLogout}>
+                    <p>Logout</p>
+                  </Dropdown.Item>
+                </Dropdown>
               </li>
             </>
           )}

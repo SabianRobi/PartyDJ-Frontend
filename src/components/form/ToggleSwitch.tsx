@@ -3,10 +3,6 @@ import {
   ToggleSwitch as FlowbiteToggleSwitch
 } from "flowbite-react";
 
-const ToggleSwitch = (props: FlowbiteToggleSwitchProps) => (
-  // <Flowbite theme={{ theme: customTheme }}>
-  <FlowbiteToggleSwitch {...props} color="green" />
-  // </Flowbite>
-);
+const ToggleSwitch = (props: FlowbiteToggleSwitchProps) => <FlowbiteToggleSwitch {...props} color="green" />;
 
 export default ToggleSwitch;
