@@ -48,9 +48,7 @@ const SearchBar = ({ setIsSettingsModalOpen }: SearchBarProps) => {
               }
             })}
             type="text"
-            className={`${
-              errors["query"] ? "rounded-br-none" : ""
-            } transition-all duration-150 w-full h-min-max border-0 bg-secondary focus:border-tertiary focus:border-1 placeholder-lightText/40`}
+            className="w-full h-min-max border-0 bg-secondary focus:border-tertiary focus:border-1 placeholder-lightText/40"
             placeholder="Monday left me broken"
           />
 
@@ -63,10 +61,20 @@ const SearchBar = ({ setIsSettingsModalOpen }: SearchBarProps) => {
         </div>
 
         {/* Search logo */}
-        <button className="mx-auto p-2 bg-tertiary rounded-e-2xl w-[40px]" type="submit">
+        <button
+          className={`${
+            errors["query"] ? "rounded-br-none" : ""
+          } mx-auto p-2 bg-tertiary rounded-e-2xl w-[40px] transition-all duration-150`}
+          type="submit"
+        >
           <FontAwesomeIcon icon={faMagnifyingGlass} className="h-4 w-4 mx-auto" />
         </button>
       </div>
+
+      {/* Error message */}
+      {errors["query"] && typeof errors["query"]?.message === "string" && (
+        <p className="text-error text-sm text-end">{errors["query"]?.message}</p>
+      )}
     </div>
   );
 };

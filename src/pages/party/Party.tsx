@@ -13,6 +13,7 @@ import SearchSettingsModalContent from "./modalContents/SearchSettingsModalConte
 export type SearchFormInput = {
   query: string;
   settings: {
+    dataSaver: boolean;
     spotify: {
       enabled: boolean;
       limit: number;
@@ -35,6 +36,7 @@ const Party = () => {
     defaultValues: {
       query: "",
       settings: {
+        dataSaver: false,
         spotify: { enabled: true, limit: 5 },
         youTube: { enabled: false, limit: 5 }
       }
