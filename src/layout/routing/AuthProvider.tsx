@@ -1,7 +1,7 @@
 import { useGetMeQuery } from "#/redux/auth/authApiSlice";
 import { selectCurrentUser, useAppSelector } from "#/redux/hooks";
 import { useLazyGetPartyByNameQuery } from "#/redux/party/partyApiSlice";
-import { useLazyGetTokenQuery } from "#/redux/spotify/spotifyApiSlice";
+import { useLazyGetSpotifyTokenQuery } from "#/redux/spotify/spotifyApiSlice";
 import { type ReactNode, useEffect } from "react";
 
 type AuthProviderProps = {
@@ -11,7 +11,7 @@ type AuthProviderProps = {
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const { isLoading: isUserLoading, isSuccess, isError, isUninitialized: isUserUninitialized } = useGetMeQuery();
   const [doGetPartyByName] = useLazyGetPartyByNameQuery();
-  const [doGetSpotifyToken] = useLazyGetTokenQuery();
+  const [doGetSpotifyToken] = useLazyGetSpotifyTokenQuery();
 
   const user = useAppSelector(selectCurrentUser);
 

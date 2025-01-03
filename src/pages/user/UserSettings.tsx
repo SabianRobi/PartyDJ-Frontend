@@ -1,7 +1,8 @@
 import Modal from "#/components/modal/Modal";
 import { errorToast, successToast } from "#/components/utils";
+import { useDisconnectGoogleMutation, useLazyGetGoogleAuthUrlQuery } from "#/redux/google/googleApiSlice";
 import { selectCurrentUser, useAppSelector } from "#/redux/hooks";
-import { useDisconnectMutation, useLazyGetSpotifyAuthUrlQuery } from "#/redux/spotify/spotifyApiSlice";
+import { useDisconnectSpotifyMutation, useLazyGetSpotifyAuthUrlQuery } from "#/redux/spotify/spotifyApiSlice";
 import { faLink, faLinkSlash, faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "flowbite-react";
@@ -20,8 +21,6 @@ type TModalContent = {
   body: ReactNode;
 };
 
-// export type UpdateUserData = UpdateUsernameData | UpdateEmailData;
-
 const UserSettings = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState<TModalContent>({
@@ -29,8 +28,14 @@ const UserSettings = () => {
     body: <></>
   });
   const user = useAppSelector(selectCurrentUser);
+
+  // Spotify
   const [doGetSpotifyAuthUrl] = useLazyGetSpotifyAuthUrlQuery();
-  const [doDisconnectSpotify] = useDisconnectMutation();
+  const [doDisconnectSpotify] = useDisconnectSpotifyMutation();
+
+  // Google
+  const [doGetGoogleAuthUrl] = useLazyGetGoogleAuthUrlQuery();
+  const [doDisconnectGoogle] = useDisconnectGoogleMutation();
 
   const handleOpenEditUsernameModal = () => {
     setModalContent({
@@ -87,7 +92,7 @@ const UserSettings = () => {
   const handleGetSpotifyAuthUrl = () => {
     console.info("Requesting Spotify login url...");
 
-    doGetSpotifyAuthUrl(null)
+    doGetSpotifyAuthUrl()
       .unwrap()
       .then((data) => {
         console.info("Successfully got the Spotify login url!");
@@ -112,6 +117,37 @@ const UserSettings = () => {
       .catch((error) => {
         console.info("Failed to disconnect Spotify: ", error);
         errorToast("Failed to disconnect Spotify!");
+      });
+  };
+
+  const handleGetGoogleAuthUrl = () => {
+    console.info("Requesting Google login url...");
+
+    doGetGoogleAuthUrl()
+      .unwrap()
+      .then((data) => {
+        console.info("Successfully got the Google login url!");
+        console.info("Redirecting to Google login page...");
+        window.location.href = data.uri;
+      })
+      .catch((error) => {
+        console.info("Failed to get Google login url: ", error);
+        errorToast("Failed to get Google login url!");
+      });
+  };
+
+  const handleDisconnectGoogle = () => {
+    console.info("Requesting to log out from Google...");
+
+    doDisconnectGoogle()
+      .unwrap()
+      .then(() => {
+        console.info("Successfully disconnected Google!");
+        successToast("Successfully disconnected Google!");
+      })
+      .catch((error) => {
+        console.info("Failed to disconnect Google: ", error);
+        errorToast("Failed to disconnect Google!");
       });
   };
 
@@ -155,6 +191,18 @@ const UserSettings = () => {
               )
             }
             onIconClick={user?.spotifyConnected ? handleDisconnectSpotify : handleGetSpotifyAuthUrl}
+          />
+          <CardRow
+            name="Google"
+            value={<>{user?.googleConnected ? "connected" : "disconnected"}</>}
+            icon={
+              user?.googleConnected ? (
+                <FontAwesomeIcon icon={faLinkSlash} className="text-error" title="Disconnect" />
+              ) : (
+                <FontAwesomeIcon icon={faLink} className="text-success" title="Connect" />
+              )
+            }
+            onIconClick={user?.googleConnected ? handleDisconnectGoogle : handleGetGoogleAuthUrl}
           />
         </Card>
       </div>

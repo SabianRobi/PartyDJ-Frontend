@@ -1,5 +1,5 @@
 import type { RouteObject } from "react-router-dom";
-import { Home, Login, Register, SpotifyCallback } from "./pages";
+import { GoogleCallback, Home, Login, Register, SpotifyCallback } from "./pages";
 
 export const publicRoutes: RouteObject[] = [
   {
@@ -17,8 +17,22 @@ export const publicRoutes: RouteObject[] = [
             element: <Login />
           },
           {
-            path: "spotify/callback",
-            element: <SpotifyCallback />
+            path: "spotify",
+            children: [
+              {
+                path: "callback",
+                element: <SpotifyCallback />
+              }
+            ]
+          },
+          {
+            path: "google",
+            children: [
+              {
+                path: "callback",
+                element: <GoogleCallback />
+              }
+            ]
           }
         ]
       },

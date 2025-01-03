@@ -3,6 +3,7 @@ export type User = {
   email: string;
   username: string;
   spotifyConnected: boolean;
+  googleConnected: boolean;
   partyName: string;
 };
 
@@ -38,7 +39,7 @@ export type GetPartyRequest = {
   name: string;
 };
 
-export type SetSpotifyTokensRequest = {
+export type SetPlatformTokensRequest = {
   code: string;
   state: string;
 };
@@ -47,11 +48,11 @@ export type SetSpotifyTokensRequest = {
 
 export type UserResponse = User;
 
-export type SpotifyLoginUriResponse = {
+export type PlatformLoginUriResponse = {
   uri: string;
 };
 
-export type SpotifyTokenResponse = {
+export type PlatformTokenResponse = {
   token: string;
 };
 

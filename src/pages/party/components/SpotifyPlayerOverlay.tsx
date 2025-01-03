@@ -1,12 +1,12 @@
 import { selectParty, selectSpotifyTokens, useAppSelector } from "#/redux/hooks";
 import { useSetPlaybackDeviceMutation, useSkipTrackMutation } from "#/redux/party/partyApiSlice";
-import { useRefreshTokenMutation } from "#/redux/spotify/spotifyApiSlice";
+import { useRefreshSpotifyTokenMutation } from "#/redux/spotify/spotifyApiSlice";
 import SpotifyPlayer, { type CallbackState } from "react-spotify-web-playback";
 
 const SpotifyPlayerOverlay = () => {
   const spotifyToken = useAppSelector(selectSpotifyTokens).token ?? "";
   const party = useAppSelector(selectParty);
-  const [doRefreshSpotifyToken] = useRefreshTokenMutation();
+  const [doRefreshSpotifyToken] = useRefreshSpotifyTokenMutation();
   const [doSetPlaybackDevice] = useSetPlaybackDeviceMutation();
   const [doSkipTrack] = useSkipTrackMutation();
 
